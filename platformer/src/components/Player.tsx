@@ -124,8 +124,11 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
       state.isInvincible    = true
       state.invincibleTimer = INVINCIBLE_DUR
       state.flashTimer      = 0.1
-      rb.vx = transform.x > et.x ? KNOCKBACK_X : -KNOCKBACK_X
-      rb.vy = KNOCKBACK_Y
+      const pushDir = transform.x >= et.x ? 1 : -1
+      // Teleport clear of the enemy so physics can't re-pin the player
+      transform.x  += pushDir * 32
+      rb.vx         = pushDir * KNOCKBACK_X
+      rb.vy         = KNOCKBACK_Y
       gameCallbacks.onPlayerHurt?.()
     }
   }
