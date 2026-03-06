@@ -121,32 +121,32 @@ jobs:
             </header>
 
             <div class="grid">
-              <a class="card" href="./platformer/">
+              <a class="card" href="./platformer/" target="_blank" rel="noopener">
                 <h2>PLATFORMER</h2>
                 <p>Scrolling platformer with double jump, coyote time, enemy stomp, coins, and lives.</p>
                 <span class="tag">WASD / SPACE</span>
               </a>
-              <a class="card" href="./mario-clone/">
+              <a class="card" href="./mario-clone/" target="_blank" rel="noopener">
                 <h2>MARIO CLONE</h2>
                 <p>Question blocks, mushroom powerup, goombas, goal flag, and a scrolling 1800px level.</p>
                 <span class="tag">WASD / SPACE</span>
               </a>
-              <a class="card" href="./breakout/">
+              <a class="card" href="./breakout/" target="_blank" rel="noopener">
                 <h2>BREAKOUT</h2>
                 <p>Classic brick breaker — 60 bricks, paddle angle control, 3 lives.</p>
                 <span class="tag">A / D</span>
               </a>
-              <a class="card" href="./flappy-bird/">
+              <a class="card" href="./flappy-bird/" target="_blank" rel="noopener">
                 <h2>FLAPPY BIRD</h2>
                 <p>Tap to flap through scrolling pipe pairs. Tracks your session high score.</p>
                 <span class="tag">SPACE / CLICK</span>
               </a>
-              <a class="card" href="./shooter/">
+              <a class="card" href="./shooter/" target="_blank" rel="noopener">
                 <h2>SHOOTER</h2>
                 <p>Side-scrolling shoot-em-up with 5 waves, 3 enemy patterns, and a star field.</p>
                 <span class="tag">W / S / SPACE</span>
               </a>
-              <a class="card" href="./top-down/">
+              <a class="card" href="./top-down/" target="_blank" rel="noopener">
                 <h2>TOP-DOWN</h2>
                 <p>Dungeon explorer — 4-directional combat, 8 keys to collect, exit door.</p>
                 <span class="tag">WASD / SPACE</span>
