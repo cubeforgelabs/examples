@@ -2,8 +2,9 @@
   "name": "cubeforge-examples",
   "version": "0.0.1",
   "private": true,
-  "workspaces": ["platformer", "mario-clone", "breakout", "flappy-bird", "shooter", "top-down"],
+  "workspaces": ["platformer", "mario-clone", "breakout", "flappy-bird", "shooter", "top-down", "playground"],
   "scripts": {
-    "dev": "bun run --cwd platformer dev"
+    "dev": "bun run --cwd platformer dev",
+    "dev:playground": "bun run --cwd playground dev"
   }
 }
