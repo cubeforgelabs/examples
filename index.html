@@ -21,6 +21,24 @@
     header p { margin-top: 12px; font-size: 13px; color: #546e7a; letter-spacing: 1.5px; }
     header a { color: #4fc3f7; text-decoration: none; }
     header a:hover { text-decoration: underline; }
+    .star-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 9px 20px;
+      background: #12151f;
+      border: 1px solid #1e2535;
+      border-radius: 6px;
+      color: #e0e0e0;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .star-btn:hover { border-color: #ffd54f; color: #ffd54f; text-decoration: none; }
+    .star-btn svg { flex-shrink: 0; }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -63,6 +81,12 @@
       Runnable games built with <a href="https://github.com/1homsi/cubeforge">Cubeforge</a>
       — a React-first 2D browser game engine.
     </p>
+    <a class="star-btn" href="https://github.com/1homsi/cubeforge" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="#ffd54f" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+      </svg>
+      Star on GitHub
+    </a>
   </header>
 
   <div class="grid">
