@@ -1,5 +1,6 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
 import { createInputMap } from '@cubeforge/react'
+import { gpState } from '../gamepadState'
 import type {
   EntityId,
   ECSWorld,
@@ -77,13 +78,21 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   const left  = actions.isActionDown(input, 'left')
   const right = actions.isActionDown(input, 'right')
 
+  // Gamepad left stick (axis 0 = X, axis 1 = Y), deadzone 0.15
+  const gpX = (gpState.axes[0] ?? 0)
+  const gpY = (gpState.axes[1] ?? 0)
+  const gpLeft  = gpX < -0.15
+  const gpRight = gpX >  0.15
+  const gpUp    = gpY < -0.15
+  const gpDown  = gpY >  0.15
+
   let vx = 0
   let vy = 0
 
-  if (left)  { vx = -SPEED; state.facing = 'left'  }
-  if (right) { vx =  SPEED; state.facing = 'right' }
-  if (up)    { vy = -SPEED; state.facing = 'up'    }
-  if (down)  { vy =  SPEED; state.facing = 'down'  }
+  if (left  || gpLeft)  { vx = gpLeft  ? gpX * SPEED : -SPEED; state.facing = 'left'  }
+  if (right || gpRight) { vx = gpRight ? gpX * SPEED :  SPEED; state.facing = 'right' }
+  if (up    || gpUp)    { vy = gpUp    ? gpY * SPEED : -SPEED; state.facing = 'up'    }
+  if (down  || gpDown)  { vy = gpDown  ? gpY * SPEED :  SPEED; state.facing = 'down'  }
 
   // Normalize diagonal movement
   if (vx !== 0 && vy !== 0) {

@@ -1,5 +1,6 @@
 import { Entity, Transform, Sprite, Script } from '@cubeforge/react'
-import type { EntityId, ECSWorld, TransformComponent, SpriteComponent } from '@cubeforge/react'
+import { createTimer } from '@cubeforge/react'
+import type { EntityId, ECSWorld, TransformComponent, SpriteComponent, GameTimer } from '@cubeforge/react'
 import type { InputManager } from '@cubeforge/react'
 import { createTransform } from '@cubeforge/core'
 import { createSprite } from '@cubeforge/renderer'
@@ -18,7 +19,7 @@ const BULLET_W         = 10
 const BULLET_H         = 4
 
 interface PlayerState {
-  shootCooldown:   number
+  shootTimer:      GameTimer
   isInvincible:    boolean
   invincibleTimer: number
   flashTimer:      number
@@ -29,7 +30,7 @@ const playerStates = new Map<EntityId, PlayerState>()
 
 function playerInit(id: EntityId) {
   playerStates.set(id, {
-    shootCooldown:   0,
+    shootTimer:      createTimer(SHOOT_COOLDOWN),
     isInvincible:    false,
     invincibleTimer: 0,
     flashTimer:      0,
@@ -71,10 +72,10 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   transform.y = Math.max(minY, Math.min(maxY, transform.y))
 
   // ── Shooting ─────────────────────────────────────────────────────────────
-  state.shootCooldown -= dt
+  state.shootTimer.update(dt)
   const shoot = input.isDown('Space') || input.isDown('KeyZ')
-  if (shoot && state.shootCooldown <= 0) {
-    state.shootCooldown = SHOOT_COOLDOWN
+  if (shoot && !state.shootTimer.running) {
+    state.shootTimer.restart()
     const bulletId = world.createEntity()
     world.addComponent(bulletId, createTransform(transform.x + PLAYER_W / 2, transform.y))
     world.addComponent(bulletId, createSprite({ width: BULLET_W, height: BULLET_H, color: '#ffeb3b', zIndex: 5 }))

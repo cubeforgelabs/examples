@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World, Camera2D, MovingPlatform } from '@cubeforge/react'
+import { Game, World, Camera2D, MovingPlatform, usePause } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
 import { Player }   from './components/Player'
 import { Enemy }    from './components/Enemy'
@@ -48,6 +48,23 @@ function Heart({ filled }: { filled: boolean }) {
   )
 }
 
+// ─── PauseController — must be inside <Game> to access EngineContext ──────────
+function PauseController({ onPauseChange }: { onPauseChange: (p: boolean) => void }) {
+  const { paused, pause, resume } = usePause()
+  useEffect(() => { onPauseChange(paused) }, [paused, onPauseChange])
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.code === 'KeyP' || e.code === 'Escape') {
+        if (paused) resume()
+        else pause()
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [paused, pause, resume])
+  return null
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 export function App() {
   const [gameKey,        setGameKey]        = useState(0)
@@ -56,13 +73,14 @@ export function App() {
   const [gameState,      setGameState]      = useState<GameState>('playing')
   const [collectedCoins, setCollectedCoins] = useState<Set<number>>(new Set())
   const [time,           setTime]           = useState(0)
+  const [paused,         setPaused]         = useState(false)
 
-  // Timer (ticks while playing)
+  // Timer (ticks while playing and not paused)
   useEffect(() => {
-    if (gameState !== 'playing') return
+    if (gameState !== 'playing' || paused) return
     const id = setInterval(() => setTime(t => t + 1), 1000)
     return () => clearInterval(id)
-  }, [gameState, gameKey])
+  }, [gameState, gameKey, paused])
 
   // Wire game-script callbacks into React state
   useEffect(() => {
@@ -146,6 +164,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
 
         <Game key={gameKey} width={W} height={H} gravity={1000}>
+          {gameState === 'playing' && <PauseController onPauseChange={setPaused} />}
           <World background="#12131f">
             <Camera2D followEntity="player" smoothing={0.88} background="#12131f" />
 
@@ -225,6 +244,17 @@ export function App() {
           </World>
         </Game>
 
+        {/* ── Pause overlay ────────────────────────────────────────────────── */}
+        {paused && gameState === 'playing' && (
+          <div style={overlayStyle}>
+            <div style={cardStyle}>
+              <p style={{ fontSize: 11, letterSpacing: 4, color: '#4fc3f7', marginBottom: 8 }}>PAUSED</p>
+              <p style={{ fontSize: 30, fontWeight: 900, color: '#fff', letterSpacing: 3 }}>‖</p>
+              <p style={{ fontSize: 11, color: '#546e7a', marginTop: 16 }}>Press P or Esc to resume</p>
+            </div>
+          </div>
+        )}
+
         {/* ── Win overlay ──────────────────────────────────────────────────── */}
         {gameState === 'win' && (
           <div style={overlayStyle}>
@@ -280,7 +310,7 @@ export function App() {
         display: 'flex',
         justifyContent: 'space-between',
       }}>
-        <span>WASD / Arrows — move &nbsp;·&nbsp; Space / Up — jump (×2) &nbsp;·&nbsp; Jump on enemies to stomp</span>
+        <span>WASD / Arrows — move &nbsp;·&nbsp; Space / Up — jump (×2) &nbsp;·&nbsp; Jump on enemies to stomp &nbsp;·&nbsp; P — pause</span>
         <span style={{ color: '#263238' }}>Cubeforge Engine</span>
       </div>
     </div>

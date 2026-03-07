@@ -464,6 +464,7 @@ export function App() {
           <World background={bg}>
             <Camera2D
               followEntity="player" smoothing={0.88} background={bg}
+              followOffsetY={-150}
               bounds={{ x: 0, y: -H, width: worldW, height: FLOOR_Y + Math.round(H * 1.5) }}
             />
             <Player x={80} y={FLOOR_TOP - 60} />
@@ -474,12 +475,12 @@ export function App() {
 
             {/* ── Floor (one wide entity per section, src image) ────────────── */}
             {layout.floorSegs.map(({ x, w }, i) => (
-              <Ground key={`floor-${i}`} x={x + w / 2} y={FLOOR_Y} width={w} height={FLOOR_H} src={layout.floorSrc} />
+              <Ground key={`floor-${i}`} x={x + w / 2} y={FLOOR_Y} width={w} height={FLOOR_H} src={layout.floorSrc} tileX />
             ))}
 
             {/* ── Underground ceiling ──────────────────────────────────────── */}
             {layout.theme === 'underground' && (
-              <Ground key="ceiling" x={worldW / 2} y={44} width={worldW} height={TILE} src={layout.brickSrc} />
+              <Ground key="ceiling" x={worldW / 2} y={44} width={worldW} height={TILE} src={layout.brickSrc} tileX />
             )}
 
             {/* ── Background decorations (no physics) ──────────────────────── */}
@@ -525,7 +526,7 @@ export function App() {
                 case 'koopa':       return <KoopaTroopa     key={i} x={e.x} y={e.y} patrolLeft={e.left} patrolRight={e.right} src={e.src} />
                 case 'paratroopa':  return <KoopaParatroopa key={i} x={e.x} y={e.y} patrolLeft={e.left} patrolRight={e.right} />
                 case 'buzzy':       return <BuzzyBeetle     key={i} x={e.x} y={e.y} patrolLeft={e.left} patrolRight={e.right} src={e.src} />
-                case 'billblaster': return <BillBlaster     key={i} x={e.x} y={e.y} dir={e.dir ?? 1} fireInterval={e.interval ?? 3.5} />
+                case 'billblaster': return <BillBlaster     key={i} x={e.x} y={e.y} dir={(e.dir ?? 1) as 1 | -1} fireInterval={e.interval ?? 3.5} />
                 case 'hammerbro':   return <HammerBro       key={i} x={e.x} y={e.y} patrolLeft={e.left} patrolRight={e.right} />
                 case 'podoboo':     return <Podoboo         key={i} x={e.x} baseY={e.y} />
                 case 'bowser':      return <Bowser          key={i} x={e.x} y={e.y} patrolLeft={e.left} patrolRight={e.right} />

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World, Camera2D } from '@cubeforge/react'
+import { Game, World, Camera2D, useGamepad } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
+import { gpState } from './gamepadState'
 import { Player }  from './components/Player'
 import { Enemy }   from './components/Enemy'
 import { Key }     from './components/Key'
@@ -48,6 +49,14 @@ function Heart({ filled }: { filled: boolean }) {
       {'\u2665'}
     </span>
   )
+}
+
+// ─── GamepadDriver — syncs useGamepad into shared gpState each frame ──────────
+function GamepadDriver() {
+  const gp = useGamepad()
+  gpState.axes      = gp.axes as number[]
+  gpState.connected = gp.connected
+  return null
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
@@ -148,6 +157,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
 
         <Game key={gameKey} width={W} height={H} gravity={0}>
+          <GamepadDriver />
           <World background="#1a1205">
             <Camera2D followEntity="player" smoothing={0.85} background="#1a1205" />
 
@@ -272,7 +282,7 @@ export function App() {
         display: 'flex',
         justifyContent: 'space-between',
       }}>
-        <span>WASD / Arrows {'\u2014'} move &nbsp;{'\u00b7'}&nbsp; Space {'\u2014'} attack &nbsp;{'\u00b7'}&nbsp; Collect all keys {'\u2192'} reach the exit</span>
+        <span>WASD / Arrows {'\u2014'} move &nbsp;{'\u00b7'}&nbsp; Space {'\u2014'} attack &nbsp;{'\u00b7'}&nbsp; Collect all keys {'\u2192'} reach the exit &nbsp;{'\u00b7'}&nbsp; Gamepad supported</span>
         <span style={{ color: '#263238' }}>Cubeforge Engine</span>
       </div>
     </div>

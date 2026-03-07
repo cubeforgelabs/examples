@@ -1,6 +1,6 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
 import { createInputMap, findByTag } from '@cubeforge/react'
-import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
+import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent, BoxColliderComponent } from '@cubeforge/react'
 import type { InputManager } from '@cubeforge/react'
 import { createTransform } from '@cubeforge/core'
 import { createSprite } from '@cubeforge/renderer'
@@ -17,6 +17,8 @@ const actions = createInputMap({
 
 const SPEED           = 220
 const JUMP_FORCE      = -530
+const SMALL_H         = 40
+const BIG_H           = 54
 const COYOTE_TIME     = 0.1
 const JUMP_BUFFER     = 0.09
 const INVINCIBLE_DUR  = 2.0
@@ -52,6 +54,7 @@ interface PlayerState {
   flashTimer:      number
   fireCooldown:    number
   fireballs:       Map<EntityId, FireballData>
+  appliedH:        number   // last height applied to sprite + collider
 }
 
 const playerStates = new Map<EntityId, PlayerState>()
@@ -68,6 +71,7 @@ function playerInit(id: EntityId) {
     flashTimer:      0,
     fireCooldown:    0,
     fireballs:       new Map(),
+    appliedH:        SMALL_H,
   })
 }
 
@@ -139,6 +143,22 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
     state.jumpBuffer  = 0
   }
   if (!actions.isActionDown(input, 'jump') && rb.vy < -150) rb.vy += 900 * dt
+
+  // ── Powerup size + sprite sync ────────────────────────────────────────────
+  const targetH   = (playerConfig.isBig || playerConfig.canFire) ? BIG_H : SMALL_H
+  const targetSrc = playerConfig.canFire ? '/SMB_Fire_Mario_Sprite.png'
+                  : playerConfig.isBig   ? '/ClassicNES_SMB_Super_Mario_Sprite.png'
+                  :                        '/ClassicNES_SMB_Small_Mario_Sprite.png'
+  if (state.appliedH !== targetH) {
+    const delta = targetH - state.appliedH
+    transform.y   -= delta / 2          // grow upward, shrink downward
+    sprite.height  = targetH
+    const bc = world.getComponent<BoxColliderComponent>(id, 'BoxCollider')
+    if (bc) bc.height = targetH
+    state.appliedH = targetH
+  }
+  const powerImg = getImage(targetSrc)
+  if (powerImg) sprite.image = powerImg
 
   // ── Shoot fireball ────────────────────────────────────────────────────────
   state.fireCooldown = Math.max(0, state.fireCooldown - dt)
@@ -271,12 +291,12 @@ export function Player({ x = 80, y = 420 }: { x?: number; y?: number }) {
       <Sprite
         src="/ClassicNES_SMB_Small_Mario_Sprite.png"
         width={28}
-        height={40}
+        height={SMALL_H}
         color="#e53935"
         zIndex={10}
       />
       <RigidBody friction={0.7} />
-      <BoxCollider width={26} height={40} />
+      <BoxCollider width={26} height={SMALL_H} />
       <Script init={(id) => playerInit(id)} update={playerUpdate} />
     </Entity>
   )
