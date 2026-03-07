@@ -1,4 +1,5 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
+import { createInputMap } from '@cubeforge/react'
 import type {
   EntityId,
   ECSWorld,
@@ -7,6 +8,14 @@ import type {
   SpriteComponent,
 } from '@cubeforge/react'
 import type { InputManager } from '@cubeforge/react'
+
+const actions = createInputMap({
+  up:     ['ArrowUp',    'KeyW', 'w'],
+  down:   ['ArrowDown',  'KeyS', 's'],
+  left:   ['ArrowLeft',  'KeyA', 'a'],
+  right:  ['ArrowRight', 'KeyD', 'd'],
+  attack: 'Space',
+})
 import { createTransform } from '@cubeforge/core'
 import { createSprite } from '@cubeforge/renderer'
 import { createTag } from '@cubeforge/core'
@@ -63,10 +72,10 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   }
 
   // ── Movement ─────────────────────────────────────────────────────────────
-  const up    = input.isDown('ArrowUp')    || input.isDown('KeyW') || input.isDown('w')
-  const down  = input.isDown('ArrowDown')  || input.isDown('KeyS') || input.isDown('s')
-  const left  = input.isDown('ArrowLeft')  || input.isDown('KeyA') || input.isDown('a')
-  const right = input.isDown('ArrowRight') || input.isDown('KeyD') || input.isDown('d')
+  const up    = actions.isActionDown(input, 'up')
+  const down  = actions.isActionDown(input, 'down')
+  const left  = actions.isActionDown(input, 'left')
+  const right = actions.isActionDown(input, 'right')
 
   let vx = 0
   let vy = 0
@@ -112,7 +121,7 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
     }
   } else {
     // Check for attack input
-    const attack = input.isPressed('Space')
+    const attack = actions.isActionPressed(input, 'attack')
     if (attack && state.swordId === null) {
       const [ox, oy] = swordOffset(state.facing)
       const swordId = world.createEntity()

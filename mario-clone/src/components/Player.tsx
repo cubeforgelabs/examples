@@ -1,7 +1,14 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
+import { createInputMap } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
 import type { InputManager } from '@cubeforge/react'
 import { gameEvents } from '../gameEvents'
+
+const actions = createInputMap({
+  left:  ['ArrowLeft', 'KeyA', 'a'],
+  right: ['ArrowRight', 'KeyD', 'd'],
+  jump:  ['Space', 'ArrowUp', 'KeyW', 'w'],
+})
 
 const SPEED          = 220
 const JUMP_FORCE     = -530
@@ -75,15 +82,12 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   }
 
   // ── Jump buffer ───────────────────────────────────────────────────────────
-  const jumpPressed =
-    input.isPressed('Space') || input.isPressed('ArrowUp') ||
-    input.isPressed('KeyW')  || input.isPressed('w')
-  if (jumpPressed) state.jumpBuffer = JUMP_BUFFER
-  else             state.jumpBuffer = Math.max(0, state.jumpBuffer - dt)
+  if (actions.isActionPressed(input, 'jump')) state.jumpBuffer = JUMP_BUFFER
+  else                                         state.jumpBuffer = Math.max(0, state.jumpBuffer - dt)
 
   // ── Horizontal movement ───────────────────────────────────────────────────
-  const left  = input.isDown('ArrowLeft')  || input.isDown('KeyA') || input.isDown('a')
-  const right = input.isDown('ArrowRight') || input.isDown('KeyD') || input.isDown('d')
+  const left  = actions.isActionDown(input, 'left')
+  const right = actions.isActionDown(input, 'right')
   if (left)       { rb.vx = -SPEED; state.facingRight = false }
   else if (right) { rb.vx =  SPEED; state.facingRight = true  }
   else              rb.vx *= rb.onGround ? 0.65 : 0.95
@@ -99,10 +103,7 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   }
 
   // Variable jump height — release early to cut arc short
-  const jumpHeld =
-    input.isDown('Space') || input.isDown('ArrowUp') ||
-    input.isDown('KeyW')  || input.isDown('w')
-  if (!jumpHeld && rb.vy < -150) rb.vy += 900 * dt
+  if (!actions.isActionDown(input, 'jump') && rb.vy < -150) rb.vy += 900 * dt
 
   // ── Enemy interactions ────────────────────────────────────────────────────
   const stomped = new Set<EntityId>()
