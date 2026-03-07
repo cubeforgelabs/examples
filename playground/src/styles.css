@@ -18,7 +18,7 @@
   --font: 'JetBrains Mono', monospace;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 
 html, body, #root {
   height: 100%;
@@ -542,6 +542,7 @@ html, body, #root {
   word-break: break-word;
   width: 100%;
   line-height: 1.6;
+  user-select: text;
 }
 
 /* empty preview state */
