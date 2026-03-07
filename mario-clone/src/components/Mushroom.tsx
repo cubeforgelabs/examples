@@ -1,19 +1,17 @@
 import { useRef } from 'react'
-import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script, useCollisionEnter, useEntity } from '@cubeforge/react'
+import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script, useCollisionEnter, useDestroyEntity } from '@cubeforge/react'
 import type { EntityId, ECSWorld, RigidBodyComponent } from '@cubeforge/react'
 import { gameEvents } from '../gameEvents'
 
-const mushroomsCollected = new Set<EntityId>()
-
 function MushroomPickup() {
-  const entityId = useEntity()
+  const destroy = useDestroyEntity()
   const collected = useRef(false)
 
   useCollisionEnter(() => {
     if (collected.current) return
     collected.current = true
-    if (entityId !== null) mushroomsCollected.add(entityId)
     gameEvents.onMushroomGet?.()
+    destroy()
   }, { tag: 'player' })
 
   return null
@@ -29,11 +27,6 @@ export function Mushroom({ x, y }: { x: number; y: number }) {
       <Script
         update={(id: EntityId, world: ECSWorld) => {
           if (!world.hasEntity(id)) return
-          if (mushroomsCollected.has(id)) {
-            mushroomsCollected.delete(id)
-            world.destroyEntity(id)
-            return
-          }
           const rb = world.getComponent<RigidBodyComponent>(id, 'RigidBody')
           if (rb) rb.vx = 80
         }}

@@ -1,15 +1,17 @@
 import { useRef } from 'react'
-import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script, useCollisionEnter } from '@cubeforge/react'
+import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script, useCollisionEnter, useDestroyEntity } from '@cubeforge/react'
 import type { EntityId, ECSWorld, RigidBodyComponent } from '@cubeforge/react'
 import { gameEvents } from '../gameEvents'
 
 function OneUpPickup() {
+  const destroy = useDestroyEntity()
   const collected = useRef(false)
 
   useCollisionEnter(() => {
     if (collected.current) return
     collected.current = true
     gameEvents.onOneUp?.()
+    destroy()
   }, { tag: 'player' })
 
   return null

@@ -1,14 +1,16 @@
 import { useRef } from 'react'
-import { Entity, Transform, Sprite, BoxCollider, useTriggerEnter } from '@cubeforge/react'
+import { Entity, Transform, Sprite, BoxCollider, useTriggerEnter, useDestroyEntity } from '@cubeforge/react'
 import { gameEvents } from '../gameEvents'
 
 function FireFlowerPickup() {
+  const destroy = useDestroyEntity()
   const collected = useRef(false)
 
   useTriggerEnter(() => {
     if (collected.current) return
     collected.current = true
     gameEvents.onFireFlower?.()
+    destroy()
   }, { tag: 'player' })
 
   return null

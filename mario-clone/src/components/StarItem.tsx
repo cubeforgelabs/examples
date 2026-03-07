@@ -1,15 +1,17 @@
 import { useRef } from 'react'
-import { Entity, Transform, Sprite, BoxCollider, Script, useTriggerEnter } from '@cubeforge/react'
+import { Entity, Transform, Sprite, BoxCollider, Script, useTriggerEnter, useDestroyEntity } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent } from '@cubeforge/react'
 import { gameEvents } from '../gameEvents'
 
 function StarPickup() {
+  const destroy = useDestroyEntity()
   const collected = useRef(false)
 
   useTriggerEnter(() => {
     if (collected.current) return
     collected.current = true
     gameEvents.onStar?.()
+    destroy()
   }, { tag: 'player' })
 
   return null
