@@ -185,17 +185,18 @@ function genLevel1(seed: number): LevelData {
 
   // Background decorations
   const decorations: LevelData['decorations'] = []
+  // Overworld only: green horsetail bushes (no white/ice variants)
   const bushSrcs = [
     '/SMB_Green_Horsetail_Tall.png', '/SMB_Green_Horsetail_Short.png',
-    '/SMB_White_Horsetail_Tall.png', '/SMB_White_Horsetail_Short.png',
   ] as const
   for (let x = 100; x < WORLD_W - 200; x += ri(rng, 220, 380)) {
     const src    = rc(rng, bushSrcs)
     const isTall = src.includes('Tall')
-    decorations.push({ x, y: FLOOR_TOP - (isTall ? 24 : 12), src, w: isTall ? 32 : 24, h: isTall ? 48 : 32 })
+    decorations.push({ x, y: FLOOR_TOP - (isTall ? 24 : 12), src, w: isTall ? 64 : 48, h: isTall ? 80 : 56 })
   }
+  // Floating islands — sit at mid-sky height, visible in background
   for (let x = 300; x < WORLD_W; x += ri(rng, 500, 800)) {
-    decorations.push({ x, y: 140 + ri(rng, 0, 80), src: '/SMB_Sprite_Island_(Ground).png', w: 80, h: 40 })
+    decorations.push({ x, y: 220 + ri(rng, 0, 80), src: '/SMB_Sprite_Island_(Ground).png', w: 160, h: 64 })
   }
 
   return {
@@ -465,7 +466,7 @@ export function App() {
             <Camera2D
               followEntity="player" smoothing={0.88} background={bg}
               followOffsetY={-150}
-              bounds={{ x: 0, y: -H, width: worldW, height: FLOOR_Y + Math.round(H * 1.5) }}
+              bounds={{ x: 0, y: -H, width: worldW, height: FLOOR_Y + FLOOR_H / 2 + H }}
             />
             <Player x={80} y={FLOOR_TOP - 60} />
 
