@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World, Camera2D } from '@cubeforge/react'
+import { Game, World, Camera2D, MovingPlatform } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
 import { Player }   from './components/Player'
 import { Enemy }    from './components/Enemy'
@@ -179,15 +179,18 @@ export function App() {
             <Ground x={WORLD_W + 10} y={300} width={20}  height={800} color="#12131f" />
 
             {/* ── Left section (x 0–600) ──────────────────────────────────── */}
-            {/* Tier 1 — low */}
-            <Ground x={130}  y={450} width={160} height={18} color="#263238" />
-            <Ground x={340}  y={415} width={140} height={18} color="#263238" />
-            <Ground x={530}  y={380} width={130} height={18} color="#2e3a40" />
+            {/* Tier 1 — low (one-way: jump through from below) */}
+            <Ground x={130}  y={450} width={160} height={18} color="#263238" oneWay />
+            <Ground x={340}  y={415} width={140} height={18} color="#263238" oneWay />
+            <Ground x={530}  y={380} width={130} height={18} color="#2e3a40" oneWay />
 
             {/* Tier 2 — mid */}
             <Ground x={200}  y={320} width={120} height={18} color="#37474f" />
             <Ground x={420}  y={285} width={110} height={18} color="#37474f" />
             <Ground x={610}  y={310} width={120} height={18} color="#37474f" />
+
+            {/* Moving platform — carries player left and right */}
+            <MovingPlatform x1={250} y1={360} x2={480} y2={360} width={100} duration={3} color="#1a6b8a" />
 
             {/* Tier 3 — high */}
             <Ground x={300}  y={215} width={100} height={18} color="#455a64" />
