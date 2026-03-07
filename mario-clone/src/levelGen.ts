@@ -130,11 +130,16 @@ export function genLevel1(seed: number): LevelData {
   enemies.push({ type: 'billblaster', x: STAIR_X - 80,  y: FLOOR_Y - 48, left: 0, right: 0, dir: 1, interval: 4.8 })
 
   // Clouds (overworld only)
+  const CLOUD_SRCS = [
+    { src: '/SMB_Cloud_Single.gif', w: 64,  h: 48  },
+    { src: '/SMB_Cloud_Double.gif', w: 96,  h: 48  },
+    { src: '/SMB_Cloud_Triple.gif', w: 128, h: 48  },
+  ] as const
   const decorations: LevelData['decorations'] = []
-  for (let x = 200; x < WORLD_W - 200; x += ri(rng, 300, 600)) {
+  for (let x = 150; x < WORLD_W - 150; x += ri(rng, 280, 560)) {
     const y = ri(rng, 80, 220)
-    const w = rc(rng, [96, 128, 160] as const)
-    decorations.push({ x, y, src: '/SMB3_Cloud_Block_tile_alt.png', w, h: Math.round(w * 0.6) })
+    const cloud = CLOUD_SRCS[Math.floor(rng() * CLOUD_SRCS.length)]
+    decorations.push({ x, y, src: cloud.src, w: cloud.w, h: cloud.h })
   }
 
   return {
