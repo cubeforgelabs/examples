@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Game, World, Entity, Transform, Sprite, RigidBody, BoxCollider } from '@cubeforge/react'
+import { Game, World, Entity, Transform, Sprite, RigidBody, BoxCollider, Camera2D } from '@cubeforge/react'
 import { Player } from './components/Player'
 import { ObstacleManager } from './components/ObstacleManager'
 import { gameEvents } from './gameEvents'
@@ -83,6 +83,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={900}>
           <World background="#1a1d2e">
+            <Camera2D x={W / 2} y={H / 2} />
 
             {/* Player */}
             {gameState === 'playing' && (

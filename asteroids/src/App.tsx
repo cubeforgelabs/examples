@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import { Ship, CANVAS_W, CANVAS_H } from './components/Ship'
 import { AsteroidField } from './components/AsteroidField'
 import { gameEvents } from './gameEvents'
@@ -105,6 +105,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#05060f">
+            <Camera2D x={W / 2} y={H / 2} />
             {gameState === 'playing' && (
               <>
                 <Ship key="ship" />
