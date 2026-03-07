@@ -11,7 +11,7 @@
     "isolatedModules": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "paths": {
       "@cubeforge/core":     ["../../cubeforge/packages/core/src/index.ts"],
       "@cubeforge/input":    ["../../cubeforge/packages/input/src/index.ts"],

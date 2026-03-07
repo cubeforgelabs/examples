@@ -1,5 +1,6 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
+import { getImage } from '../images'
 
 interface BlockState {
   hit:         boolean
@@ -45,7 +46,7 @@ function blockUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
         state.hit         = true
         state.bounceTimer = 0.2
         sprite.src        = '/SMB1_Empty_Block.png'
-        sprite.image      = undefined
+        sprite.image      = getImage('/SMB1_Empty_Block.png')
         const meta = world.getComponent<BlockMeta>(id, 'BlockMeta')
         meta?.onReveal()
       }

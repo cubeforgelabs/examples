@@ -338,7 +338,12 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={1000}>
           <World background={bg}>
-            <Camera2D followEntity="player" smoothing={0.88} background={bg} />
+            <Camera2D
+              followEntity="player"
+              smoothing={0.88}
+              background={bg}
+              bounds={{ x: 0, y: -H, width: worldW, height: floorY + Math.round(H * 1.5) }}
+            />
             <Player x={80} y={floorY - 60} />
 
             {/* ── Level 1: Overworld ────────────────────────────────────────── */}
