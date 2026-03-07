@@ -2,9 +2,25 @@
   "name": "cubeforge-examples",
   "version": "0.0.1",
   "private": true,
-  "workspaces": ["platformer", "mario-clone", "breakout", "flappy-bird", "shooter", "top-down", "playground"],
+  "workspaces": [
+    "platformer",
+    "mario-clone",
+    "breakout",
+    "flappy-bird",
+    "shooter",
+    "top-down",
+    "playground",
+    "pong",
+    "snake",
+    "endless-runner",
+    "asteroids"
+  ],
   "scripts": {
     "dev": "bun run --cwd platformer dev",
-    "dev:playground": "bun run --cwd playground dev"
+    "dev:playground": "bun run --cwd playground dev",
+    "dev:pong": "bun run --cwd pong dev",
+    "dev:snake": "bun run --cwd snake dev",
+    "dev:endless-runner": "bun run --cwd endless-runner dev",
+    "dev:asteroids": "bun run --cwd asteroids dev"
   }
 }
