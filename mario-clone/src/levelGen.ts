@@ -129,25 +129,11 @@ export function genLevel1(seed: number): LevelData {
   enemies.push({ type: 'billblaster', x: STAIR_X - 300, y: FLOOR_Y - 48, left: 0, right: 0, dir: 1, interval: 3.5 })
   enemies.push({ type: 'billblaster', x: STAIR_X - 80,  y: FLOOR_Y - 48, left: 0, right: 0, dir: 1, interval: 4.8 })
 
-  // Background decorations (floating islands in sky)
-  const decorations: LevelData['decorations'] = []
-  for (let x = 300; x < WORLD_W; x += ri(rng, 600, 1000)) {
-    decorations.push({ x, y: 180 + ri(rng, 0, 60), src: '/SMB_Sprite_Island_(Ground).png', w: 128, h: 48 })
-  }
-
-  // Floating ground platforms (physics — player can stand on them)
-  const platforms: LevelData['platforms'] = []
-  for (let x = 500; x < STAIR_X - 500; x += ri(rng, 700, 1100)) {
-    if (pipes.some(p => Math.abs(p.x - x) < 120)) continue
-    if (x > pitX - 100 && x < pitX + pitW + 100) continue
-    platforms.push({ x: x + ri(rng, 0, 80), y: 370 + ri(rng, 0, 60), w: 96 + ri(rng, 0, 64) })
-  }
-
   return {
     theme: 'overworld', bg: '#5c94fc', worldW: WORLD_W,
     floorSrc: '/SMB_Ground.png', brickSrc: '/SMB_Brick_Block_Sprite.png',
     coinSrc: '/SMB1_Sprite_Coin.gif', qBlockSrc: '/SMB_Question_Block.gif',
-    floorSegs, pipes, brickBlocks, qBlocks, coins, enemies, decorations, platforms,
+    floorSegs, pipes, brickBlocks, qBlocks, coins, enemies, decorations: [], platforms: [],
     piranhaXs, stairX: STAIR_X, goalX: GOAL_X,
   }
 }
