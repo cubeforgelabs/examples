@@ -59,47 +59,35 @@ function ballUpdate(id: EntityId, world: ECSWorld, _input: InputManager, dt: num
   }
 
   // ── Paddle collision ──────────────────────────────────────────────────────
-  for (const pid of world.query('Tag')) {
-    if (!world.hasEntity(pid)) continue
-    const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(pid, 'Tag')
-    if (!tag?.tags.includes('paddle')) continue
-
+  const pid = world.findByTag('paddle')
+  if (pid) {
     const pt = world.getComponent<TransformComponent>(pid, 'Transform')
-    if (!pt) continue
+    if (pt) {
+      const paddleLeft   = pt.x - PADDLE_W / 2
+      const paddleRight  = pt.x + PADDLE_W / 2
+      const paddleTop    = pt.y - PADDLE_H / 2
 
-    const paddleLeft   = pt.x - PADDLE_W / 2
-    const paddleRight  = pt.x + PADDLE_W / 2
-    const paddleTop    = pt.y - PADDLE_H / 2
-    const paddleBottom = pt.y + PADDLE_H / 2
+      const ballLeft   = transform.x - halfBall
+      const ballRight  = transform.x + halfBall
+      const ballTop    = transform.y - halfBall
+      const ballBottom = transform.y + halfBall
 
-    const ballLeft   = transform.x - halfBall
-    const ballRight  = transform.x + halfBall
-    const ballTop    = transform.y - halfBall
-    const ballBottom = transform.y + halfBall
+      const overlapX = ballRight > paddleLeft && ballLeft < paddleRight
+      const overlapY = ballBottom > paddleTop  && ballTop < paddleTop + PADDLE_H
 
-    const overlapX = ballRight > paddleLeft && ballLeft < paddleRight
-    const overlapY = ballBottom > paddleTop  && ballTop < paddleBottom
-
-    if (overlapX && overlapY && state.vy > 0) {
-      // Push ball above paddle
-      transform.y = paddleTop - halfBall
-
-      // Vary angle based on relative hit position: -1 (left edge) to 1 (right edge)
-      const rel = (transform.x - pt.x) / (PADDLE_W / 2)
-      const clampedRel = Math.max(-0.95, Math.min(0.95, rel))
-      state.vx = clampedRel * state.speed * 1.2
-      state.vy = -Math.sqrt(Math.max(0, state.speed * state.speed - state.vx * state.vx))
+      if (overlapX && overlapY && state.vy > 0) {
+        transform.y = paddleTop - halfBall
+        const rel = (transform.x - pt.x) / (PADDLE_W / 2)
+        const clampedRel = Math.max(-0.95, Math.min(0.95, rel))
+        state.vx = clampedRel * state.speed * 1.2
+        state.vy = -Math.sqrt(Math.max(0, state.speed * state.speed - state.vx * state.vx))
+      }
     }
-    break
   }
 
   // ── Brick collision ───────────────────────────────────────────────────────
-  for (const bid of world.query('Tag')) {
-    if (!world.hasEntity(bid)) continue
-    if (bid === id) continue
-
-    const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(bid, 'Tag')
-    if (!tag?.tags.includes('brick')) continue
+  for (const bid of world.findAllByTag('brick')) {
+    if (!world.hasEntity(bid) || bid === id) continue
 
     const bt = world.getComponent<TransformComponent>(bid, 'Transform')
     if (!bt) continue

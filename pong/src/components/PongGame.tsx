@@ -29,23 +29,19 @@ function pongInit(id: EntityId) {
   states.set(id, { bvx: BALL_SPD * 0.9, bvy: BALL_SPD * 0.5, scored: false })
 }
 
-function findByTag(world: ECSWorld, tag: string): TransformComponent | undefined {
-  for (const eid of world.query('Tag', 'Transform')) {
-    if (!world.hasEntity(eid)) continue
-    const t = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-    if (t?.tags.includes(tag)) return world.getComponent<TransformComponent>(eid, 'Transform')
-  }
-  return undefined
-}
-
 function pongUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: number) {
   if (!world.hasEntity(id)) return
   const state = states.get(id)
   if (!state) return
 
-  const ball  = findByTag(world, 'pong-ball')
-  const left  = findByTag(world, 'pong-left')
-  const right = findByTag(world, 'pong-right')
+  const ballId  = world.findByTag('pong-ball')
+  const leftId  = world.findByTag('pong-left')
+  const rightId = world.findByTag('pong-right')
+  if (!ballId || !leftId || !rightId) return
+
+  const ball  = world.getComponent<TransformComponent>(ballId,  'Transform')
+  const left  = world.getComponent<TransformComponent>(leftId,  'Transform')
+  const right = world.getComponent<TransformComponent>(rightId, 'Transform')
   if (!ball || !left || !right) return
 
   // ── Move paddles ────────────────────────────────────────────────────────

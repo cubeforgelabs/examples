@@ -119,10 +119,8 @@ function shipUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: numb
 
   // ── Ship-asteroid collision ────────────────────────────────────────────────
   if (!state.isInvincible) {
-    for (const eid of world.query('Tag', 'Transform')) {
+    for (const eid of world.findAllByTag('asteroid')) {
       if (!world.hasEntity(eid)) continue
-      const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-      if (!tag?.tags.includes('asteroid')) continue
       const at = world.getComponent<TransformComponent>(eid, 'Transform')
       const sp = world.getComponent<SpriteComponent>(eid, 'Sprite')
       if (!at || !sp) continue

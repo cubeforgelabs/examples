@@ -29,13 +29,11 @@ function blockUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
   if (state.hit) return
 
   // Check if a player is jumping up and hitting this block from below
-  for (const pid of world.query('Tag')) {
-    const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(pid, 'Tag')
-    if (!tag?.tags.includes('player')) continue
-
+  const pid = world.findByTag('player')
+  if (pid) {
     const pt = world.getComponent<TransformComponent>(pid, 'Transform')
     const rb = world.getComponent<RigidBodyComponent>(pid, 'RigidBody')
-    if (!pt || !rb) continue
+    if (pt && rb) {
 
     // Player moving upward (rb.vy < 0), player's top edge near block's bottom edge
     const dx = Math.abs(pt.x - transform.x)
@@ -43,19 +41,19 @@ function blockUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
     const playerTop  = pt.y - 20
     const blockBottom = transform.y + 16
 
-    if (
-      rb.vy < 0 &&
-      dx < 14 &&
-      playerTop >= blockBottom - 18 &&
-      playerTop <= blockBottom + 6
-    ) {
-      state.hit         = true
-      state.bounceTimer = 0.2
-      sprite.color      = '#a0522d'
-      // Trigger onReveal via the stored callback
-      const meta = world.getComponent<BlockMeta>(id, 'BlockMeta')
-      meta?.onReveal()
-      return
+      if (
+        rb.vy < 0 &&
+        dx < 14 &&
+        playerTop >= blockBottom - 18 &&
+        playerTop <= blockBottom + 6
+      ) {
+        state.hit         = true
+        state.bounceTimer = 0.2
+        sprite.color      = '#a0522d'
+        const meta = world.getComponent<BlockMeta>(id, 'BlockMeta')
+        meta?.onReveal()
+        return
+      }
     }
   }
 }

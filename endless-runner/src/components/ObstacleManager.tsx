@@ -63,15 +63,8 @@ function managerUpdate(id: EntityId, world: ECSWorld, _input: InputManager, dt: 
   }
 
   // Find player transform for collision
-  let playerTransform: TransformComponent | undefined
-  for (const eid of world.query('Tag', 'Transform')) {
-    if (!world.hasEntity(eid)) continue
-    const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-    if (tag?.tags.includes('player')) {
-      playerTransform = world.getComponent<TransformComponent>(eid, 'Transform')
-      break
-    }
-  }
+  const playerId = world.findByTag('player')
+  const playerTransform = playerId ? world.getComponent<TransformComponent>(playerId, 'Transform') : undefined
 
   // Move obstacles + check collision
   const toRemove: EntityId[] = []

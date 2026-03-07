@@ -1,5 +1,5 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
-import type { EntityId, ECSWorld, TransformComponent } from '@cubeforge/react'
+import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent } from '@cubeforge/react'
 import type { InputManager } from '@cubeforge/react'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -24,11 +24,8 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   if (!state) return
 
   const transform = world.getComponent<TransformComponent>(id, 'Transform')
-  const rb        = world.getComponent<{ type: 'RigidBody'; vy: number; vx: number }>(id, 'RigidBody')
+  const rb        = world.getComponent<RigidBodyComponent>(id, 'RigidBody')
   if (!transform || !rb) return
-
-  // Keep player locked at PLAYER_X — do not drift right/left
-  transform.x = PLAYER_X
 
   // Grounded = near ground level and not moving upward significantly
   const grounded = transform.y >= GROUND_Y - 4 && rb.vy >= -30
@@ -54,7 +51,7 @@ export function Player({ x, y }: PlayerProps) {
     <Entity id="runner-player" tags={['player']}>
       <Transform x={x} y={y} />
       <Sprite width={PLAYER_W} height={PLAYER_H} color="#4fc3f7" zIndex={10} />
-      <RigidBody friction={0.0} />
+      <RigidBody friction={0.0} lockX />
       <BoxCollider width={PLAYER_W - 4} height={PLAYER_H} />
       <Script init={playerInit} update={playerUpdate} />
     </Entity>

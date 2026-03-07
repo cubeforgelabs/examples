@@ -84,14 +84,10 @@ function enemyUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
   }
 
   // Check sword hit
-  for (const sid of world.query('Tag')) {
+  for (const sid of world.findAllByTag('sword')) {
     if (!world.hasEntity(sid)) continue
-    const stag = world.getComponent<{ type: 'Tag'; tags: string[] }>(sid, 'Tag')
-    if (!stag?.tags.includes('sword')) continue
-
     const st = world.getComponent<TransformComponent>(sid, 'Transform')
     if (!st) continue
-
     if (aabbOverlap(transform.x, transform.y, ENEMY_W, ENEMY_H, st.x, st.y, 20, 20)) {
       gameEvents.onEnemyKill?.()
       world.destroyEntity(id)
@@ -100,17 +96,11 @@ function enemyUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
   }
 
   // Check player collision (hurt player)
-  for (const pid of world.query('Tag')) {
-    if (!world.hasEntity(pid)) continue
-    const ptag = world.getComponent<{ type: 'Tag'; tags: string[] }>(pid, 'Tag')
-    if (!ptag?.tags.includes('player')) continue
-
+  const pid = world.findByTag('player')
+  if (pid) {
     const pt = world.getComponent<TransformComponent>(pid, 'Transform')
-    if (!pt) continue
-
-    if (aabbOverlap(transform.x, transform.y, ENEMY_W, ENEMY_H, pt.x, pt.y, PLAYER_W, PLAYER_H)) {
+    if (pt && aabbOverlap(transform.x, transform.y, ENEMY_W, ENEMY_H, pt.x, pt.y, PLAYER_W, PLAYER_H)) {
       gameEvents.onPlayerHit?.()
-      // Brief stun so we don't spam hits
       state.stunTimer = 0.3
     }
   }

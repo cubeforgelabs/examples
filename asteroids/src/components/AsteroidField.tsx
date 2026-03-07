@@ -121,10 +121,8 @@ function fieldUpdate(id: EntityId, world: ECSWorld, _input: InputManager, dt: nu
   const hitAsteroids = new Set<EntityId>()
   const hitBullets   = new Set<EntityId>()
 
-  for (const bid of world.query('Tag', 'Transform')) {
+  for (const bid of world.findAllByTag('bullet')) {
     if (!world.hasEntity(bid) || hitBullets.has(bid)) continue
-    const btag = world.getComponent<{ type: 'Tag'; tags: string[] }>(bid, 'Tag')
-    if (!btag?.tags.includes('bullet')) continue
     const bt = world.getComponent<TransformComponent>(bid, 'Transform')
     if (!bt) continue
 

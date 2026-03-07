@@ -112,13 +112,10 @@ function managerUpdate(id: EntityId, world: ECSWorld, _input: InputManager, dt: 
   // ── Find player transform ─────────────────────────────────────────────────
   let playerX = 60
   let playerY = 280
-  for (const eid of world.query('Tag')) {
-    if (!world.hasEntity(eid)) continue
-    const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-    if (!tag?.tags.includes('player')) continue
-    const pt = world.getComponent<TransformComponent>(eid, 'Transform')
+  const playerId = world.findByTag('player')
+  if (playerId) {
+    const pt = world.getComponent<TransformComponent>(playerId, 'Transform')
     if (pt) { playerX = pt.x; playerY = pt.y }
-    break
   }
 
   // ── Update enemies ────────────────────────────────────────────────────────

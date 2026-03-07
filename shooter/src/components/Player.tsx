@@ -100,15 +100,10 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
 
     // Check collision with enemies (tag 'enemy')
     let hitEnemy = false
-    for (const eid of world.query('Tag')) {
+    for (const eid of world.findAllByTag('enemy')) {
       if (!world.hasEntity(eid)) continue
-      const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-      if (!tag?.tags.includes('enemy')) continue
-
       const et = world.getComponent<TransformComponent>(eid, 'Transform')
       if (!et) continue
-
-      // AABB: enemy is 28×28
       const dx = Math.abs(bt.x - et.x)
       const dy = Math.abs(bt.y - et.y)
       if (dx < (BULLET_W / 2 + 14) && dy < (BULLET_H / 2 + 14)) {
@@ -126,14 +121,10 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
 
   // ── Collision with enemy ships ────────────────────────────────────────────
   if (!state.isInvincible) {
-    for (const eid of world.query('Tag')) {
+    for (const eid of world.findAllByTag('enemy')) {
       if (!world.hasEntity(eid)) continue
-      const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-      if (!tag?.tags.includes('enemy')) continue
-
       const et = world.getComponent<TransformComponent>(eid, 'Transform')
       if (!et) continue
-
       const dx = Math.abs(transform.x - et.x)
       const dy = Math.abs(transform.y - et.y)
       if (dx < (PLAYER_W / 2 + 14) && dy < (PLAYER_H / 2 + 14)) {
@@ -148,15 +139,10 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
 
   // ── Collision with enemy bullets ──────────────────────────────────────────
   if (!state.isInvincible) {
-    for (const eid of world.query('Tag')) {
+    for (const eid of world.findAllByTag('enemyBullet')) {
       if (!world.hasEntity(eid)) continue
-      const tag = world.getComponent<{ type: 'Tag'; tags: string[] }>(eid, 'Tag')
-      if (!tag?.tags.includes('enemyBullet')) continue
-
       const et = world.getComponent<TransformComponent>(eid, 'Transform')
       if (!et) continue
-
-      // enemy bullet is 8×4
       const dx = Math.abs(transform.x - et.x)
       const dy = Math.abs(transform.y - et.y)
       if (dx < (PLAYER_W / 2 + 4) && dy < (PLAYER_H / 2 + 2)) {
