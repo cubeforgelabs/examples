@@ -20,7 +20,6 @@ const JUMP_FORCE      = -530
 const COYOTE_TIME     = 0.1
 const JUMP_BUFFER     = 0.09
 const INVINCIBLE_DUR  = 2.0
-const STAR_DUR        = 8.0
 const KNOCKBACK_X     = 260
 const KNOCKBACK_Y     = -300
 const FIREBALL_SPEED  = 380

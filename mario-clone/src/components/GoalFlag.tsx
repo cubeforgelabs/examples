@@ -35,6 +35,12 @@ export function GoalFlag({ x, y }: GoalFlagProps) {
         <Transform x={x + 90} y={y - 16} />
         <Sprite src="/SMBCastle.png" width={128} height={128} color="#555" zIndex={1} />
       </Entity>
+
+      {/* Princess Toadstool waiting in the castle */}
+      <Entity>
+        <Transform x={x + 76} y={y + 32} />
+        <Sprite src="/SMB_Princess_Toadstool_Sprite.png" width={28} height={44} color="#f48fb1" zIndex={5} />
+      </Entity>
     </>
   )
 }

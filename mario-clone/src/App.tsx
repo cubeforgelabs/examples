@@ -1,13 +1,16 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World, Camera2D } from '@cubeforge/react'
+import { Game, World, Camera2D, Entity, Transform, Sprite } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
 import { Player, playerConfig }  from './components/Player'
 import { Goomba }                from './components/Goomba'
 import { KoopaTroopa }           from './components/KoopaTroopa'
+import { KoopaParatroopa }       from './components/KoopaParatroopa'
+import { BuzzyBeetle }           from './components/BuzzyBeetle'
 import { PiranhaPlant }          from './components/PiranhaPlant'
 import { BillBlaster }           from './components/BillBlaster'
 import { HammerBro }             from './components/HammerBro'
 import { Bowser }                from './components/Bowser'
+import { Podoboo }               from './components/Podoboo'
 import { Ground }                from './components/Ground'
 import { Coin }                  from './components/Coin'
 import { QuestionBlock }         from './components/QuestionBlock'
@@ -27,11 +30,27 @@ const ASSETS = [
   '/ClassicNES_SMB_Super_Mario_Sprite.png',
   '/SMB_Fire_Mario_Sprite.png',
   '/Goomba_SMB.png',
+  '/SMB_Goomba_Sprite.gif',
+  '/GoombaSMBGrey.gif',
+  '/SMBBlueGoomba.gif',
   '/SMB_Green_Koopa_Troopa_Sprite.png',
   '/SMB_NES_Blue_Koopa_Troopa_Walking.gif',
+  '/KoopaParatroopaGreenDark.gif',
+  '/SMB_Red_Koopa_Troopa.gif',
+  '/Buzzy_Beetle_SMB.png',
+  '/BuzzyBeetleSMBUnderground.gif',
+  '/SMB_Buzzy_Beetle_Castle_Sprite.gif',
   '/SMB_Sprite_Piranha_Plant.png',
+  '/SMB_Piranha_Plant_Underground_Sprite.png',
+  '/Podoboo_Sprite_SMB.png',
   '/SMB_Sprite_Coin.png',
+  '/SMB1_Sprite_Coin.gif',
+  '/SMB_CoinUnderground.gif',
+  '/SMB_CoinCastle.gif',
   '/SMB_Qblock.png',
+  '/SMB_Question_Block.gif',
+  '/SMB_QuestionBlockUndergroundAnim.gif',
+  '/SMB_QuestionBlockCastleAnim.gif',
   '/SMB1_Empty_Block.png',
   '/SMB_Brick_Block_Sprite.png',
   '/SMB_Underground_Brick_Block.png',
@@ -43,18 +62,34 @@ const ASSETS = [
   '/SMB_Sprite_1UP.png',
   '/Warp_Pipe_SMB.png',
   '/Warp_Pipe_Orange_SMB.png',
+  '/Warp_Pipe_Gray_SMB.png',
   '/Bill_Blaster_Sprite_SMB.png',
   '/Bullet_Bill_Super_Mario_Bros.png',
   '/SMB_Hammer_Bro_Sprite.png',
   '/SMB_Sprite_Axe.png',
   '/SMB_Bowser_Sprite.png',
+  '/SMBBowsersFlame.gif',
   '/SMB_Goal_Pole.png',
   '/SMBCastle.png',
+  '/LargeFortressSMB.png',
+  '/SMB_Princess_Toadstool_Sprite.png',
   '/SMBFireBall.gif',
   '/SMB_Ground.png',
   '/SMB_Ground_Underground.png',
+  '/SMB_Ground_Castle.png',
   '/SMBPlatform.png',
+  '/SMB_Mushroom_Platform.png',
   '/SMB_Hard_Block_Sprite.png',
+  '/SMB_Underground_Hard_Block.png',
+  '/SMB_Green_Horsetail_Short.png',
+  '/SMB_Green_Horsetail_Tall.png',
+  '/SMB_White_Horsetail_Short.png',
+  '/SMB_White_Horsetail_Tall.png',
+  '/SMB_Sprite_Island_(Ground).png',
+  '/SMB_Sprite_Island_(Gray).png',
+  '/SMB_Sprite_Lava.png',
+  '/SMB_Bowser_Bridge.png',
+  '/SMB_Sprite_Firework.gif',
 ]
 ASSETS.forEach(preloadImage)
 
@@ -83,8 +118,6 @@ interface SpawnedReveal { id: number; type: RevealType; x: number; y: number }
 // ─── Level layouts ────────────────────────────────────────────────────────────
 
 // ── Level 1: Overworld ────────────────────────────────────────────────────────
-const L1_FLOOR_Y = LEVEL_FLOOR_Y[1]
-const L1_W       = LEVEL_WORLD_W[1]
 const L1_COINS = [
   { id:  1, x:  200, y: 420 }, { id:  2, x:  340, y: 340 },
   { id:  3, x:  500, y: 260 }, { id:  4, x:  660, y: 380 },
@@ -257,8 +290,7 @@ export function App() {
   const floorY   = LEVEL_FLOOR_Y[level]
   const worldW   = LEVEL_WORLD_W[level]
   const bg       = LEVEL_BG[level]
-  const coinDefs = level === 1 ? L1_COINS : level === 2 ? L2_COINS : L3_COINS
-  const blockDefs= level === 1 ? L1_BLOCKS: level === 2 ? L2_BLOCKS: L3_BLOCKS
+  const coinDefs   = level === 1 ? L1_COINS  : level === 2 ? L2_COINS  : L3_COINS
   const totalCoins = coinDefs.length
 
   return (
@@ -311,31 +343,55 @@ export function App() {
 
             {/* ── Level 1: Overworld ────────────────────────────────────────── */}
             {level === 1 && <>
+              {/* Background decorations (zIndex 0, no physics) */}
+              <Entity><Transform x={150}  y={480} /><Sprite src="/SMB_Green_Horsetail_Tall.png"   width={32} height={48} zIndex={0} /></Entity>
+              <Entity><Transform x={260}  y={490} /><Sprite src="/SMB_Green_Horsetail_Short.png"  width={24} height={32} zIndex={0} /></Entity>
+              <Entity><Transform x={580}  y={480} /><Sprite src="/SMB_White_Horsetail_Tall.png"   width={32} height={48} zIndex={0} /></Entity>
+              <Entity><Transform x={700}  y={490} /><Sprite src="/SMB_White_Horsetail_Short.png"  width={24} height={32} zIndex={0} /></Entity>
+              <Entity><Transform x={950}  y={480} /><Sprite src="/SMB_Green_Horsetail_Tall.png"   width={32} height={48} zIndex={0} /></Entity>
+              <Entity><Transform x={1300} y={480} /><Sprite src="/SMB_White_Horsetail_Short.png"  width={24} height={32} zIndex={0} /></Entity>
+              <Entity><Transform x={1700} y={480} /><Sprite src="/SMB_Green_Horsetail_Tall.png"   width={32} height={48} zIndex={0} /></Entity>
+              <Entity><Transform x={2250} y={480} /><Sprite src="/SMB_White_Horsetail_Tall.png"   width={32} height={48} zIndex={0} /></Entity>
+              <Entity><Transform x={2700} y={480} /><Sprite src="/SMB_Green_Horsetail_Short.png"  width={24} height={32} zIndex={0} /></Entity>
+              <Entity><Transform x={3050} y={480} /><Sprite src="/SMB_White_Horsetail_Tall.png"   width={32} height={48} zIndex={0} /></Entity>
+              {/* Island/cloud platforms (decorative) */}
+              <Entity><Transform x={400}  y={200} /><Sprite src="/SMB_Sprite_Island_(Ground).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={900}  y={160} /><Sprite src="/SMB_Sprite_Island_(Ground).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={1600} y={180} /><Sprite src="/SMB_Sprite_Island_(Ground).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={2400} y={150} /><Sprite src="/SMB_Sprite_Island_(Ground).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={3100} y={170} /><Sprite src="/SMB_Sprite_Island_(Ground).png" width={80} height={40} zIndex={0} /></Entity>
+              {/* Mushroom platforms (decorative) */}
+              <Entity><Transform x={680}  y={400} /><Sprite src="/SMB_Mushroom_Platform.png" width={64} height={28} zIndex={0} /></Entity>
+              <Entity><Transform x={1400} y={360} /><Sprite src="/SMB_Mushroom_Platform.png" width={64} height={28} zIndex={0} /></Entity>
+              <Entity><Transform x={2600} y={380} /><Sprite src="/SMB_Mushroom_Platform.png" width={64} height={28} zIndex={0} /></Entity>
+
               {/* Enemies */}
-              <Goomba      x={320}  y={floorY - 16} patrolLeft={200}  patrolRight={450}  />
-              <Goomba      x={700}  y={floorY - 16} patrolLeft={580}  patrolRight={840}  />
-              <Goomba      x={1100} y={floorY - 16} patrolLeft={960}  patrolRight={1260} />
-              <KoopaTroopa x={520}  y={floorY - 22} patrolLeft={420}  patrolRight={650}  />
-              <KoopaTroopa x={1500} y={floorY - 22} patrolLeft={1380} patrolRight={1660} />
-              <Goomba      x={520}  y={300}          patrolLeft={430}  patrolRight={640}  />
-              <Goomba      x={1900} y={floorY - 16} patrolLeft={1800} patrolRight={2050} />
-              <KoopaTroopa x={2300} y={floorY - 22} patrolLeft={2160} patrolRight={2460} />
-              <Goomba      x={2700} y={floorY - 16} patrolLeft={2580} patrolRight={2820} />
-              <BillBlaster x={3100} y={floorY - 48} dir={1} fireInterval={3.5} />
-              <BillBlaster x={3280} y={floorY - 48} dir={1} fireInterval={4.5} />
+              <Goomba          x={320}  y={floorY - 16} patrolLeft={200}  patrolRight={450}  src="/SMB_Goomba_Sprite.gif" />
+              <Goomba          x={700}  y={floorY - 16} patrolLeft={580}  patrolRight={840}  src="/SMB_Goomba_Sprite.gif" />
+              <Goomba          x={1100} y={floorY - 16} patrolLeft={960}  patrolRight={1260} src="/SMB_Goomba_Sprite.gif" />
+              <KoopaTroopa     x={520}  y={floorY - 22} patrolLeft={420}  patrolRight={650}  />
+              <KoopaParatroopa x={860}  y={floorY - 22} patrolLeft={740}  patrolRight={1000} />
+              <KoopaTroopa     x={1500} y={floorY - 22} patrolLeft={1380} patrolRight={1660} />
+              <Goomba          x={520}  y={300}          patrolLeft={430}  patrolRight={640}  src="/SMB_Goomba_Sprite.gif" />
+              <Goomba          x={1900} y={floorY - 16} patrolLeft={1800} patrolRight={2050} src="/SMB_Goomba_Sprite.gif" />
+              <KoopaParatroopa x={2200} y={floorY - 22} patrolLeft={2060} patrolRight={2360} />
+              <KoopaTroopa     x={2300} y={floorY - 22} patrolLeft={2160} patrolRight={2460} />
+              <Goomba          x={2700} y={floorY - 16} patrolLeft={2580} patrolRight={2820} src="/SMB_Goomba_Sprite.gif" />
+              <BillBlaster     x={3100} y={floorY - 48} dir={1} fireInterval={3.5} />
+              <BillBlaster     x={3280} y={floorY - 48} dir={1} fireInterval={4.5} />
 
               {/* Piranha plant in pipe */}
               <PiranhaPlant x={760}  pipeTopY={floorY - 64} />
               <PiranhaPlant x={2400} pipeTopY={floorY - 64} />
 
-              {/* Coins */}
+              {/* Coins (animated) */}
               {L1_COINS.filter(c => !collectedCoins.has(c.id)).map(c => (
-                <Coin key={c.id} x={c.x} y={c.y} onCollect={eid => handleCoinCollect(eid, c.id)} />
+                <Coin key={c.id} x={c.x} y={c.y} src="/SMB1_Sprite_Coin.gif" onCollect={eid => handleCoinCollect(eid, c.id)} />
               ))}
 
-              {/* Question blocks */}
+              {/* Question blocks (animated) */}
               {L1_BLOCKS.filter(b => !revealedBlocks.has(b.id)).map(b => (
-                <QuestionBlock key={b.id} x={b.x} y={b.y} reveals={b.reveals}
+                <QuestionBlock key={b.id} x={b.x} y={b.y} reveals={b.reveals} src="/SMB_Question_Block.gif"
                   onReveal={() => handleReveal(b.id, b.reveals, b.x, b.y)} />
               ))}
 
@@ -402,15 +458,23 @@ export function App() {
               {/* Ceiling decoration */}
               <Ground key="ceil" x={worldW / 2} y={60} width={worldW} height={40} color="#263238" />
 
+              {/* Background island formations (cave feel) */}
+              <Entity><Transform x={500}  y={180} /><Sprite src="/SMB_Sprite_Island_(Gray).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={1200} y={150} /><Sprite src="/SMB_Sprite_Island_(Gray).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={2100} y={170} /><Sprite src="/SMB_Sprite_Island_(Gray).png" width={80} height={40} zIndex={0} /></Entity>
+              <Entity><Transform x={3100} y={155} /><Sprite src="/SMB_Sprite_Island_(Gray).png" width={80} height={40} zIndex={0} /></Entity>
+
               {/* Enemies */}
-              <Goomba      x={320}  y={floorY - 16} patrolLeft={200}  patrolRight={480}  />
-              <Goomba      x={700}  y={floorY - 16} patrolLeft={560}  patrolRight={880}  />
-              <KoopaTroopa x={540}  y={floorY - 22} patrolLeft={420}  patrolRight={680}  src="/SMB_NES_Blue_Koopa_Troopa_Walking.gif" />
-              <Goomba      x={1060} y={floorY - 16} patrolLeft={900}  patrolRight={1200} />
-              <KoopaTroopa x={1380} y={floorY - 22} patrolLeft={1240} patrolRight={1560} />
-              <Goomba      x={1760} y={floorY - 16} patrolLeft={1600} patrolRight={1940} />
-              <KoopaTroopa x={2100} y={floorY - 22} patrolLeft={1960} patrolRight={2240} />
-              <Goomba      x={2400} y={floorY - 16} patrolLeft={2280} patrolRight={2560} />
+              <Goomba      x={320}  y={floorY - 16} patrolLeft={200}  patrolRight={480}  src="/GoombaSMBGrey.gif" />
+              <Goomba      x={700}  y={floorY - 16} patrolLeft={560}  patrolRight={880}  src="/GoombaSMBGrey.gif" />
+              <BuzzyBeetle x={540}  y={floorY - 16} patrolLeft={420}  patrolRight={680}  src="/BuzzyBeetleSMBUnderground.gif" />
+              <KoopaTroopa x={900}  y={floorY - 22} patrolLeft={780}  patrolRight={1040} src="/SMB_NES_Blue_Koopa_Troopa_Walking.gif" />
+              <Goomba      x={1060} y={floorY - 16} patrolLeft={900}  patrolRight={1200} src="/GoombaSMBGrey.gif" />
+              <BuzzyBeetle x={1380} y={floorY - 16} patrolLeft={1240} patrolRight={1560} src="/BuzzyBeetleSMBUnderground.gif" />
+              <KoopaTroopa x={1580} y={floorY - 22} patrolLeft={1440} patrolRight={1720} src="/SMB_NES_Blue_Koopa_Troopa_Walking.gif" />
+              <Goomba      x={1760} y={floorY - 16} patrolLeft={1600} patrolRight={1940} src="/GoombaSMBGrey.gif" />
+              <BuzzyBeetle x={2100} y={floorY - 16} patrolLeft={1960} patrolRight={2240} src="/BuzzyBeetleSMBUnderground.gif" />
+              <Goomba      x={2400} y={floorY - 16} patrolLeft={2280} patrolRight={2560} src="/GoombaSMBGrey.gif" />
               <BillBlaster x={2600} y={floorY - 48} dir={1}  fireInterval={3.0} />
               <BillBlaster x={3000} y={floorY - 48} dir={-1} fireInterval={3.5} />
               <BillBlaster x={3400} y={floorY - 48} dir={1}  fireInterval={4.0} />
@@ -418,14 +482,14 @@ export function App() {
               <PiranhaPlant x={1580} pipeTopY={floorY - 64} />
               <PiranhaPlant x={2820} pipeTopY={floorY - 64} src="/SMB_Piranha_Plant_Underground_Sprite.png" />
 
-              {/* Coins */}
+              {/* Coins (underground animated) */}
               {L2_COINS.filter(c => !collectedCoins.has(c.id)).map(c => (
-                <Coin key={c.id} x={c.x} y={c.y} onCollect={eid => handleCoinCollect(eid, c.id)} />
+                <Coin key={c.id} x={c.x} y={c.y} src="/SMB_CoinUnderground.gif" onCollect={eid => handleCoinCollect(eid, c.id)} />
               ))}
 
-              {/* Question blocks */}
+              {/* Question blocks (underground animated) */}
               {L2_BLOCKS.filter(b => !revealedBlocks.has(b.id)).map(b => (
-                <QuestionBlock key={b.id} x={b.x} y={b.y} reveals={b.reveals}
+                <QuestionBlock key={b.id} x={b.x} y={b.y} reveals={b.reveals} src="/SMB_QuestionBlockUndergroundAnim.gif"
                   onReveal={() => handleReveal(b.id, b.reveals, b.x, b.y)} />
               ))}
 
@@ -463,29 +527,48 @@ export function App() {
 
             {/* ── Level 3: Castle ──────────────────────────────────────────── */}
             {level === 3 && <>
+              {/* Background fortress decoration */}
+              <Entity><Transform x={400}  y={350} /><Sprite src="/LargeFortressSMB.png" width={96} height={120} zIndex={0} /></Entity>
+              <Entity><Transform x={1200} y={350} /><Sprite src="/LargeFortressSMB.png" width={96} height={120} zIndex={0} /></Entity>
+              <Entity><Transform x={2000} y={350} /><Sprite src="/LargeFortressSMB.png" width={96} height={120} zIndex={0} /></Entity>
+
+              {/* Bowser's bridge near boss */}
+              <Entity><Transform x={2640} y={floorY + 10} /><Sprite src="/SMB_Bowser_Bridge.png" width={240} height={32} zIndex={3} /></Entity>
+
+              {/* Lava strip at floor level */}
+              <Entity><Transform x={worldW / 2} y={floorY + 20} /><Sprite src="/SMB_Sprite_Lava.png" width={worldW} height={24} zIndex={2} /></Entity>
+
               {/* Enemies */}
-              <Goomba      x={300}  y={floorY - 16} patrolLeft={180}  patrolRight={440} />
+              <Goomba      x={300}  y={floorY - 16} patrolLeft={180}  patrolRight={440}  src="/SMBBlueGoomba.gif" />
               <HammerBro   x={560}  y={floorY - 22} patrolLeft={460}  patrolRight={680} />
+              <BuzzyBeetle x={700}  y={floorY - 16} patrolLeft={600}  patrolRight={820}  src="/SMB_Buzzy_Beetle_Castle_Sprite.gif" />
               <KoopaTroopa x={800}  y={floorY - 22} patrolLeft={680}  patrolRight={960} />
-              <HammerBro   x={1100} y={floorY - 22} patrolLeft={980}  patrolRight={1220}/>
-              <Goomba      x={1340} y={floorY - 16} patrolLeft={1220} patrolRight={1500}/>
-              <KoopaTroopa x={1620} y={floorY - 22} patrolLeft={1480} patrolRight={1780}/>
-              <HammerBro   x={1880} y={floorY - 22} patrolLeft={1760} patrolRight={2060}/>
+              <HammerBro   x={1100} y={floorY - 22} patrolLeft={980}  patrolRight={1220} />
+              <BuzzyBeetle x={1240} y={floorY - 16} patrolLeft={1120} patrolRight={1380} src="/SMB_Buzzy_Beetle_Castle_Sprite.gif" />
+              <Goomba      x={1340} y={floorY - 16} patrolLeft={1220} patrolRight={1500} src="/SMBBlueGoomba.gif" />
+              <KoopaTroopa x={1620} y={floorY - 22} patrolLeft={1480} patrolRight={1780} />
+              <HammerBro   x={1880} y={floorY - 22} patrolLeft={1760} patrolRight={2060} />
               <BillBlaster x={2120} y={floorY - 48} dir={1}  fireInterval={3.0} />
               <BillBlaster x={2400} y={floorY - 48} dir={-1} fireInterval={3.5} />
               <PiranhaPlant x={680}  pipeTopY={floorY - 64} />
               <PiranhaPlant x={1460} pipeTopY={floorY - 64} />
+              {/* Podoboos rising from lava */}
+              <Podoboo x={500}  baseY={floorY - 10} />
+              <Podoboo x={900}  baseY={floorY - 10} />
+              <Podoboo x={1300} baseY={floorY - 10} />
+              <Podoboo x={1800} baseY={floorY - 10} />
+              <Podoboo x={2200} baseY={floorY - 10} />
               {/* Bowser at the end */}
               <Bowser x={2720} y={floorY - 40} patrolLeft={2600} patrolRight={2840} />
 
-              {/* Coins */}
+              {/* Coins (castle animated) */}
               {L3_COINS.filter(c => !collectedCoins.has(c.id)).map(c => (
-                <Coin key={c.id} x={c.x} y={c.y} onCollect={eid => handleCoinCollect(eid, c.id)} />
+                <Coin key={c.id} x={c.x} y={c.y} src="/SMB_CoinCastle.gif" onCollect={eid => handleCoinCollect(eid, c.id)} />
               ))}
 
-              {/* Question blocks */}
+              {/* Question blocks (castle animated) */}
               {L3_BLOCKS.filter(b => !revealedBlocks.has(b.id)).map(b => (
-                <QuestionBlock key={b.id} x={b.x} y={b.y} reveals={b.reveals}
+                <QuestionBlock key={b.id} x={b.x} y={b.y} reveals={b.reveals} src="/SMB_QuestionBlockCastleAnim.gif"
                   onReveal={() => handleReveal(b.id, b.reveals, b.x, b.y)} />
               ))}
 
@@ -551,6 +634,15 @@ export function App() {
         {/* ── Win overlay ──────────────────────────────────────────────────── */}
         {gameState === 'win' && (
           <div style={overlayStyle}>
+            {/* Fireworks scattered around overlay */}
+            {[
+              { top: '10%', left: '8%' }, { top: '15%', right: '10%' },
+              { top: '60%', left: '5%' }, { top: '55%', right: '8%' },
+              { bottom: '20%', left: '12%' }, { bottom: '15%', right: '12%' },
+            ].map((pos, i) => (
+              <img key={i} src="/SMB_Sprite_Firework.gif" width={40} height={40}
+                style={{ position: 'absolute', ...pos, opacity: 0.9 }} />
+            ))}
             <div style={cardStyle}>
               <p style={{ fontSize: 11, letterSpacing: 4, color: '#ffd700', marginBottom: 8 }}>
                 BOWSER DEFEATED

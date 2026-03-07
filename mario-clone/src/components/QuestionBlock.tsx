@@ -62,14 +62,15 @@ interface QuestionBlockProps {
   x:        number
   y:        number
   reveals:  'coin' | 'mushroom' | 'fireFlower' | 'star' | 'oneUp'
+  src?:     string
   onReveal: () => void
 }
 
-export function QuestionBlock({ x, y, onReveal }: QuestionBlockProps) {
+export function QuestionBlock({ x, y, onReveal, src = '/SMB_Qblock.png' }: QuestionBlockProps) {
   return (
     <Entity tags={['questionBlock']}>
       <Transform x={x} y={y} />
-      <Sprite src="/SMB_Qblock.png" width={32} height={32} color="#f5a623" zIndex={3} />
+      <Sprite src={src} width={32} height={32} color="#f5a623" zIndex={3} />
       <RigidBody isStatic />
       <BoxCollider width={32} height={32} />
       <Script
