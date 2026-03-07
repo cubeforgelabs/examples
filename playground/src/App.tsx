@@ -1,45 +1,38 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Editor, { type Monaco } from '@monaco-editor/react'
-import { preInit, compile, buildIframeSrcdoc } from './compiler'
+import { compile, buildIframeSrcdoc } from './compiler'
 import { TEMPLATES } from './templates'
 
-const DEBOUNCE_MS = 600
+const DEBOUNCE_MS = 500
 
-type Status = { kind: 'ok' } | { kind: 'building' } | { kind: 'loading' } | { kind: 'error'; message: string }
+type Status = { kind: 'ok' } | { kind: 'building' } | { kind: 'error'; message: string }
 
 export function App() {
   const [templateId, setTemplateId] = useState(TEMPLATES[0].id)
   const [code, setCode] = useState(TEMPLATES[0].code)
   const [srcdoc, setSrcdoc] = useState('')
-  const [status, setStatus] = useState<Status>({ kind: 'loading' })
+  const [status, setStatus] = useState<Status>({ kind: 'building' })
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const readyRef = useRef(false)
 
-  // Pre-initialize esbuild-wasm immediately on mount
-  useEffect(() => {
-    setStatus({ kind: 'loading' })
-    preInit().then(() => {
-      readyRef.current = true
-      // Trigger first build once WASM is ready
-      run(TEMPLATES[0].code)
-    })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const run = useCallback(async (source: string) => {
+  const run = useCallback((source: string) => {
     setStatus({ kind: 'building' })
-    const result = await compile(source)
-    if (result.error !== null) {
-      setStatus({ kind: 'error', message: result.error })
-    } else {
-      setSrcdoc(buildIframeSrcdoc(result.code))
-      setStatus({ kind: 'ok' })
-    }
+    // sucrase is synchronous — wrap in setTimeout to let the status render first
+    setTimeout(() => {
+      const result = compile(source)
+      if (result.error !== null) {
+        setStatus({ kind: 'error', message: result.error })
+      } else {
+        setSrcdoc(buildIframeSrcdoc(result.code))
+        setStatus({ kind: 'ok' })
+      }
+    }, 0)
   }, [])
 
-  // Debounce rebuilds on code change (skip until WASM is ready)
+  // Run immediately on mount
+  useEffect(() => { run(TEMPLATES[0].code) }, [run])
+
+  // Debounce rebuilds on code change
   useEffect(() => {
-    if (!readyRef.current) return
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => run(code), DEBOUNCE_MS)
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
@@ -52,8 +45,6 @@ export function App() {
     setCode(tpl.code)
   }
 
-  // Suppress Monaco's "cannot find module" errors — we have no type defs loaded.
-  // Syntax errors still show. Actual compile errors come from esbuild in the status bar.
   function handleEditorMount(_: unknown, monaco: Monaco) {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
@@ -70,9 +61,8 @@ export function App() {
   }
 
   const statusLabel =
-    status.kind === 'loading' ? '◌ loading engine…'
+    status.kind === 'ok' ? '● ready'
     : status.kind === 'building' ? '◌ building…'
-    : status.kind === 'ok' ? '● ready'
     : '✕ error'
 
   return (

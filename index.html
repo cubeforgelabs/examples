@@ -69,6 +69,46 @@
       border-radius: 4px;
       padding: 3px 8px;
     }
+    .playground-hero {
+      width: 100%;
+      max-width: 960px;
+      margin-bottom: 32px;
+      text-decoration: none;
+      display: block;
+      background: #12151f;
+      border: 1px solid #4fc3f7;
+      border-radius: 12px;
+      padding: 32px 36px;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 32px rgba(79,195,247,0.06);
+    }
+    .playground-hero:hover { border-color: #81d4fa; transform: translateY(-2px); box-shadow: 0 0 48px rgba(79,195,247,0.12); }
+    .playground-hero-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .playground-hero h2 { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 3px; margin-bottom: 8px; }
+    .playground-hero p { font-size: 13px; color: #78909c; line-height: 1.7; max-width: 560px; }
+    .playground-hero .tag {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #4fc3f7;
+      border: 1px solid #1e3a4a;
+      border-radius: 4px;
+      padding: 3px 8px;
+    }
+    .playground-cta {
+      flex-shrink: 0;
+      background: #4fc3f7;
+      color: #0d0f1a;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 12px 28px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .section-label { width: 100%; max-width: 960px; font-size: 10px; letter-spacing: 3px; color: #37474f; margin-bottom: 16px; }
     footer { margin-top: 64px; font-size: 11px; color: #263238; letter-spacing: 2px; }
     footer a { color: #37474f; text-decoration: none; }
     footer a:hover { color: #546e7a; }
@@ -88,6 +128,19 @@
       Star on GitHub
     </a>
   </header>
+
+  <a class="playground-hero" href="./playground/" target="_blank" rel="noopener">
+    <div class="playground-hero-inner">
+      <div>
+        <h2>PLAYGROUND</h2>
+        <p>Write and run Cubeforge games live in the browser. TypeScript + JSX with instant preview — no install, no setup.</p>
+        <span class="tag">EDITOR</span>
+      </div>
+      <span class="playground-cta">OPEN EDITOR →</span>
+    </div>
+  </a>
+
+  <div class="section-label">EXAMPLE GAMES</div>
 
   <div class="grid">
     <a class="card" href="./platformer/" target="_blank" rel="noopener">
@@ -119,11 +172,6 @@
       <h2>TOP-DOWN</h2>
       <p>Dungeon explorer — 4-directional combat, 8 keys to collect, exit door.</p>
       <span class="tag">WASD / SPACE</span>
-    </a>
-    <a class="card" href="./playground/" target="_blank" rel="noopener" style="border-color:#1e3a4a;">
-      <h2>PLAYGROUND</h2>
-      <p>Live code editor — write Cubeforge games in the browser with instant preview. TypeScript + JSX, no install needed.</p>
-      <span class="tag">EDITOR</span>
     </a>
   </div>
 

@@ -1,21 +1,4 @@
-import type { TransformOptions } from 'esbuild-wasm'
-
-let initialized = false
-let initPromise: Promise<void> | null = null
-
-// Call this on app mount so the WASM is ready before the user finishes reading
-export function preInit(): Promise<void> {
-  if (initialized) return Promise.resolve()
-  if (initPromise) return initPromise
-  initPromise = (async () => {
-    const esbuild = await import('esbuild-wasm')
-    await esbuild.initialize({
-      wasmURL: new URL('esbuild-wasm/esbuild.wasm', import.meta.url).href,
-    })
-    initialized = true
-  })()
-  return initPromise
-}
+import { transform } from 'sucrase'
 
 export interface CompileResult {
   code: string
@@ -27,18 +10,15 @@ export interface CompileError {
   error: string
 }
 
-export async function compile(source: string): Promise<CompileResult | CompileError> {
-  await preInit()
-  const esbuild = await import('esbuild-wasm')
-  const opts: TransformOptions = {
-    loader: 'tsx',
-    target: 'es2020',
-    jsx: 'automatic',
-    jsxImportSource: 'react',
-    format: 'esm',
-  }
+// Synchronous — no WASM, no async init, instant
+export function compile(source: string): CompileResult | CompileError {
   try {
-    const result = await esbuild.transform(source, opts)
+    const result = transform(source, {
+      transforms: ['typescript', 'jsx'],
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react',
+      production: true,
+    })
     return { code: result.code, error: null }
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)
@@ -46,12 +26,6 @@ export async function compile(source: string): Promise<CompileResult | CompileEr
   }
 }
 
-/**
- * Wraps compiled ES module code in a full HTML document that:
- * - uses an import map to resolve cubeforge + react from esm.sh CDN
- * - mounts the module as a script[type=module]
- * - provides a #root element for React
- */
 export function buildIframeSrcdoc(compiledCode: string): string {
   const importMap = JSON.stringify({
     imports: {
