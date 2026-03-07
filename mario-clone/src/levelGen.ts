@@ -3,7 +3,7 @@ export const TILE      = 32
 export const FLOOR_H   = 64
 export const FLOOR_TOP = 492               // top edge of floor — where player/enemies stand
 export const FLOOR_Y   = FLOOR_TOP + Math.floor(FLOOR_H / 2)  // 524, center of floor strip
-export const BLOCK_Y   = 390   // center of standard floating block row
+export const BLOCK_Y   = 410   // center of standard floating block row
 export const BLOCK_Y2  = BLOCK_Y - TILE  // upper tier
 
 export const LEVEL_NAME:  Record<1|2|3, string> = { 1: 'WORLD 1-1', 2: 'WORLD 1-2', 3: 'WORLD 1-3' }
