@@ -65,13 +65,21 @@ export function buildIframeSrcdoc(compiledCode: string): string {
   <meta charset="UTF-8" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #12131f; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    body { background: #12131f; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
     #root { display: contents; }
   </style>
   <script type="importmap">${importMap}</script>
 </head>
 <body>
   <div id="root"></div>
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      window.parent.postMessage({ type: 'iframe-error', message: (err && err.stack) || msg }, '*')
+    }
+    window.addEventListener('unhandledrejection', function(e) {
+      window.parent.postMessage({ type: 'iframe-error', message: String(e.reason) }, '*')
+    })
+  </script>
   <script type="module">
 ${compiledCode}
   </script>
