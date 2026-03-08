@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import { Game, World, Camera2D, Entity, Transform, Sprite } from '@cubeforge/react'
+import { Game, World, Camera2D, Entity, Transform, Sprite, RigidBody, BoxCollider } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
 import { Player, playerConfig }  from './components/Player'
 import { Goomba }                from './components/Goomba'
@@ -163,10 +163,21 @@ export function App() {
             <Ground key="wall-l" x={-10}        y={300} width={20} height={800} color={bg} />
             <Ground key="wall-r" x={worldW + 10} y={300} width={20} height={800} color={bg} />
 
-            {/* ── Floor (base ground from tilemap) ───────────────────────── */}
+            {/* ── Floor colliders (invisible, for physics) ──────────────── */}
             {layout.floorSegs.map(({ x, w }, i) => (
-              <Ground key={`floor-${i}`} x={x + w / 2} y={FLOOR_Y} width={w} height={FLOOR_H}
-                      src={layout.groundSrc} tileX tileY />
+              <Entity key={`floor-col-${i}`}>
+                <Transform x={x + w / 2} y={FLOOR_Y} />
+                <RigidBody isStatic />
+                <BoxCollider width={w} height={FLOOR_H} layer="world" />
+              </Entity>
+            ))}
+
+            {/* ── Ground tiles (individual 32x32 sprites) ──────────────── */}
+            {layout.groundTiles.map((g, i) => (
+              <Entity key={`gt-${i}`}>
+                <Transform x={g.x} y={g.y} />
+                <Sprite src={layout.groundSrc} width={T} height={T} zIndex={2} />
+              </Entity>
             ))}
 
             {/* ── Elevated ground (staircase, platforms from tilemap) ──── */}
@@ -178,7 +189,7 @@ export function App() {
             {/* ── Underground ceiling ────────────────────────────────────── */}
             {layout.theme === 'underground' && (
               <Ground key="ceiling" x={worldW / 2} y={T / 2} width={worldW} height={T}
-                      src={layout.brickSrc} tileX />
+                      src={layout.brickSrc} />
             )}
 
             {/* ── Background decorations ─────────────────────────────────── */}

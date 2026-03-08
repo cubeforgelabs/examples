@@ -1,19 +1,8 @@
 import { useRef } from 'react'
-import { Entity, Transform, Sprite, BoxCollider, Script, useTriggerEnter, useEntity } from '@cubeforge/react'
+import { Entity, Transform, Sprite, Script, findByTag } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent } from '@cubeforge/react'
 
-function CoinCollector({ onCollect }: { onCollect?: (id: EntityId) => void }) {
-  const entityId = useEntity()
-  const collected = useRef(false)
-
-  useTriggerEnter(() => {
-    if (collected.current) return
-    collected.current = true
-    onCollect?.(entityId)
-  }, { tag: 'player' })
-
-  return null
-}
+let collected = new Set<EntityId>()
 
 interface CoinProps {
   x: number
@@ -24,20 +13,34 @@ interface CoinProps {
 
 export function Coin({ x, y, src = '/SMB_Sprite_Coin.png', onCollect }: CoinProps) {
   const timer = useRef(Math.random() * Math.PI * 2)
+  const onCollectRef = useRef(onCollect)
+  onCollectRef.current = onCollect
 
   return (
     <Entity tags={['coin']}>
       <Transform x={x} y={y} />
       <Sprite src={src} width={32} height={32} color="#ffd700" zIndex={5} />
-      <BoxCollider width={32} height={32} isTrigger />
       <Script
-        update={(_id: EntityId, world: ECSWorld, _input: unknown, dt: number) => {
+        update={(id: EntityId, world: ECSWorld, _input: unknown, dt: number) => {
+          if (!world.hasEntity(id)) return
           timer.current += dt
-          const t = world.getComponent<TransformComponent>(_id, 'Transform')
+          const t = world.getComponent<TransformComponent>(id, 'Transform')
           if (t) t.y = y + Math.sin(timer.current * 3) * 10
+
+          if (collected.has(id)) return
+          if (!t) return
+          for (const pid of findByTag(world, 'player')) {
+            const pt = world.getComponent<TransformComponent>(pid, 'Transform')
+            if (!pt) continue
+            if (Math.abs(t.x - pt.x) < 32 && Math.abs(t.y - pt.y) < 32) {
+              collected.add(id)
+              onCollectRef.current?.(id)
+              world.destroyEntity(id)
+              return
+            }
+          }
         }}
       />
-      <CoinCollector onCollect={onCollect} />
     </Entity>
   )
 }

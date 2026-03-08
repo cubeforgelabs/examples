@@ -48,6 +48,7 @@ export interface LevelData {
   tiles: number[][]
   groundSrc: string; brickSrc: string; coinSrc: string; qBlockSrc: string; pipeSrc: string
   floorSegs: Array<{ x: number; w: number }>
+  groundTiles: Array<{ x: number; y: number }>
   elevatedGround: Array<{ x: number; y: number }>
   pipes: PipeDef[]
   brickBlocks: Array<{ x: number; y: number }>
@@ -161,6 +162,15 @@ function extractElevated(tiles: number[][]): Array<{ x: number; y: number }> {
   return result
 }
 
+function extractGroundTiles(tiles: number[][]): Array<{ x: number; y: number }> {
+  const result: Array<{ x: number; y: number }> = []
+  for (let r = GROUND_ROW; r < ROWS; r++)
+    for (let c = 0; c < tiles[0].length; c++)
+      if (tiles[r][c] === GROUND_ID)
+        result.push({ x: tx(c), y: ty(r) })
+  return result
+}
+
 function extractBricks(tiles: number[][]): Array<{ x: number; y: number }> {
   const result: Array<{ x: number; y: number }> = []
   for (let r = 0; r < ROWS; r++)
@@ -256,6 +266,7 @@ function buildLevelData(
     theme, bg, worldW: cols * T, cols, tiles,
     groundSrc, brickSrc, coinSrc, qBlockSrc, pipeSrc,
     floorSegs: extractFloorSegs(tiles),
+    groundTiles: extractGroundTiles(tiles),
     elevatedGround: extractElevated(tiles),
     pipes: extractPipes(tiles, pipeSrc),
     brickBlocks: extractBricks(tiles),
