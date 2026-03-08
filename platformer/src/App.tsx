@@ -8,7 +8,7 @@ import { Coin }     from './components/Coin'
 import { gameCallbacks } from './gameEvents'
 
 // ─── Asset preload ────────────────────────────────────────────────────────────
-const ASSETS = ['/player.png', '/enemy.png', '/coin.png', '/ground_cave.png']
+const ASSETS = ['/player_alt.png', '/enemy.png', '/coin.png', '/ground_cave.png']
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const W           = 800   // canvas width

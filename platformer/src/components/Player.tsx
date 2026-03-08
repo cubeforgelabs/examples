@@ -1,5 +1,6 @@
-import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
-import { createInputMap, findByTag } from '@cubeforge/react'
+import { useRef } from 'react'
+import { Entity, Transform, AnimatedSprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
+import { createInputMap, findByTag, defineAnimations, useAnimationController } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
 import type { InputManager } from '@cubeforge/react'
 import { gameCallbacks } from '../gameEvents'
@@ -19,6 +20,22 @@ const actions = createInputMap({
   jump:  ['Space', 'ArrowUp', 'KeyW', 'w'],
 })
 
+// ── Animation clips ───────────────────────────────────────────────────────────
+// player_alt.png: 288×48, 9 frames of 32×48
+//   0–3 = run left  |  4 = idle  |  5–8 = run right
+type AnimState = 'idle' | 'walkLeft' | 'walkRight' | 'jump'
+
+const playerAnims = defineAnimations({
+  idle:      { frames: [4],          fps: 1  },
+  walkLeft:  { frames: [0, 1, 2, 3], fps: 10 },
+  walkRight: { frames: [5, 6, 7, 8], fps: 10 },
+  jump:      { frames: [4],          fps: 1  },
+})
+
+// Bridge: Script.update() → React setState (keyed by EntityId)
+const playerAnimSetters = new Map<EntityId, React.MutableRefObject<(s: AnimState) => void>>()
+
+// ── Physics state ─────────────────────────────────────────────────────────────
 interface PlayerState {
   coyoteTimer:     number
   jumpBuffer:      number
@@ -51,6 +68,7 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   const rb        = world.getComponent<RigidBodyComponent>(id, 'RigidBody')!
   const sprite    = world.getComponent<SpriteComponent>(id, 'Sprite')!
   const state     = playerStates.get(id)!
+  const setAnim   = playerAnimSetters.get(id)
 
   // ── Invincibility flash ───────────────────────────────────────────────────
   if (state.isInvincible) {
@@ -87,7 +105,6 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   if (left)       { rb.vx = -SPEED; state.facingRight = false }
   else if (right) { rb.vx =  SPEED; state.facingRight = true  }
   else              rb.vx *= rb.onGround ? 0.65 : 0.95
-  sprite.flipX = !state.facingRight
 
   // ── Jump (coyote + double jump) ───────────────────────────────────────────
   const canJump = state.coyoteTimer > 0 || state.jumpsLeft > 0
@@ -101,6 +118,14 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
 
   // Variable jump height — release early to cut arc short
   if (!actions.isActionDown(input, 'jump') && rb.vy < -150) rb.vy += 900 * dt
+
+  // ── Animation state ───────────────────────────────────────────────────────
+  if (setAnim) {
+    if (!rb.onGround)    setAnim.current('jump')
+    else if (left)       setAnim.current('walkLeft')
+    else if (right)      setAnim.current('walkRight')
+    else                 setAnim.current('idle')
+  }
 
   // ── Enemy interactions ────────────────────────────────────────────────────
   const stomped = new Set<EntityId>()
@@ -153,13 +178,32 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
 }
 
 export function Player({ x = 80, y = 420 }: { x?: number; y?: number }) {
+  const { setState, animProps } = useAnimationController(playerAnims, 'idle')
+
+  // Stable ref so Script.update() always calls the latest setState
+  const setAnimRef = useRef(setState)
+  setAnimRef.current = setState
+
   return (
     <Entity id="player" tags={['player']}>
       <Transform x={x} y={y} />
-      <Sprite src="/player.png" width={28} height={40} color="#4fc3f7" zIndex={10} />
+      <AnimatedSprite
+        src="/player_alt.png"
+        width={32} height={48}
+        frameWidth={32} frameHeight={48} frameColumns={9}
+        color="#4fc3f7"
+        zIndex={10}
+        {...animProps}
+      />
       <RigidBody friction={0.7} />
-      <BoxCollider width={26} height={40} />
-      <Script init={(id) => playerInit(id)} update={playerUpdate} />
+      <BoxCollider width={26} height={44} />
+      <Script
+        init={(id) => {
+          playerAnimSetters.set(id, setAnimRef)
+          playerInit(id)
+        }}
+        update={playerUpdate}
+      />
     </Entity>
   )
 }
