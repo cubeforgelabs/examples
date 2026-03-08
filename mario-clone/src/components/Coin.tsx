@@ -34,8 +34,10 @@ export function Coin({ x, y, src = '/SMB_Sprite_Coin.png', onCollect }: CoinProp
             if (!pt) continue
             if (Math.abs(t.x - pt.x) < 32 && Math.abs(t.y - pt.y) < 32) {
               collected.add(id)
+              // Hide instead of destroy — let React unmount handle cleanup
+              const sprite = world.getComponent<{ type: 'Sprite'; visible: boolean }>(id, 'Sprite')
+              if (sprite) sprite.visible = false
               onCollectRef.current?.(id)
-              world.destroyEntity(id)
               return
             }
           }

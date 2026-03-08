@@ -282,9 +282,9 @@ function buildLevelData(
 // ═══════════════════════════════════════════════════════════════════════════════
 export function genLevel1(seed: number): LevelData {
   const rng  = makeRng(seed)
-  const COLS = 100 + ri(rng, 0, 19)
-  const STAIR_COL = COLS - 9
-  const GOAL_COL  = COLS - 4
+  const COLS = 110 + ri(rng, 0, 19)
+  const STAIR_COL = COLS - 20
+  const GOAL_COL  = COLS - 10
 
   const tiles   = createTilemap(COLS)
   const reveals = new Map<string, RevealType>()
@@ -372,9 +372,9 @@ export function genLevel1(seed: number): LevelData {
 // ═══════════════════════════════════════════════════════════════════════════════
 export function genLevel2(seed: number): LevelData {
   const rng  = makeRng(seed + 99991)
-  const COLS = 119
-  const STAIR_COL = COLS - 9
-  const GOAL_COL  = COLS - 4
+  const COLS = 130
+  const STAIR_COL = COLS - 20
+  const GOAL_COL  = COLS - 10
 
   const tiles   = createTilemap(COLS)
   const reveals = new Map<string, RevealType>()
@@ -437,9 +437,9 @@ export function genLevel2(seed: number): LevelData {
 // ═══════════════════════════════════════════════════════════════════════════════
 export function genLevel3(seed: number): LevelData {
   const rng  = makeRng(seed + 77777)
-  const COLS = 94
-  const STAIR_COL = COLS - 9
-  const GOAL_COL  = COLS - 4
+  const COLS = 105
+  const STAIR_COL = COLS - 20
+  const GOAL_COL  = COLS - 10
 
   const tiles   = createTilemap(COLS)
   const reveals = new Map<string, RevealType>()

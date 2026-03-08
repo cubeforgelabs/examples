@@ -18,7 +18,7 @@ const actions = createInputMap({
 
 const SPEED           = 220
 const JUMP_FORCE      = -530
-const SMALL_H         = 32    // 1 tile
+const SMALL_H         = 40    // slightly taller than 1 tile (NES ratio)
 const BIG_H           = 64    // 2 tiles
 const SPRITE_W        = 32    // 1 tile
 const COYOTE_TIME     = 0.1
@@ -39,7 +39,7 @@ export const playerConfig = {
   isStarActive: false,
   starTimer:    0,
   spawnX:       3 * T + T / 2,  // 112
-  spawnY:       FLOOR_TOP - T / 2, // 464
+  spawnY:       FLOOR_TOP - SMALL_H / 2, // 460
 }
 
 interface BowserHPComponent { type: 'BowserHP'; hp: number }

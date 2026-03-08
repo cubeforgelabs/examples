@@ -65,7 +65,7 @@ const MAX_LIVES = 3
 
 // Player spawn (tile col 3, standing on ground)
 const SPAWN_X = 3 * T + T / 2   // 112
-const SPAWN_Y = FLOOR_TOP - T / 2 // 464
+const SPAWN_Y = FLOOR_TOP - 20 // 460 (half of SMALL_H=40)
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export function App() {
