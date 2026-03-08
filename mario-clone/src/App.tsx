@@ -54,6 +54,7 @@ const ASSETS = [
   '/SMBPlatform.png', '/SMB_Hard_Block_Sprite.png', '/SMB_Underground_Hard_Block.png',
   '/SMB_Sprite_Island_(Ground).png', '/SMB_Sprite_Island_(Gray).png',
   '/SMB_Sprite_Lava.png', '/SMB_Bowser_Bridge.png', '/SMB_Sprite_Firework.gif',
+  '/SMB_Cloud_Single.gif', '/SMB_Cloud_Double.gif', '/SMB_Cloud_Triple.gif',
 ]
 
 // ─── Constants ────────────────────────────────────────────────────────────────
