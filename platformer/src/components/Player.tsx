@@ -156,7 +156,7 @@ export function Player({ x = 80, y = 420 }: { x?: number; y?: number }) {
   return (
     <Entity id="player" tags={['player']}>
       <Transform x={x} y={y} />
-      <Sprite width={28} height={40} color="#4fc3f7" zIndex={10} />
+      <Sprite src="/player.png" width={28} height={40} color="#4fc3f7" zIndex={10} />
       <RigidBody friction={0.7} />
       <BoxCollider width={26} height={40} />
       <Script init={(id) => playerInit(id)} update={playerUpdate} />

@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World, Camera2D, MovingPlatform, usePause } from '@cubeforge/react'
+import { Game, World, Camera2D, MovingPlatform, usePause, AssetLoader } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
 import { Player }   from './components/Player'
 import { Enemy }    from './components/Enemy'
 import { Ground }   from './components/Ground'
 import { Coin }     from './components/Coin'
 import { gameCallbacks } from './gameEvents'
+
+// ─── Asset preload ────────────────────────────────────────────────────────────
+const ASSETS = ['/player.png', '/enemy.png', '/coin.png', '/ground_cave.png']
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const W           = 800   // canvas width
@@ -163,8 +166,16 @@ export function App() {
       {/* ── Game canvas + overlays ──────────────────────────────────────────── */}
       <div style={{ position: 'relative', width: W, height: H }}>
 
-        <Game key={gameKey} width={W} height={H} gravity={1000}>
+        <Game key={gameKey} width={W} height={H} gravity={1000} asyncAssets>
           {gameState === 'playing' && <PauseController onPauseChange={setPaused} />}
+          <AssetLoader assets={ASSETS} fallback={
+            <div style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: '#0a0a0f', color: '#546e7a',
+              fontFamily: '"Courier New", monospace', fontSize: 13, letterSpacing: 3,
+            }}>LOADING...</div>
+          }>
           <World background="#12131f">
             <Camera2D followEntity="player" smoothing={0.88} background="#12131f" />
 
@@ -242,6 +253,7 @@ export function App() {
             <Ground key="r3a" x={1290} y={185} width={110} height={18} color="#455a64" />
             <Ground key="r3b" x={1490} y={150} width={100} height={18} color="#546e7a" />
           </World>
+          </AssetLoader>
         </Game>
 
         {/* ── Pause overlay ────────────────────────────────────────────────── */}

@@ -44,7 +44,7 @@ export function Enemy({ x = 400, y = 440, patrolLeft, patrolRight }: EnemyProps)
   return (
     <Entity tags={['enemy']}>
       <Transform x={x} y={y} />
-      <Sprite width={28} height={34} color="#ef5350" zIndex={10} />
+      <Sprite src="/enemy.png" width={28} height={34} color="#ef5350" zIndex={10} />
       <RigidBody friction={1} />
       <BoxCollider width={26} height={34} />
       <Script
