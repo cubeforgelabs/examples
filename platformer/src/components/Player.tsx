@@ -121,9 +121,9 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
 
   // ── Animation state ───────────────────────────────────────────────────────
   if (setAnim) {
-    if (!rb.onGround)    setAnim.current('jump')
-    else if (left)       setAnim.current('walkLeft')
+    if (left)            setAnim.current('walkLeft')
     else if (right)      setAnim.current('walkRight')
+    else if (!rb.onGround) setAnim.current('jump')
     else                 setAnim.current('idle')
   }
 

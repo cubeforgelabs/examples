@@ -1,4 +1,4 @@
-import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
+import { Entity, Transform, AnimatedSprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
 
 interface EnemyState {
@@ -44,7 +44,15 @@ export function Enemy({ x = 400, y = 440, patrolLeft, patrolRight }: EnemyProps)
   return (
     <Entity tags={['enemy']}>
       <Transform x={x} y={y} />
-      <Sprite src="/enemy.png" width={28} height={34} color="#ef5350" zIndex={10} />
+      <AnimatedSprite
+        src="/slime_sheet.png"
+        frameWidth={36} frameHeight={32} frameColumns={10}
+        width={36} height={32}
+        frames={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]}
+        fps={8}
+        color="#ef5350"
+        zIndex={10}
+      />
       <RigidBody friction={1} />
       <BoxCollider width={26} height={34} />
       <Script
