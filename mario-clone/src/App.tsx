@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
-import { Game, World, Camera2D, Entity, Transform, Sprite } from '@cubeforge/react'
+import { Game, World, Camera2D, Entity, Transform, Sprite, AssetLoader } from '@cubeforge/react'
 import { hudStore } from './hudStore'
+import { preloadImage } from './images'
 import { Player, playerConfig }  from './components/Player'
 import { Goomba }                from './components/Goomba'
 import { KoopaTroopa }           from './components/KoopaTroopa'
@@ -24,7 +25,6 @@ import { GoalFlag, resetGoalFlag } from './components/GoalFlag'
 import { HUD }                   from './components/HUD'
 import { GameOverlays }          from './components/GameOverlays'
 import { gameEvents }            from './gameEvents'
-import { preloadImage }          from './images'
 import {
   T, FLOOR_H, FLOOR_TOP, FLOOR_Y,
   genLevel1, genLevel2, genLevel3,
@@ -56,6 +56,7 @@ const ASSETS = [
   '/SMB_Sprite_Island_(Ground).png', '/SMB_Sprite_Island_(Gray).png',
   '/SMB_Sprite_Lava.png', '/SMB_Bowser_Bridge.png', '/SMB_Sprite_Firework.gif',
 ]
+// Pre-populate image cache for imperative getImage() calls in Scripts
 ASSETS.forEach(preloadImage)
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -145,7 +146,18 @@ export function App() {
 
       {/* ── Game canvas ─────────────────────────────────────────────────────── */}
       <div style={{ position: 'relative', width: W, height: H }}>
-        <Game key={gameKey} width={W} height={H} gravity={1000}>
+        <Game key={gameKey} width={W} height={H} gravity={1000} asyncAssets>
+          <AssetLoader assets={ASSETS} fallback={
+            <div style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              background: '#0a0a0f', color: '#546e7a',
+              fontFamily: '"Courier New", monospace', fontSize: 13, letterSpacing: 3,
+            }}>
+              LOADING...
+            </div>
+          }>
           <World background={bg}>
             <Camera2D
               followEntity="player" smoothing={0.88} background={bg}
@@ -259,6 +271,7 @@ export function App() {
             })}
 
           </World>
+          </AssetLoader>
         </Game>
 
         <GameOverlays
