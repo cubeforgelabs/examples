@@ -37,16 +37,16 @@ interface GoombaProps {
   src?:         string
 }
 
-export function Goomba({ x = 400, y = 465, patrolLeft, patrolRight, src = '/Goomba_SMB.png' }: GoombaProps) {
+export function Goomba({ x = 400, y = 488, patrolLeft, patrolRight, src = '/Goomba_SMB.png' }: GoombaProps) {
   const left  = patrolLeft  ?? x - 110
   const right = patrolRight ?? x + 110
 
   return (
     <Entity tags={['enemy']}>
       <Transform x={x} y={y} />
-      <Sprite src={src} width={32} height={32} color="#8b4513" zIndex={10} />
+      <Sprite src={src} width={16} height={16} color="#8b4513" zIndex={10} />
       <RigidBody friction={1} />
-      <BoxCollider width={30} height={30} mask="world" />
+      <BoxCollider width={16} height={16} mask="world" />
       <Script
         init={(id) => goombaInit(id, left, right)}
         update={(id: EntityId, world: ECSWorld) => goombaUpdate(id, world)}

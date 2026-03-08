@@ -6,11 +6,9 @@ import { createTag } from '@cubeforge/core'
 import { gameEvents } from '../gameEvents'
 import { getImage } from '../images'
 
-// ── Bullet Bill data ───────────────────────────────────────────────────────────
 interface BillData { vx: number; life: number }
 const bulletBills = new Map<EntityId, BillData>()
 
-// ── Blaster state ──────────────────────────────────────────────────────────────
 interface BlasterState { fireTimer: number; fireInterval: number; dir: 1 | -1 }
 const blasterStates = new Map<EntityId, BlasterState>()
 
@@ -27,10 +25,9 @@ function blasterUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: numbe
     if (!bt) return
 
     const bid = world.createEntity()
-    const ft  = createTransform(bt.x, bt.y)
-    world.addComponent(bid, ft)
+    world.addComponent(bid, createTransform(bt.x, bt.y))
 
-    const sprite = createSprite({ width: 32, height: 24, color: '#607d8b', zIndex: 12 })
+    const sprite = createSprite({ width: 16, height: 8, color: '#607d8b', zIndex: 12 })
     const img = getImage('/Bullet_Bill_Super_Mario_Bros.png')
     if (img) sprite.image = img
     sprite.flipX = state.dir === 1
@@ -57,7 +54,7 @@ function blasterUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: numbe
       if (pt) {
         const dx = Math.abs(bt2.x - pt.x)
         const dy = Math.abs(bt2.y - pt.y)
-        if (dx < 28 && dy < 28) {
+        if (dx < 16 && dy < 12) {
           gameEvents.onPlayerHurt?.()
         }
       }
@@ -71,17 +68,17 @@ function blasterUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: numbe
 interface BillBlasterProps {
   x: number
   y: number
-  dir?: 1 | -1           // 1 = shoot left, -1 = shoot right
-  fireInterval?: number  // seconds between shots
+  dir?: 1 | -1
+  fireInterval?: number
 }
 
 export function BillBlaster({ x, y, dir = 1, fireInterval = 4.0 }: BillBlasterProps) {
   return (
     <Entity tags={['blaster']}>
       <Transform x={x} y={y} />
-      <Sprite src="/Bill_Blaster_Sprite_SMB.png" width={32} height={48} color="#37474f" zIndex={8} />
+      <Sprite src="/Bill_Blaster_Sprite_SMB.png" width={16} height={32} color="#37474f" zIndex={8} />
       <RigidBody isStatic />
-      <BoxCollider width={32} height={48} layer="world" />
+      <BoxCollider width={16} height={32} layer="world" />
       <Script
         init={(id) => blasterStates.set(id, { fireTimer: fireInterval * 0.5, fireInterval, dir })}
         update={blasterUpdate}

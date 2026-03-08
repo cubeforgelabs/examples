@@ -9,14 +9,13 @@ function mushroomUpdate(id: EntityId, world: ECSWorld) {
   const rb = world.getComponent<RigidBodyComponent>(id, 'RigidBody')
   if (rb) rb.vx = 80
 
-  // Check overlap with player manually (since collider is non-trigger for ground physics)
   if (collected.has(id)) return
   const mt = world.getComponent<TransformComponent>(id, 'Transform')
   if (!mt) return
   for (const pid of findByTag(world, 'player')) {
     const pt = world.getComponent<TransformComponent>(pid, 'Transform')
     if (!pt) continue
-    if (Math.abs(mt.x - pt.x) < 24 && Math.abs(mt.y - pt.y) < 24) {
+    if (Math.abs(mt.x - pt.x) < 16 && Math.abs(mt.y - pt.y) < 16) {
       collected.add(id)
       gameEvents.onMushroomGet?.()
       world.destroyEntity(id)
@@ -29,9 +28,9 @@ export function Mushroom({ x, y }: { x: number; y: number }) {
   return (
     <Entity tags={['mushroom']}>
       <Transform x={x} y={y} />
-      <Sprite src="/SMB_Supermushroom.png" width={28} height={28} color="#e53935" zIndex={5} />
+      <Sprite src="/SMB_Supermushroom.png" width={16} height={16} color="#e53935" zIndex={5} />
       <RigidBody />
-      <BoxCollider width={28} height={28} mask="world" />
+      <BoxCollider width={16} height={16} mask="world" />
       <Script update={mushroomUpdate} />
     </Entity>
   )

@@ -48,8 +48,8 @@ function broUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number) {
     })() : state.direction
 
     const hid = world.createEntity()
-    world.addComponent(hid, createTransform(transform.x, transform.y - 20))
-    const hsprite = createSprite({ width: 14, height: 14, color: '#795548', zIndex: 11 })
+    world.addComponent(hid, createTransform(transform.x, transform.y - 12))
+    const hsprite = createSprite({ width: 8, height: 8, color: '#795548', zIndex: 11 })
     const img = getImage('/SMB_Sprite_Axe.png')
     if (img) hsprite.image = img
     world.addComponent(hid, hsprite)
@@ -74,7 +74,7 @@ function broUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number) {
     const pid = world.findByTag('player')
     if (pid) {
       const pt = world.getComponent<TransformComponent>(pid, 'Transform')
-      if (pt && Math.abs(ht.x - pt.x) < 20 && Math.abs(ht.y - pt.y) < 20) {
+      if (pt && Math.abs(ht.x - pt.x) < 12 && Math.abs(ht.y - pt.y) < 12) {
         gameEvents.onPlayerHurt?.()
         world.destroyEntity(hid)
         toRemove.push(hid)
@@ -93,16 +93,16 @@ interface HammerBroProps {
   patrolRight?: number
 }
 
-export function HammerBro({ x = 400, y = 460, patrolLeft, patrolRight }: HammerBroProps) {
+export function HammerBro({ x = 400, y = 484, patrolLeft, patrolRight }: HammerBroProps) {
   const left  = patrolLeft  ?? x - 80
   const right = patrolRight ?? x + 80
 
   return (
     <Entity tags={['enemy']}>
       <Transform x={x} y={y} />
-      <Sprite src="/SMB_Hammer_Bro_Sprite.png" width={32} height={40} color="#1565c0" zIndex={10} />
+      <Sprite src="/SMB_Hammer_Bro_Sprite.png" width={16} height={24} color="#1565c0" zIndex={10} />
       <RigidBody friction={1} />
-      <BoxCollider width={28} height={40} mask="world" />
+      <BoxCollider width={16} height={24} mask="world" />
       <Script
         init={(id) => broInit(id, left, right)}
         update={(id: EntityId, world: ECSWorld, input: unknown, dt: number) => broUpdate(id, world, input, dt)}

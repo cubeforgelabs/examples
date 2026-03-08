@@ -33,16 +33,16 @@ interface BuzzyBeetleProps {
   src?:         string
 }
 
-export function BuzzyBeetle({ x = 400, y = 465, patrolLeft, patrolRight, src = '/Buzzy_Beetle_SMB.png' }: BuzzyBeetleProps) {
+export function BuzzyBeetle({ x = 400, y = 488, patrolLeft, patrolRight, src = '/Buzzy_Beetle_SMB.png' }: BuzzyBeetleProps) {
   const left  = patrolLeft  ?? x - 100
   const right = patrolRight ?? x + 100
 
   return (
     <Entity tags={['enemy']}>
       <Transform x={x} y={y} />
-      <Sprite src={src} width={30} height={30} color="#1565c0" zIndex={10} />
+      <Sprite src={src} width={16} height={16} color="#1565c0" zIndex={10} />
       <RigidBody friction={1} />
-      <BoxCollider width={28} height={28} mask="world" />
+      <BoxCollider width={16} height={16} mask="world" />
       <Script
         init={(id) => beetleStates.set(id, { direction: 1, leftBound: left, rightBound: right })}
         update={(id: EntityId, world: ECSWorld) => beetleUpdate(id, world)}

@@ -7,6 +7,7 @@ import { createSprite } from '@cubeforge/renderer'
 import { createTag } from '@cubeforge/core'
 import { gameEvents } from '../gameEvents'
 import { getImage } from '../images'
+import { FLOOR_TOP, T } from '../levelGen'
 
 const actions = createInputMap({
   left:  ['ArrowLeft', 'KeyA'],
@@ -17,8 +18,9 @@ const actions = createInputMap({
 
 const SPEED           = 220
 const JUMP_FORCE      = -530
-const SMALL_H         = 40
-const BIG_H           = 54
+const SMALL_H         = 16    // 1 tile
+const BIG_H           = 32    // 2 tiles
+const SPRITE_W        = 16    // 1 tile
 const COYOTE_TIME     = 0.1
 const JUMP_BUFFER     = 0.09
 const INVINCIBLE_DUR  = 2.0
@@ -27,7 +29,7 @@ const KNOCKBACK_Y     = -300
 const FIREBALL_SPEED  = 380
 const FIREBALL_LIFE   = 2.5
 const FIREBALL_GRAV   = 700
-const BOUNCE_Y        = 492
+const BOUNCE_Y        = FLOOR_TOP - 4  // 492
 
 // Module-level config mutated by App.tsx on powerup
 export const playerConfig = {
@@ -36,8 +38,8 @@ export const playerConfig = {
   canFire:      false,
   isStarActive: false,
   starTimer:    0,
-  spawnX:       80,
-  spawnY:       420,
+  spawnX:       5 * T + T / 2,  // 88
+  spawnY:       FLOOR_TOP - T / 2, // 488
 }
 
 interface BowserHPComponent { type: 'BowserHP'; hp: number }
@@ -54,7 +56,7 @@ interface PlayerState {
   flashTimer:      number
   fireCooldown:    number
   fireballs:       Map<EntityId, FireballData>
-  appliedH:        number   // last height applied to sprite + collider
+  appliedH:        number
 }
 
 const playerStates = new Map<EntityId, PlayerState>()
@@ -151,10 +153,10 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
                   :                        '/ClassicNES_SMB_Small_Mario_Sprite.png'
   if (state.appliedH !== targetH) {
     const delta = targetH - state.appliedH
-    transform.y   -= delta / 2          // grow upward, shrink downward
+    transform.y   -= delta / 2
     sprite.height  = targetH
     const bc = world.getComponent<BoxColliderComponent>(id, 'BoxCollider')
-    if (bc) bc.height = targetH
+    if (bc) bc.height = targetH - 2
     state.appliedH = targetH
   }
   const powerImg = getImage(targetSrc)
@@ -166,8 +168,8 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
     state.fireCooldown = 0.35
     const dir = state.facingRight ? 1 : -1
     const fid = world.createEntity()
-    world.addComponent(fid, createTransform(transform.x + dir * 16, transform.y + 4))
-    const fs = createSprite({ width: 14, height: 14, color: '#ff6f00', zIndex: 9 })
+    world.addComponent(fid, createTransform(transform.x + dir * 10, transform.y + 2))
+    const fs = createSprite({ width: 8, height: 8, color: '#ff6f00', zIndex: 9 })
     const img = getImage('/SMBFireBall.gif')
     if (img) fs.image = img
     world.addComponent(fid, fs)
@@ -200,7 +202,7 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
       if (!world.hasEntity(eid)) continue
       const et = world.getComponent<TransformComponent>(eid, 'Transform')
       if (!et) continue
-      if (Math.abs(ft.x - et.x) < 26 && Math.abs(ft.y - et.y) < 26) {
+      if (Math.abs(ft.x - et.x) < 16 && Math.abs(ft.y - et.y) < 16) {
         const bowserHp = world.getComponent<BowserHPComponent>(eid, 'BowserHP')
         if (bowserHp) {
           bowserHp.hp -= 1
@@ -227,7 +229,7 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
     const dy = transform.y - et.y
 
     // Stomp
-    if (rb.vy > 50 && dy < 0 && dy > -64 && dx < 30) {
+    if (rb.vy > 50 && dy < 0 && dy > -32 && dx < 16) {
       stomped.add(eid)
       rb.vy         = -380
       state.jumpsLeft = state.maxJumps
@@ -242,8 +244,8 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
       continue
     }
 
-    // Star kill — touch while starman active
-    if (playerConfig.isStarActive && dx < 34 && Math.abs(dy) < 50) {
+    // Star kill
+    if (playerConfig.isStarActive && dx < 18 && Math.abs(dy) < 26) {
       stomped.add(eid)
       const bowserHp = world.getComponent<BowserHPComponent>(eid, 'BowserHP')
       if (bowserHp) {
@@ -257,12 +259,12 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
     }
 
     // Hurt
-    if (!state.isInvincible && !playerConfig.isStarActive && !stomped.has(eid) && dx < 30 && Math.abs(dy) < 46) {
+    if (!state.isInvincible && !playerConfig.isStarActive && !stomped.has(eid) && dx < 16 && Math.abs(dy) < 24) {
       state.isInvincible    = true
       state.invincibleTimer = INVINCIBLE_DUR
       state.flashTimer      = 0.1
       const pushDir = transform.x >= et.x ? 1 : -1
-      transform.x  += pushDir * 32
+      transform.x  += pushDir * 16
       rb.vx         = pushDir * KNOCKBACK_X
       rb.vy         = KNOCKBACK_Y
       gameEvents.onPlayerHurt?.()
@@ -284,19 +286,19 @@ function playerUpdate(id: EntityId, world: ECSWorld, input: InputManager, dt: nu
   }
 }
 
-export function Player({ x = 80, y = 420 }: { x?: number; y?: number }) {
+export function Player({ x = 88, y = 488 }: { x?: number; y?: number }) {
   return (
     <Entity id="player" tags={['player']}>
       <Transform x={x} y={y} />
       <Sprite
         src="/ClassicNES_SMB_Small_Mario_Sprite.png"
-        width={28}
+        width={SPRITE_W}
         height={SMALL_H}
         color="#e53935"
         zIndex={10}
       />
       <RigidBody friction={0.7} />
-      <BoxCollider width={26} height={SMALL_H} mask="world" />
+      <BoxCollider width={SPRITE_W - 2} height={SMALL_H - 2} mask="world" />
       <Script init={(id) => playerInit(id)} update={playerUpdate} />
     </Entity>
   )

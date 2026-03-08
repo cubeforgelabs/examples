@@ -26,7 +26,7 @@ import { GameOverlays }          from './components/GameOverlays'
 import { gameEvents }            from './gameEvents'
 import { preloadImage }          from './images'
 import {
-  TILE, FLOOR_H, FLOOR_TOP, FLOOR_Y,
+  T, FLOOR_H, FLOOR_TOP, FLOOR_Y,
   genLevel1, genLevel2, genLevel3,
   type GameState, type RevealType, type SpawnedReveal, type LevelData,
 } from './levelGen'
@@ -62,6 +62,10 @@ ASSETS.forEach(preloadImage)
 const W         = 800
 const H         = 560
 const MAX_LIVES = 3
+
+// Player spawn (tile col 5, standing on ground)
+const SPAWN_X = 5 * T + T / 2   // 88
+const SPAWN_Y = FLOOR_TOP - T / 2 // 488
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export function App() {
@@ -119,13 +123,13 @@ export function App() {
   const handleReveal = useCallback((blockId: number, type: RevealType, bx: number, by: number) => {
     setRevealedBlocks(prev => new Set([...prev, blockId]))
     const revealId = blockId + 1000
-    setSpawnedReveals(prev => [...prev.filter(r => r.id !== revealId), { id: revealId, type, x: bx, y: by - 50 }])
+    setSpawnedReveals(prev => [...prev.filter(r => r.id !== revealId), { id: revealId, type, x: bx, y: by - T * 2 }])
   }, [])
 
   function startLevel(lv: 1|2|3) {
     playerConfig.maxJumps = 1; playerConfig.isBig = false; playerConfig.canFire = false
     playerConfig.isStarActive = false; playerConfig.starTimer = 0
-    playerConfig.spawnX = 80; playerConfig.spawnY = FLOOR_TOP - 48
+    playerConfig.spawnX = SPAWN_X; playerConfig.spawnY = SPAWN_Y
     setLevel(lv); setCollectedCoins(new Set()); setRevealedBlocks(new Set())
     setSpawnedReveals([]); setHasMushroom(false); setHasFireFlower(false); setHasStar(false)
     setGameState('playing'); setGameKey(k => k + 1)
@@ -151,30 +155,33 @@ export function App() {
             <Camera2D
               followEntity="player" smoothing={0.88} background={bg}
               followOffsetY={-150}
-              bounds={{ x: 0, y: -H, width: worldW, height: FLOOR_Y + Math.floor(FLOOR_H / 2) + H }}
+              bounds={{ x: 0, y: -H, width: worldW, height: FLOOR_Y + FLOOR_H / 2 + H }}
             />
-            <Player x={80} y={FLOOR_TOP - 48} />
+            <Player x={SPAWN_X} y={SPAWN_Y} />
 
             {/* Boundary walls */}
             <Ground key="wall-l" x={-10}        y={300} width={20} height={800} color={bg} />
             <Ground key="wall-r" x={worldW + 10} y={300} width={20} height={800} color={bg} />
 
-            {/* ── Floor ────────────────────────────────────────────────────── */}
+            {/* ── Floor (base ground from tilemap) ───────────────────────── */}
             {layout.floorSegs.map(({ x, w }, i) => (
-              <Ground key={`floor-${i}`} x={x + w / 2} y={FLOOR_Y} width={w} height={FLOOR_H} src={layout.floorSrc} tileX tileY />
+              <Ground key={`floor-${i}`} x={x + w / 2} y={FLOOR_Y} width={w} height={FLOOR_H}
+                      src={layout.groundSrc} tileX tileY />
             ))}
 
-            {/* ── Floating ground platforms ─────────────────────────────────── */}
-            {layout.platforms.map((p, i) => (
-              <Ground key={`platform-${i}`} x={p.x} y={p.y} width={p.w} height={TILE} src={layout.floorSrc} tileX />
+            {/* ── Elevated ground (staircase, platforms from tilemap) ──── */}
+            {layout.elevatedGround.map((g, i) => (
+              <Ground key={`eg-${i}`} x={g.x} y={g.y} width={T} height={T}
+                      src={layout.brickSrc} />
             ))}
 
-            {/* ── Underground ceiling ──────────────────────────────────────── */}
+            {/* ── Underground ceiling ────────────────────────────────────── */}
             {layout.theme === 'underground' && (
-              <Ground key="ceiling" x={worldW / 2} y={44} width={worldW} height={TILE} src={layout.brickSrc} tileX />
+              <Ground key="ceiling" x={worldW / 2} y={T / 2} width={worldW} height={T}
+                      src={layout.brickSrc} tileX />
             )}
 
-            {/* ── Background decorations (no physics) ──────────────────────── */}
+            {/* ── Background decorations ─────────────────────────────────── */}
             {layout.decorations.map((d, i) => (
               <Entity key={`deco-${i}`}>
                 <Transform x={d.x} y={d.y} />
@@ -182,12 +189,12 @@ export function App() {
               </Entity>
             ))}
 
-            {/* ── Warp pipes ───────────────────────────────────────────────── */}
+            {/* ── Warp pipes ─────────────────────────────────────────────── */}
             {layout.pipes.map((p, i) => (
               <WarpPipe key={`pipe-${i}`} x={p.x} y={p.y} height={p.h} src={p.src} />
             ))}
 
-            {/* ── Piranha plants ───────────────────────────────────────────── */}
+            {/* ── Piranha plants ─────────────────────────────────────────── */}
             {layout.piranhaXs.map((px, i) => {
               const pipe = layout.pipes.find(p => p.x === px)
               if (!pipe) return null
@@ -195,14 +202,15 @@ export function App() {
               return <PiranhaPlant key={`piranha-${i}`} x={px} pipeTopY={pipe.pipeTopY} src={plantSrc} />
             })}
 
-            {/* ── Floating brick blocks ────────────────────────────────────── */}
+            {/* ── Brick blocks (from tilemap) ────────────────────────────── */}
             {layout.brickBlocks.map((b, i) =>
               layout.theme === 'overworld'
                 ? <BrickBlock key={`brick-${i}`} x={b.x} y={b.y} />
-                : <Ground key={`brick-${i}`} x={b.x} y={b.y} width={TILE} height={TILE} src={layout.brickSrc} />
+                : <Ground key={`brick-${i}`} x={b.x} y={b.y} width={T} height={T}
+                          src={layout.brickSrc} />
             )}
 
-            {/* ── Question blocks ──────────────────────────────────────────── */}
+            {/* ── Question blocks (from tilemap) ─────────────────────────── */}
             {layout.qBlocks.filter(b => !revealedBlocks.has(b.id)).map(b => (
               <QuestionBlock
                 key={b.id} x={b.x} y={b.y} reveals={b.reveals} src={layout.qBlockSrc}
@@ -210,7 +218,7 @@ export function App() {
               />
             ))}
 
-            {/* ── Enemies ──────────────────────────────────────────────────── */}
+            {/* ── Enemies ────────────────────────────────────────────────── */}
             {layout.enemies.map((e, i) => {
               switch (e.type) {
                 case 'goomba':      return <Goomba         key={i} x={e.x} y={e.y} patrolLeft={e.left} patrolRight={e.right} src={e.src} />
@@ -225,26 +233,13 @@ export function App() {
               }
             })}
 
-            {/* ── Coins ────────────────────────────────────────────────────── */}
+            {/* ── Coins (from tilemap) ───────────────────────────────────── */}
             {layout.coins.filter(c => !collectedCoins.has(c.id)).map(c => (
               <Coin key={c.id} x={c.x} y={c.y} src={layout.coinSrc}
                 onCollect={eid => handleCoinCollect(eid, c.id)} />
             ))}
 
-            {/* ── Staircase ────────────────────────────────────────────────── */}
-            {Array.from({ length: 8 }, (_, col) =>
-              Array.from({ length: col + 1 }, (_, row) => (
-                <Ground
-                  key={`stair-${col}-${row}`}
-                  x={layout.stairX + col * TILE + TILE / 2}
-                  y={FLOOR_TOP - row * TILE - TILE / 2}
-                  width={TILE} height={TILE}
-                  src={layout.brickSrc}
-                />
-              ))
-            )}
-
-            {/* ── Castle-specific: lava + Bowser bridge ────────────────────── */}
+            {/* ── Castle-specific: lava + Bowser bridge ──────────────────── */}
             {layout.theme === 'castle' && <>
               <Entity>
                 <Transform x={worldW / 2} y={FLOOR_TOP + 10} />
@@ -256,10 +251,10 @@ export function App() {
               </Entity>
             </>}
 
-            {/* ── Goal flag ────────────────────────────────────────────────── */}
+            {/* ── Goal flag ──────────────────────────────────────────────── */}
             <GoalFlag key="goal" x={layout.goalX} y={FLOOR_TOP - 80} />
 
-            {/* ── Spawned reveals ──────────────────────────────────────────── */}
+            {/* ── Spawned reveals ─────────────────────────────────────────── */}
             {spawnedReveals.map(r => {
               if (r.type === 'mushroom')   return <Mushroom      key={r.id} x={r.x} y={r.y} />
               if (r.type === 'fireFlower') return <FireFlower    key={r.id} x={r.x} y={r.y} />

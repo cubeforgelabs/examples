@@ -13,7 +13,7 @@ function starPickupCheck(id: EntityId, world: ECSWorld) {
   for (const pid of findByTag(world, 'player')) {
     const pt = world.getComponent<TransformComponent>(pid, 'Transform')
     if (!pt) continue
-    if (Math.abs(st.x - pt.x) < 24 && Math.abs(st.y - pt.y) < 24) {
+    if (Math.abs(st.x - pt.x) < 16 && Math.abs(st.y - pt.y) < 16) {
       collected.add(id)
       gameEvents.onStar?.()
       world.destroyEntity(id)
@@ -28,13 +28,13 @@ export function StarItem({ x, y }: { x: number; y: number }) {
   return (
     <Entity tags={['star']}>
       <Transform x={x} y={y} />
-      <Sprite src="/Starman.gif" width={28} height={28} color="#ffd600" zIndex={5} />
-      <BoxCollider width={24} height={24} />
+      <Sprite src="/Starman.gif" width={16} height={16} color="#ffd600" zIndex={5} />
+      <BoxCollider width={16} height={16} />
       <Script
         update={(id: EntityId, world: ECSWorld, _i: unknown, dt: number) => {
           timer.current += dt
           const t = world.getComponent<TransformComponent>(id, 'Transform')
-          if (t) t.y = y + Math.sin(timer.current * 4) * 8
+          if (t) t.y = y + Math.sin(timer.current * 4) * 5
           starPickupCheck(id, world)
         }}
       />

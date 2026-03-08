@@ -1,6 +1,7 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
 import { getImage } from '../images'
+import { T } from '../levelGen'
 
 interface BlockState {
   hit:         boolean
@@ -22,7 +23,7 @@ function blockUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
   if (state.bounceTimer > 0) {
     state.bounceTimer -= dt
     const t = 1 - state.bounceTimer / 0.2
-    transform.y = state.spawnY - Math.sin(t * Math.PI) * 10
+    transform.y = state.spawnY - Math.sin(t * Math.PI) * 6
     if (state.bounceTimer <= 0) transform.y = state.spawnY
   }
 
@@ -33,15 +34,15 @@ function blockUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
     const pt = world.getComponent<TransformComponent>(pid, 'Transform')
     const rb = world.getComponent<RigidBodyComponent>(pid, 'RigidBody')
     if (pt && rb) {
-      const dx = Math.abs(pt.x - transform.x)
-      const playerTop   = pt.y - 20
-      const blockBottom = transform.y + 16
+      const dx          = Math.abs(pt.x - transform.x)
+      const blockBottom = transform.y + T / 2
+      const playerTop   = pt.y - 16 // generous: assume big mario head
 
       if (
         rb.vy < 0 &&
-        dx < 14 &&
-        playerTop >= blockBottom - 18 &&
-        playerTop <= blockBottom + 6
+        dx < T &&
+        playerTop >= blockBottom - 16 &&
+        playerTop <= blockBottom + 8
       ) {
         state.hit         = true
         state.bounceTimer = 0.2
@@ -71,9 +72,9 @@ export function QuestionBlock({ x, y, onReveal, src = '/SMB_Qblock.png' }: Quest
   return (
     <Entity tags={['questionBlock']}>
       <Transform x={x} y={y} />
-      <Sprite src={src} width={32} height={32} color="#f5a623" zIndex={3} />
+      <Sprite src={src} width={T} height={T} color="#f5a623" zIndex={3} />
       <RigidBody isStatic />
-      <BoxCollider width={32} height={32} layer="world" />
+      <BoxCollider width={T} height={T} layer="world" />
       <Script
         init={(id, world) => {
           blockStates.set(id, { hit: false, bounceTimer: 0, spawnY: y })

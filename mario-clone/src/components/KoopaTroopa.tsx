@@ -37,16 +37,16 @@ interface KoopaProps {
   src?:         string
 }
 
-export function KoopaTroopa({ x = 400, y = 460, patrolLeft, patrolRight, src = '/SMB_Green_Koopa_Troopa_Sprite.png' }: KoopaProps) {
+export function KoopaTroopa({ x = 400, y = 484, patrolLeft, patrolRight, src = '/SMB_Green_Koopa_Troopa_Sprite.png' }: KoopaProps) {
   const left  = patrolLeft  ?? x - 120
   const right = patrolRight ?? x + 120
 
   return (
     <Entity tags={['enemy']}>
       <Transform x={x} y={y} />
-      <Sprite src={src} width={28} height={42} color="#388e3c" zIndex={10} />
+      <Sprite src={src} width={16} height={24} color="#388e3c" zIndex={10} />
       <RigidBody friction={1} />
-      <BoxCollider width={26} height={40} mask="world" />
+      <BoxCollider width={16} height={24} mask="world" />
       <Script
         init={(id) => koopaInit(id, left, right)}
         update={(id: EntityId, world: ECSWorld) => koopaUpdate(id, world)}

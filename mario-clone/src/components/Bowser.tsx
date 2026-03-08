@@ -48,8 +48,8 @@ function bowserUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number
     state.fireTimer = 3.0 + Math.random() * 1.5
     const dir = state.direction === 1 ? 1 : -1
     const fid = world.createEntity()
-    world.addComponent(fid, createTransform(transform.x + dir * 40, transform.y))
-    const fs = createSprite({ width: 24, height: 20, color: '#ff6d00', zIndex: 12 })
+    world.addComponent(fid, createTransform(transform.x + dir * 20, transform.y))
+    const fs = createSprite({ width: 16, height: 8, color: '#ff6d00', zIndex: 12 })
     const img = getImage('/SMBBowsersFlame.gif')
     if (img) fs.image = img
     fs.flipX = dir < 0
@@ -72,7 +72,7 @@ function bowserUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number
     const pid = world.findByTag('player')
     if (pid) {
       const pt = world.getComponent<TransformComponent>(pid, 'Transform')
-      if (pt && Math.abs(ft.x - pt.x) < 22 && Math.abs(ft.y - pt.y) < 22) {
+      if (pt && Math.abs(ft.x - pt.x) < 14 && Math.abs(ft.y - pt.y) < 12) {
         gameEvents.onPlayerHurt?.()
         world.destroyEntity(fid)
         toRemove.push(fid)
@@ -98,9 +98,9 @@ export function Bowser({ x, y, patrolLeft, patrolRight }: BowserProps) {
   return (
     <Entity tags={['enemy', 'bowser']}>
       <Transform x={x} y={y} />
-      <Sprite src="/SMB_Bowser_Sprite.png" width={68} height={68} color="#ff6f00" zIndex={10} />
+      <Sprite src="/SMB_Bowser_Sprite.png" width={32} height={32} color="#ff6f00" zIndex={10} />
       <RigidBody friction={1} />
-      <BoxCollider width={60} height={64} mask="world" />
+      <BoxCollider width={30} height={30} mask="world" />
       <Script
         init={(id, world) => {
           bowserStates.set(id, { direction: -1, leftBound: left, rightBound: right, fireTimer: 2.0 })

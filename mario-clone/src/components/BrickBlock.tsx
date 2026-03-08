@@ -1,5 +1,6 @@
 import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent, RigidBodyComponent, SpriteComponent } from '@cubeforge/react'
+import { T } from '../levelGen'
 
 interface BrickState { bounceTimer: number; spawnY: number }
 const brickStates = new Map<EntityId, BrickState>()
@@ -16,7 +17,7 @@ function brickUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
   if (state.bounceTimer > 0) {
     state.bounceTimer -= dt
     const t = 1 - state.bounceTimer / 0.15
-    transform.y = state.spawnY - Math.sin(t * Math.PI) * 7
+    transform.y = state.spawnY - Math.sin(t * Math.PI) * 4
     if (state.bounceTimer <= 0) transform.y = state.spawnY
   }
 
@@ -26,15 +27,15 @@ function brickUpdate(id: EntityId, world: ECSWorld, _input: unknown, dt: number)
   const rb = world.getComponent<RigidBodyComponent>(pid, 'RigidBody')
   if (!pt || !rb) return
 
-  const dx = Math.abs(pt.x - transform.x)
-  const playerTop   = pt.y - 20
-  const blockBottom = transform.y + 16
+  const dx          = Math.abs(pt.x - transform.x)
+  const blockBottom = transform.y + T / 2
+  const playerTop   = pt.y - 16
 
   if (
     rb.vy < 0 &&
-    dx < 14 &&
-    playerTop >= blockBottom - 18 &&
-    playerTop <= blockBottom + 6 &&
+    dx < T &&
+    playerTop >= blockBottom - 16 &&
+    playerTop <= blockBottom + 8 &&
     state.bounceTimer <= 0
   ) {
     state.bounceTimer = 0.15
@@ -47,9 +48,9 @@ export function BrickBlock({ x, y }: BrickBlockProps) {
   return (
     <Entity>
       <Transform x={x} y={y} />
-      <Sprite src="/SMB_Brick_Block_Sprite.png" width={32} height={32} color="#b5651d" zIndex={3} />
+      <Sprite src="/SMB_Brick_Block_Sprite.png" width={T} height={T} color="#b5651d" zIndex={3} />
       <RigidBody isStatic />
-      <BoxCollider width={32} height={32} layer="world" />
+      <BoxCollider width={T} height={T} layer="world" />
       <Script
         init={(id) => brickStates.set(id, { bounceTimer: 0, spawnY: y })}
         update={brickUpdate}
