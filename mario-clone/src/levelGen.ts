@@ -395,12 +395,12 @@ export function genLevel2(seed: number): LevelData {
   // ── Block clusters (denser) ─────────────────────────────────────────────────
   for (let cx = 12; cx < STAIR_COL - 12; cx += ri(rng, 8, 13)) {
     if (pipeCols.some(pc => Math.abs(pc - cx) < 5)) continue
-    const row  = rc(rng, [BLOCK_ROW, BLOCK_ROW - 2, BLOCK_ROW + 2] as const)
+    const row  = rc(rng, [BLOCK_ROW, BLOCK_ROW - 2, BLOCK_ROW - 4] as const)
     const len  = ri(rng, 3, 6)
     const qPos = ri(rng, 1, Math.max(1, len - 2))
     const doQ  = rng() > 0.4
     setBlocks(tiles, cx, len, row, doQ ? [qPos] : [], reveals, doQ ? [revPool.shift()!] : [])
-    setCoins(tiles, cx, ri(rng, 3, len), row - 1)
+    setCoins(tiles, cx, ri(rng, 3, len), row - 2)
   }
 
   // ── Enemies ─────────────────────────────────────────────────────────────────
