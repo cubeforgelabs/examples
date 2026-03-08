@@ -8,7 +8,7 @@ interface CoinProps {
   x: number
   y: number
   src?: string
-  onCollect?: (id: EntityId) => void
+  onCollect?: () => void
 }
 
 export function Coin({ x, y, src = '/SMB_Sprite_Coin.png', onCollect }: CoinProps) {
@@ -37,7 +37,7 @@ export function Coin({ x, y, src = '/SMB_Sprite_Coin.png', onCollect }: CoinProp
               // Hide instead of destroy — let React unmount handle cleanup
               const sprite = world.getComponent<{ type: 'Sprite'; visible: boolean }>(id, 'Sprite')
               if (sprite) sprite.visible = false
-              setTimeout(() => onCollectRef.current?.(id), 0)
+              onCollectRef.current?.()
               return
             }
           }

@@ -1,4 +1,6 @@
+import { useSyncExternalStore } from 'react'
 import { LEVEL_NAME, LEVEL_THEME } from '../levelGen'
+import { hudStore } from '../hudStore'
 
 function Heart({ filled }: { filled: boolean }) {
   return <span style={{ color: filled ? '#ef5350' : '#37474f', fontSize: 18, lineHeight: 1 }}>♥</span>
@@ -6,17 +8,14 @@ function Heart({ filled }: { filled: boolean }) {
 
 interface HUDProps {
   W: number
-  lives: number
-  score: number
-  coinsCollected: number
   totalCoins: number
   level: 1 | 2 | 3
-  hasMushroom: boolean
-  hasFireFlower: boolean
-  hasStar: boolean
 }
 
-export function HUD({ W, lives, score, coinsCollected, totalCoins, level, hasMushroom, hasFireFlower, hasStar }: HUDProps) {
+export function HUD({ W, totalCoins, level }: HUDProps) {
+  const { lives, score, coinsCollected, hasMushroom, hasFireFlower, hasStar } =
+    useSyncExternalStore(hudStore.subscribe, hudStore.getSnapshot)
+
   return (
     <div style={{
       width: W, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr',

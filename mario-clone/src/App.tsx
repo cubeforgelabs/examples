@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { Game, World, Camera2D, Entity, Transform, Sprite } from '@cubeforge/react'
-import type { EntityId } from '@cubeforge/react'
+import { hudStore } from './hudStore'
 import { Player, playerConfig }  from './components/Player'
 import { Goomba }                from './components/Goomba'
 import { KoopaTroopa }           from './components/KoopaTroopa'
@@ -70,16 +70,13 @@ const SPAWN_Y = FLOOR_TOP - 20 // 460 (half of SMALL_H=40)
 // ─── App ──────────────────────────────────────────────────────────────────────
 export function App() {
   const [gameKey,        setGameKey]        = useState(0)
-  const [score,          setScore]          = useState(0)
-  const [lives,          setLives]          = useState(MAX_LIVES)
   const [level,          setLevel]          = useState<1|2|3>(1)
   const [gameState,      setGameState]      = useState<GameState>('playing')
-  const [collectedCoins, setCollectedCoins] = useState<Set<number>>(new Set())
   const [revealedBlocks, setRevealedBlocks] = useState<Set<number>>(new Set())
   const [spawnedReveals, setSpawnedReveals] = useState<SpawnedReveal[]>([])
-  const [hasMushroom,    setHasMushroom]    = useState(false)
-  const [hasFireFlower,  setHasFireFlower]  = useState(false)
-  const [hasStar,        setHasStar]        = useState(false)
+  // gameState ref for callbacks that shouldn't trigger re-renders
+  const gameStateRef = useRef(gameState)
+  gameStateRef.current = gameState
 
   const baseSeed = useRef(Date.now())
   const layout = useMemo<LevelData>(() => {
@@ -90,23 +87,20 @@ export function App() {
   }, [level, gameKey])
 
   useEffect(() => {
-    gameEvents.onPlayerHurt = () => setTimeout(() => {
-      setLives(prev => {
-        const next = prev - 1
-        if (next <= 0) setGameState('gameover')
-        return Math.max(0, next)
-      })
-    }, 0)
-    gameEvents.onEnemyKill   = (pts: number) => setTimeout(() => setScore(s => s + pts), 0)
-    gameEvents.onMushroomGet = () => { playerConfig.maxJumps = 2; playerConfig.isBig = true; setTimeout(() => { setHasMushroom(true); setScore(s => s + 500) }, 0) }
-    gameEvents.onFireFlower  = () => { playerConfig.canFire = true; setTimeout(() => { setHasFireFlower(true); setScore(s => s + 500) }, 0) }
+    gameEvents.onPlayerHurt = () => {
+      const next = hudStore.loseLife()
+      if (next <= 0) setGameState('gameover')
+    }
+    gameEvents.onEnemyKill   = (pts: number) => hudStore.addScore(pts)
+    gameEvents.onMushroomGet = () => { playerConfig.maxJumps = 2; playerConfig.isBig = true; hudStore.setMushroom(true); hudStore.addScore(500) }
+    gameEvents.onFireFlower  = () => { playerConfig.canFire = true; hudStore.setFireFlower(true); hudStore.addScore(500) }
     gameEvents.onStar = () => {
       playerConfig.isStarActive = true; playerConfig.starTimer = 8.0
-      setTimeout(() => { setHasStar(true); setScore(s => s + 1000) }, 0)
-      setTimeout(() => setHasStar(false), 8000)
+      hudStore.setStar(true); hudStore.addScore(1000)
+      setTimeout(() => hudStore.setStar(false), 8000)
     }
-    gameEvents.onOneUp       = () => setTimeout(() => { setLives(l => Math.min(l + 1, 9)); setScore(s => s + 200) }, 0)
-    gameEvents.onGoalReached = () => setTimeout(() => { setScore(s => s + 2000); setGameState(level < 3 ? 'levelclear' : 'win') }, 0)
+    gameEvents.onOneUp       = () => { hudStore.addLife(); hudStore.addScore(200) }
+    gameEvents.onGoalReached = () => { hudStore.addScore(2000); setGameState(level < 3 ? 'levelclear' : 'win') }
     return () => {
       gameEvents.onPlayerHurt = null; gameEvents.onEnemyKill = null
       gameEvents.onMushroomGet = null; gameEvents.onFireFlower = null
@@ -114,11 +108,12 @@ export function App() {
     }
   }, [gameKey, level])
 
-  const handleCoinCollect = useCallback((_eid: EntityId, coinId: number) => {
-    setTimeout(() => { setCollectedCoins(prev => new Set([...prev, coinId])); setScore(s => s + 10) }, 0)
+  const handleCoinCollect = useCallback(() => {
+    hudStore.addCoin(); hudStore.addScore(10)
   }, [])
-  const handleRevealCoinCollect = useCallback((_eid: EntityId, revealId: number) => {
-    setTimeout(() => { setSpawnedReveals(prev => prev.filter(r => r.id !== revealId)); setScore(s => s + 10) }, 0)
+  const handleRevealCoinCollect = useCallback((_eid: unknown, revealId: number) => {
+    setTimeout(() => setSpawnedReveals(prev => prev.filter(r => r.id !== revealId)), 0)
+    hudStore.addCoin(); hudStore.addScore(10)
   }, [])
   const handleReveal = useCallback((blockId: number, type: RevealType, bx: number, by: number) => {
     setTimeout(() => {
@@ -132,12 +127,13 @@ export function App() {
     playerConfig.maxJumps = 1; playerConfig.isBig = false; playerConfig.canFire = false
     playerConfig.isStarActive = false; playerConfig.starTimer = 0
     playerConfig.spawnX = SPAWN_X; playerConfig.spawnY = SPAWN_Y
-    setLevel(lv); setCollectedCoins(new Set()); setRevealedBlocks(new Set())
-    setSpawnedReveals([]); setHasMushroom(false); setHasFireFlower(false); setHasStar(false)
+    hudStore.resetLevel()
+    setLevel(lv); setRevealedBlocks(new Set())
+    setSpawnedReveals([])
     resetGoalFlag()
     setGameState('playing'); setGameKey(k => k + 1)
   }
-  const restart   = () => { setScore(0); setLives(MAX_LIVES); startLevel(1) }
+  const restart   = () => { hudStore.reset(MAX_LIVES); startLevel(1) }
   const nextLevel = () => startLevel((level + 1) as 1|2|3)
 
   const { bg, worldW } = layout
@@ -145,11 +141,7 @@ export function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
 
-      <HUD
-        W={W} lives={lives} score={score}
-        coinsCollected={collectedCoins.size} totalCoins={layout.coins.length}
-        level={level} hasMushroom={hasMushroom} hasFireFlower={hasFireFlower} hasStar={hasStar}
-      />
+      <HUD W={W} totalCoins={layout.coins.length} level={level} />
 
       {/* ── Game canvas ─────────────────────────────────────────────────────── */}
       <div style={{ position: 'relative', width: W, height: H }}>
@@ -237,9 +229,9 @@ export function App() {
             })}
 
             {/* ── Coins (from tilemap) ───────────────────────────────────── */}
-            {layout.coins.filter(c => !collectedCoins.has(c.id)).map(c => (
+            {layout.coins.map(c => (
               <Coin key={c.id} x={c.x} y={c.y} src={layout.coinSrc}
-                onCollect={eid => handleCoinCollect(eid, c.id)} />
+                onCollect={handleCoinCollect} />
             ))}
 
             {/* ── Castle-specific: lava + Bowser bridge ──────────────────── */}
@@ -263,14 +255,14 @@ export function App() {
               if (r.type === 'fireFlower') return <FireFlower    key={r.id} x={r.x} y={r.y} />
               if (r.type === 'star')       return <StarItem      key={r.id} x={r.x} y={r.y} />
               if (r.type === 'oneUp')      return <OneUpMushroom key={r.id} x={r.x} y={r.y} />
-              return <Coin key={r.id} x={r.x} y={r.y} onCollect={eid => handleRevealCoinCollect(eid, r.id)} />
+              return <Coin key={r.id} x={r.x} y={r.y} onCollect={() => handleRevealCoinCollect(null, r.id)} />
             })}
 
           </World>
         </Game>
 
         <GameOverlays
-          gameState={gameState} score={score} level={level}
+          gameState={gameState} level={level}
           onNextLevel={nextLevel} onRestart={restart}
         />
       </div>

@@ -1,5 +1,7 @@
+import { useSyncExternalStore } from 'react'
 import type { GameState } from '../levelGen'
 import { LEVEL_NAME } from '../levelGen'
+import { hudStore } from '../hudStore'
 
 const BASE = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '')
 function resolve(src: string): string {
@@ -25,13 +27,14 @@ const btnStyle: React.CSSProperties = {
 
 interface OverlayProps {
   gameState: GameState
-  score: number
   level: 1 | 2 | 3
   onNextLevel: () => void
   onRestart: () => void
 }
 
-export function GameOverlays({ gameState, score, level, onNextLevel, onRestart }: OverlayProps) {
+export function GameOverlays({ gameState, level, onNextLevel, onRestart }: OverlayProps) {
+  const { score } = useSyncExternalStore(hudStore.subscribe, hudStore.getSnapshot)
+
   if (gameState === 'levelclear') {
     return (
       <div style={overlayStyle}>
