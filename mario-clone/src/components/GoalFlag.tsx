@@ -27,12 +27,16 @@ export function resetGoalFlag() { goalReached = false }
 interface GoalFlagProps {
   x: number
   y: number
+  level?: number
 }
 
-export function GoalFlag({ x, y }: GoalFlagProps) {
+export function GoalFlag({ x, y, level = 1 }: GoalFlagProps) {
   // Castle bottom should sit on the ground
   const castleH = 160
   const castleY = FLOOR_TOP - castleH / 2 // center so bottom touches ground
+  // Princess stands on the ground in front of the castle
+  const princessH = 48
+  const princessY = FLOOR_TOP - princessH / 2
 
   return (
     <>
@@ -49,11 +53,13 @@ export function GoalFlag({ x, y }: GoalFlagProps) {
         <Sprite src="/SMBCastle.png" width={160} height={castleH} color="#555" zIndex={1} />
       </Entity>
 
-      {/* Princess Toadstool */}
-      <Entity>
-        <Transform x={x + 176} y={castleY} />
-        <Sprite src="/SMB_Princess_Toadstool_Sprite.png" width={32} height={48} color="#f48fb1" zIndex={5} />
-      </Entity>
+      {/* Princess Toadstool — only on final level */}
+      {level === 3 && (
+        <Entity>
+          <Transform x={x + 176} y={princessY} />
+          <Sprite src="/SMB_Princess_Toadstool_Sprite.png" width={32} height={princessH} color="#f48fb1" zIndex={5} />
+        </Entity>
+      )}
     </>
   )
 }

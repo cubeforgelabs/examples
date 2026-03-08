@@ -90,23 +90,23 @@ export function App() {
   }, [level, gameKey])
 
   useEffect(() => {
-    gameEvents.onPlayerHurt = () => {
+    gameEvents.onPlayerHurt = () => setTimeout(() => {
       setLives(prev => {
         const next = prev - 1
         if (next <= 0) setGameState('gameover')
         return Math.max(0, next)
       })
-    }
-    gameEvents.onEnemyKill   = (pts: number) => setScore(s => s + pts)
-    gameEvents.onMushroomGet = () => { playerConfig.maxJumps = 2; playerConfig.isBig = true; setHasMushroom(true); setScore(s => s + 500) }
-    gameEvents.onFireFlower  = () => { playerConfig.canFire = true; setHasFireFlower(true); setScore(s => s + 500) }
+    }, 0)
+    gameEvents.onEnemyKill   = (pts: number) => setTimeout(() => setScore(s => s + pts), 0)
+    gameEvents.onMushroomGet = () => { playerConfig.maxJumps = 2; playerConfig.isBig = true; setTimeout(() => { setHasMushroom(true); setScore(s => s + 500) }, 0) }
+    gameEvents.onFireFlower  = () => { playerConfig.canFire = true; setTimeout(() => { setHasFireFlower(true); setScore(s => s + 500) }, 0) }
     gameEvents.onStar = () => {
       playerConfig.isStarActive = true; playerConfig.starTimer = 8.0
-      setHasStar(true); setScore(s => s + 1000)
+      setTimeout(() => { setHasStar(true); setScore(s => s + 1000) }, 0)
       setTimeout(() => setHasStar(false), 8000)
     }
-    gameEvents.onOneUp       = () => { setLives(l => Math.min(l + 1, 9)); setScore(s => s + 200) }
-    gameEvents.onGoalReached = () => { setScore(s => s + 2000); setGameState(level < 3 ? 'levelclear' : 'win') }
+    gameEvents.onOneUp       = () => setTimeout(() => { setLives(l => Math.min(l + 1, 9)); setScore(s => s + 200) }, 0)
+    gameEvents.onGoalReached = () => setTimeout(() => { setScore(s => s + 2000); setGameState(level < 3 ? 'levelclear' : 'win') }, 0)
     return () => {
       gameEvents.onPlayerHurt = null; gameEvents.onEnemyKill = null
       gameEvents.onMushroomGet = null; gameEvents.onFireFlower = null
@@ -115,15 +115,17 @@ export function App() {
   }, [gameKey, level])
 
   const handleCoinCollect = useCallback((_eid: EntityId, coinId: number) => {
-    setCollectedCoins(prev => new Set([...prev, coinId])); setScore(s => s + 10)
+    setTimeout(() => { setCollectedCoins(prev => new Set([...prev, coinId])); setScore(s => s + 10) }, 0)
   }, [])
   const handleRevealCoinCollect = useCallback((_eid: EntityId, revealId: number) => {
-    setSpawnedReveals(prev => prev.filter(r => r.id !== revealId)); setScore(s => s + 10)
+    setTimeout(() => { setSpawnedReveals(prev => prev.filter(r => r.id !== revealId)); setScore(s => s + 10) }, 0)
   }, [])
   const handleReveal = useCallback((blockId: number, type: RevealType, bx: number, by: number) => {
-    setRevealedBlocks(prev => new Set([...prev, blockId]))
-    const revealId = blockId + 1000
-    setSpawnedReveals(prev => [...prev.filter(r => r.id !== revealId), { id: revealId, type, x: bx, y: by - T * 2 }])
+    setTimeout(() => {
+      setRevealedBlocks(prev => new Set([...prev, blockId]))
+      const revealId = blockId + 1000
+      setSpawnedReveals(prev => [...prev.filter(r => r.id !== revealId), { id: revealId, type, x: bx, y: by - T * 2 }])
+    }, 0)
   }, [])
 
   function startLevel(lv: 1|2|3) {
@@ -253,7 +255,7 @@ export function App() {
             </>}
 
             {/* ── Goal flag ──────────────────────────────────────────────── */}
-            <GoalFlag key="goal" x={layout.goalX} y={FLOOR_TOP - 160} />
+            <GoalFlag key="goal" x={layout.goalX} y={FLOOR_TOP - 160} level={level} />
 
             {/* ── Spawned reveals ─────────────────────────────────────────── */}
             {spawnedReveals.map(r => {

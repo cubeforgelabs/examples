@@ -11,8 +11,8 @@ importers:
   asteroids:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -42,8 +42,8 @@ importers:
   breakout:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -73,8 +73,8 @@ importers:
   endless-runner:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -104,8 +104,8 @@ importers:
   flappy-bird:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -135,8 +135,8 @@ importers:
   mario-clone:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -166,8 +166,8 @@ importers:
   platformer:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -231,8 +231,8 @@ importers:
   pong:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -262,8 +262,8 @@ importers:
   shooter:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -293,8 +293,8 @@ importers:
   snake:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -324,8 +324,8 @@ importers:
   top-down:
     dependencies:
       cubeforge:
-        specifier: 0.3.10
-        version: 0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 0.3.11
+        version: 0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -803,8 +803,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  cubeforge@0.3.10:
-    resolution: {integrity: sha512-R08DRwm1f2Se4b7goNUfofyM+fqnGOy+vnD/Yx2OgOrJBgp9yxjSZnawHvi6YSrfqgWcvSrr9kBV6oZZkt2/cg==}
+  cubeforge@0.3.11:
+    resolution: {integrity: sha512-gSTtdx0XSVTEWuXNVfrOsDrc//aUBCTphi92KbsONv03LgRLrhxSTWFz3olAUafMDyd/i4bzylBaYqIwxlyBIQ==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -1366,7 +1366,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  cubeforge@0.3.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  cubeforge@0.3.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
