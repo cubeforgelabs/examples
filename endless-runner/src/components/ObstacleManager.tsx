@@ -17,11 +17,16 @@ const BASE_INTERVAL = 2.2
 const MIN_INTERVAL  = 0.75
 
 // ─── Obstacle sizes (width × height) ─────────────────────────────────────────
-const OBSTACLE_TYPES = [
-  { w: 22, h: 48, color: '#558b2f' },   // short cactus
-  { w: 18, h: 68, color: '#33691e' },   // tall cactus
-  { w: 30, h: 36, color: '#4e342e' },   // wide rock
-  { w: 16, h: 80, color: '#1b5e20' },   // very tall cactus
+interface ObstacleType extends ObstacleData {
+  color: string
+  src: string
+}
+
+const OBSTACLE_TYPES: ObstacleType[] = [
+  { w: 22, h: 48, color: '#558b2f', src: '/cactus.png' },
+  { w: 18, h: 68, color: '#33691e', src: '/cactus_tall.png' },
+  { w: 30, h: 20, color: '#4e342e', src: '/rock.png' },
+  { w: 18, h: 68, color: '#1b5e20', src: '/cactus_tall.png' },
 ]
 
 // ─── State ───────────────────────────────────────────────────────────────────
@@ -103,8 +108,11 @@ function spawnObstacle(world: ECSWorld, state: ManagerState) {
   const def = OBSTACLE_TYPES[Math.floor(Math.random() * OBSTACLE_TYPES.length)]
   const oid = world.createEntity()
   const cy  = GROUND_TOP - def.h / 2
+  const sprite = createSprite({ width: def.w, height: def.h, color: def.color, zIndex: 5 })
+  const image = world.assets.getImage(def.src)
+  if (image) sprite.image = image
   world.addComponent(oid, createTransform(CANVAS_W + def.w / 2, cy))
-  world.addComponent(oid, createSprite({ width: def.w, height: def.h, color: def.color, zIndex: 5 }))
+  world.addComponent(oid, sprite)
   world.addComponent(oid, createTag('obstacle'))
   state.obstacles.set(oid, { w: def.w, h: def.h })
 }

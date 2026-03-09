@@ -88,7 +88,7 @@ export function App() {
             {/* Player */}
             {gameState === 'playing' && (
               <>
-                <Player key="player" x={120} y={310} />
+                <Player key="player" x={120} y={326} />
                 <ObstacleManager key="obstacles" />
               </>
             )}
