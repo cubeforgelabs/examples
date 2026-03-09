@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import {
   Player1, Player2, Ball, GameManager,
   TopWall, BottomWall, LeftGoal, RightGoal, CenterLine,
@@ -112,6 +112,7 @@ export function App() {
         {connected && (
           <Game key={gameKey} width={W} height={H} gravity={0}>
             <World background="#0a0a12">
+              <Camera2D x={W / 2} y={H / 2} />
               <GameManager />
               <Player1 />
               <Player2 />

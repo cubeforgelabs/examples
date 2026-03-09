@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import { Bird } from './components/Bird'
 import { PipeManager } from './components/PipeManager'
 import { gameEvents } from './gameEvents'
@@ -99,6 +99,7 @@ export function App() {
       >
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#87ceeb">
+            <Camera2D x={W / 2} y={H / 2} />
             {gameState !== 'idle' && <Bird />}
             {gameState === 'playing' && <PipeManager />}
           </World>

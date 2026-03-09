@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import {
   W, H,
   generateFloor,
@@ -145,6 +145,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#000000">
+            <Camera2D x={W / 2} y={H / 2} />
             <DungeonTiles state={state} />
             <EnemyEntities state={state} />
             <PlayerEntity state={state} />

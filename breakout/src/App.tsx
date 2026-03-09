@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import type { EntityId } from '@cubeforge/react'
 import { Paddle }      from './components/Paddle'
 import { Ball }        from './components/Ball'
@@ -158,6 +158,7 @@ export function App() {
 
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#0d0f1a">
+            <Camera2D x={W / 2} y={H / 2} />
 
             {/* Paddle */}
             <Paddle x={400} y={524} />

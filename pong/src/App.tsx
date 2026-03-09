@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Game, World, Entity, Transform, Sprite } from '@cubeforge/react'
+import { Game, World, Entity, Transform, Sprite, Camera2D } from '@cubeforge/react'
 import { Ball, Paddle, GameManager, W, H } from './components/PongGame'
 import { gameEvents } from './gameEvents'
 
@@ -86,6 +86,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#0a0a12">
+            <Camera2D x={W / 2} y={H / 2} />
             <Ball key="ball" />
             <Paddle key="paddle-l" side="left" />
             <Paddle key="paddle-r" side="right" />

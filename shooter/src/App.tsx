@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import { Player }       from './components/Player'
 import { EnemyManager } from './components/EnemyManager'
 import { StarField }    from './components/StarField'
@@ -110,6 +110,7 @@ export function App() {
 
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#050510">
+            <Camera2D x={W / 2} y={H / 2} />
             <StarField />
             <Player />
             <EnemyManager wave={wave} />

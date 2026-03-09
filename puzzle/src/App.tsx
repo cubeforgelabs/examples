@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World } from '@cubeforge/react'
+import { Game, World, Camera2D } from '@cubeforge/react'
 import {
   CELL,
   LEVELS,
@@ -109,6 +109,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#0a0a12">
+            <Camera2D x={W / 2} y={H / 2} />
             <SokobanManager />
             <GridTiles state={displayState} />
             <TargetMarkers state={displayState} />

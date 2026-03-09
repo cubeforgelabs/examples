@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Game, World, Entity, Transform, Sprite } from '@cubeforge/react'
+import { Game, World, Entity, Transform, Sprite, Camera2D } from '@cubeforge/react'
 import {
   W, H, CELL, COLS, ROWS,
   TOWER_DEFS, WAVES,
@@ -157,6 +157,7 @@ export function App() {
       >
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#0f1a0f">
+            <Camera2D x={W / 2} y={H / 2} />
             <GameManagerEntity key="manager" />
 
             {/* Grass background grid lines (subtle) */}
