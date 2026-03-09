@@ -5,7 +5,7 @@ import { createTransform } from '@cubeforge/core'
 import { createSprite } from '@cubeforge/renderer'
 import { createTag } from '@cubeforge/core'
 import { gameEvents } from '../gameEvents'
-import { PLAYER_X, PLAYER_W, PLAYER_H } from './Player'
+import { PLAYER_W, PLAYER_H } from './Player'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const CANVAS_W      = 800
@@ -90,7 +90,7 @@ function managerUpdate(id: EntityId, world: ECSWorld, _input: InputManager, dt: 
       const ph = PLAYER_H / 2
       const ow = data.w / 2 - 2
       const oh = data.h / 2
-      if (Math.abs(px - PLAYER_X) < pw + ow && Math.abs(py - t.y) < ph + oh) {
+      if (Math.abs(px - t.x) < pw + ow && Math.abs(py - t.y) < ph + oh) {
         state.dead = true
         gameEvents.onDeath?.()
       }
