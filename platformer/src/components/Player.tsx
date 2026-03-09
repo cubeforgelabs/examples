@@ -26,29 +26,39 @@ const playerAnims = defineAnimations({
   idle:      { frames: [4],          fps: 1  },
   walkLeft:  { frames: [0, 1, 2, 3], fps: 10 },
   walkRight: { frames: [5, 6, 7, 8], fps: 10 },
-  jump:      { frames: [4],          fps: 1  },
 })
 
+// jumpLeft/jumpRight reuse walk clips so the walk animation plays while airborne
 const animatorStates = {
   idle: { clip: 'idle', transitions: [
+    { to: 'jumpLeft',  when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: true  }] },
+    { to: 'jumpRight', when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: false }] },
     { to: 'walkLeft',  when: [{ param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: true  }] },
     { to: 'walkRight', when: [{ param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: false }] },
-    { to: 'jump',      when: [{ param: 'grounded', op: '==', value: false }] },
   ]},
   walkLeft: { clip: 'walkLeft', transitions: [
+    { to: 'jumpLeft',  when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: true  }] },
+    { to: 'jumpRight', when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: false }] },
     { to: 'walkRight', when: [{ param: 'facingLeft', op: '==', value: false }, { param: 'speed', op: '>', value: 10 }] },
-    { to: 'jump',      when: [{ param: 'grounded', op: '==', value: false }] },
     { to: 'idle',      when: [{ param: 'speed', op: '<=', value: 10 }] },
   ]},
   walkRight: { clip: 'walkRight', transitions: [
-    { to: 'walkLeft', when: [{ param: 'facingLeft', op: '==', value: true  }, { param: 'speed', op: '>', value: 10 }] },
-    { to: 'jump',     when: [{ param: 'grounded', op: '==', value: false }] },
-    { to: 'idle',     when: [{ param: 'speed', op: '<=', value: 10 }] },
+    { to: 'jumpLeft',  when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: true  }] },
+    { to: 'jumpRight', when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: false }] },
+    { to: 'walkLeft',  when: [{ param: 'facingLeft', op: '==', value: true  }, { param: 'speed', op: '>', value: 10 }] },
+    { to: 'idle',      when: [{ param: 'speed', op: '<=', value: 10 }] },
   ]},
-  jump: { clip: 'jump', transitions: [
-    { to: 'walkLeft',  when: [{ param: 'grounded', op: '==', value: true }, { param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: true  }] },
-    { to: 'walkRight', when: [{ param: 'grounded', op: '==', value: true }, { param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: false }] },
-    { to: 'idle',      when: [{ param: 'grounded', op: '==', value: true }] },
+  jumpLeft: { clip: 'walkLeft', transitions: [
+    { to: 'jumpRight', when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: false }] },
+    { to: 'walkLeft',  when: [{ param: 'grounded', op: '==', value: true  }, { param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: true  }] },
+    { to: 'walkRight', when: [{ param: 'grounded', op: '==', value: true  }, { param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: false }] },
+    { to: 'idle',      when: [{ param: 'grounded', op: '==', value: true  }] },
+  ]},
+  jumpRight: { clip: 'walkRight', transitions: [
+    { to: 'jumpLeft',  when: [{ param: 'grounded', op: '==', value: false }, { param: 'facingLeft', op: '==', value: true  }] },
+    { to: 'walkLeft',  when: [{ param: 'grounded', op: '==', value: true  }, { param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: true  }] },
+    { to: 'walkRight', when: [{ param: 'grounded', op: '==', value: true  }, { param: 'speed', op: '>', value: 10 }, { param: 'facingLeft', op: '==', value: false }] },
+    { to: 'idle',      when: [{ param: 'grounded', op: '==', value: true  }] },
   ]},
 }
 

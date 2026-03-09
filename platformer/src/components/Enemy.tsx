@@ -14,12 +14,13 @@ interface EnemyState {
   direction:  1 | -1
   leftBound:  number
   rightBound: number
+  speed:      number
 }
 
 const enemyStates = new Map<EntityId, EnemyState>()
 
-function enemyInit(id: EntityId, left: number, right: number) {
-  enemyStates.set(id, { direction: 1, leftBound: left, rightBound: right })
+function enemyInit(id: EntityId, left: number, right: number, speed: number) {
+  enemyStates.set(id, { direction: 1, leftBound: left, rightBound: right, speed })
 }
 
 function enemyUpdate(id: EntityId, world: ECSWorld) {
@@ -46,18 +47,20 @@ function enemyUpdate(id: EntityId, world: ECSWorld) {
     }
   }
 
-  rb.vx        = 80 * state.direction
+  rb.vx        = state.speed * state.direction
   sprite.flipX = state.direction === -1
 }
 
 interface EnemyProps {
-  x?:          number
-  y?:          number
-  patrolLeft?: number
+  x?:           number
+  y?:           number
+  patrolLeft?:  number
   patrolRight?: number
+  speed?:       number
+  color?:       string
 }
 
-export function Enemy({ x = 400, y = 440, patrolLeft, patrolRight }: EnemyProps) {
+export function Enemy({ x = 400, y = 440, patrolLeft, patrolRight, speed = 80, color = '#ef5350' }: EnemyProps) {
   const left  = patrolLeft  ?? x - 110
   const right = patrolRight ?? x + 110
 
@@ -68,7 +71,7 @@ export function Enemy({ x = 400, y = 440, patrolLeft, patrolRight }: EnemyProps)
         src="/slime_sheet.png"
         frameWidth={36} frameHeight={32} frameColumns={10}
         width={36} height={32}
-        color="#ef5350"
+        color={color}
         zIndex={10}
         animations={slimeAnims}
         current="walk"
@@ -77,7 +80,7 @@ export function Enemy({ x = 400, y = 440, patrolLeft, patrolRight }: EnemyProps)
       <RigidBody friction={1} />
       <BoxCollider width={26} height={34} />
       <Script
-        init={(id) => enemyInit(id, left, right)}
+        init={(id) => enemyInit(id, left, right, speed)}
         update={(id: EntityId, world: ECSWorld) => enemyUpdate(id, world)}
       />
     </Entity>

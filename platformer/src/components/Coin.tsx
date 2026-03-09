@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Entity, Transform, Sprite, BoxCollider, Script, useTriggerEnter, useEntity } from '@cubeforge/react'
+import { Entity, Transform, Sprite, RigidBody, BoxCollider, Script, useTriggerEnter, useEntity } from '@cubeforge/react'
 import type { EntityId, ECSWorld, TransformComponent } from '@cubeforge/react'
 
 /** Collects the coin when a player-tagged entity enters its trigger. */
@@ -29,6 +29,7 @@ export function Coin({ x, y, onCollect }: CoinProps) {
     <Entity tags={['coin']}>
       <Transform x={x} y={y} />
       <Sprite src="/coin.png" width={16} height={16} color="#ffd54f" zIndex={5} />
+      <RigidBody isStatic />
       <BoxCollider width={16} height={16} isTrigger />
       <Script
         update={(_id: EntityId, world: ECSWorld, _input: unknown, dt: number) => {
