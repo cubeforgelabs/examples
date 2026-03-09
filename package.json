@@ -26,6 +26,14 @@
     "dev:solitaire": "pnpm --filter solitaire-example dev",
     "dev:rhythm": "pnpm --filter rhythm-example dev",
     "dev:idle": "pnpm --filter idle-example dev",
-    "dev:game-of-life": "pnpm --filter game-of-life-example dev"
+    "dev:game-of-life": "pnpm --filter game-of-life-example dev",
+    "dev:tic-tac-toe": "pnpm --filter tic-tac-toe-example dev",
+    "dev:whack-a-mole": "pnpm --filter whack-a-mole-example dev",
+    "dev:simon": "pnpm --filter simon-example dev",
+    "dev:memory-card": "pnpm --filter memory-card-example dev",
+    "dev:connect-4": "pnpm --filter connect-4-example dev",
+    "dev:sliding-puzzle": "pnpm --filter sliding-puzzle-example dev",
+    "dev:checkers": "pnpm --filter checkers-example dev",
+    "dev:blackjack": "pnpm --filter blackjack-example dev"
   }
 }

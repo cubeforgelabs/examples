@@ -29,6 +29,14 @@ Each example is a self-contained Vite + React app. They all point to the local `
 | [Lights Out](lights-out/) | Puzzle | Click |
 | [Match-3](match-3/) | Puzzle | Click |
 | [Solitaire](solitaire/) | Card | Click / Double-click |
+| [Tic-Tac-Toe](tic-tac-toe/) | Board | Click |
+| [Connect 4](connect-4/) | Board | Click |
+| [Checkers](checkers/) | Board | Click |
+| [Blackjack](blackjack/) | Card | Click |
+| [Sliding Puzzle](sliding-puzzle/) | Puzzle | Click |
+| [Memory Card](memory-card/) | Puzzle | Click |
+| [Simon](simon/) | Educational | Click |
+| [Whack-a-Mole](whack-a-mole/) | Educational | Click |
 | [Dungeon Explorer](top-down/) | Top-down | WASD / Space |
 | [RPG](rpg/) | Top-down | WASD / Space |
 | [Roguelike](roguelike/) | Top-down | WASD / Arrows |

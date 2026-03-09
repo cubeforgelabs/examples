@@ -1,6 +1,6 @@
 # Cubeforge Examples Roadmap
 
-This is the development roadmap for **cubeforge-examples** -- a growing collection of example games built with the [Cubeforge](https://github.com/1homsi/cubeforge) game engine. The repo currently ships **18 playable examples** and is on track to reach **100+ games** spanning every genre a 2D engine can handle.
+This is the development roadmap for **cubeforge-examples** -- a growing collection of example games built with the [Cubeforge](https://github.com/1homsi/cubeforge) game engine. The repo currently ships **37 playable examples** and is on track to reach **100+ games** spanning every genre a 2D engine can handle.
 
 ---
 
@@ -62,7 +62,7 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Tetris Puzzle | :white_circle: | Shape-fitting spatial logic puzzles |
 | Dr. Mario | :white_circle: | Match-color virus elimination game |
 | Puyo Puyo | :white_circle: | Chain-reaction blob matching puzzle |
-| Sliding Puzzle | :white_circle: | Rearrange tiles into correct order |
+| Sliding Puzzle | :white_check_mark: | Rearrange tiles into correct order |
 | Pipe Puzzle | :white_circle: | Connect pipes to complete flow |
 | Laser Mirror Puzzle | :white_circle: | Redirect laser beams with mirrors |
 | Block Push Puzzles | :white_circle: | Advanced block-pushing logic challenges |
@@ -166,10 +166,11 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 |------|--------|-------------|
 | Solitaire | :construction: | Classic Klondike card solitaire |
 | Poker | :white_circle: | Texas Hold'em poker game |
-| Blackjack | :white_circle: | Hit or stand to beat dealer |
+| Blackjack | :white_check_mark: | Hit or stand to beat dealer |
 | Chess | :white_circle: | Full chess with move validation |
-| Checkers | :white_circle: | Diagonal capture board game |
-| Connect 4 | :white_circle: | Drop discs to connect four |
+| Checkers | :white_check_mark: | Diagonal capture board game |
+| Tic-Tac-Toe | :white_check_mark: | Classic X and O on a 3x3 grid |
+| Connect 4 | :white_check_mark: | Drop discs to connect four |
 | Reversi | :white_circle: | Flip opponent pieces on board |
 | Deckbuilder | :white_circle: | Slay the Spire-style card combat |
 | Trading Card Game | :white_circle: | Collectible card battle system |
@@ -229,8 +230,11 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Programming Puzzles | :white_circle: | Learn coding through puzzle solving |
 | Language Learning | :white_circle: | Interactive vocabulary practice game |
 | Logic Training | :white_circle: | Sharpen logical reasoning skills |
+| Memory Card | :white_check_mark: | Flip cards to find matching pairs |
+| Simon | :white_check_mark: | Repeat growing color sequences |
 | Memory Games | :white_circle: | Test and improve memory recall |
 | Pattern Recognition | :white_circle: | Identify and complete visual patterns |
+| Whack-a-Mole | :white_check_mark: | Click moles before they hide |
 | Speed Reaction | :white_circle: | Fast reflexes reaction time game |
 | Quiz Games | :white_circle: | Trivia and knowledge quiz game |
 | Geography Games | :white_circle: | Learn world geography interactively |
