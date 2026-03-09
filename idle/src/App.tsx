@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useRef, useState, useCallback } from 'react'
-import { Game, World, Camera2D, Entity, Transform, Sprite, Text } from '@cubeforge/react'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const W = 600
@@ -41,8 +40,6 @@ interface ClickAnim {
 
 // ─── App ────────────────────────────────────────────────────────────────────
 export function App() {
-  const [gameKey] = useState(0)
-
   const currencyRef = useRef(0)
   const totalRef = useRef(0)
   const cpsRef = useRef(0)
@@ -175,63 +172,87 @@ export function App() {
       <div style={{ display: 'flex', position: 'relative', width: W }}>
         {/* Canvas click area */}
         <div
-          style={{ position: 'relative', width: W - 220, height: H, cursor: 'pointer' }}
-          onClick={handleClick}
+          style={{
+            position: 'relative',
+            width: W - 220,
+            height: H,
+            background: '#0d1117',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 0,
+            userSelect: 'none',
+          }}
         >
-          <Game key={gameKey} width={W - 220} height={H} gravity={0}>
-            <World background="#0d1117">
-              <Camera2D x={(W - 220) / 2} y={H / 2} background="#0d1117" />
+          {/* Currency display */}
+          <div style={{ position: 'absolute', top: 40, textAlign: 'center' }}>
+            <div style={{ fontSize: 42, fontWeight: 900, color: '#fdd835', letterSpacing: 2, fontFamily: '"Courier New", monospace' }}>
+              {fmt(currency)}
+            </div>
+            <div style={{ fontSize: 13, color: '#607d8b', fontFamily: '"Courier New", monospace', marginTop: 4 }}>
+              {fmt(cps)} per second
+            </div>
+          </div>
 
-              {/* Central button visual */}
-              <Entity tags={['button']}>
-                <Transform x={(W - 220) / 2} y={H / 2 - 30} />
-                <Sprite width={120} height={120} color="#1a2535" zIndex={1} />
-              </Entity>
-              <Entity tags={['button']}>
-                <Transform x={(W - 220) / 2} y={H / 2 - 30} />
-                <Sprite width={110} height={110} color="#fdd835" zIndex={2} />
-              </Entity>
-              <Entity tags={['label']}>
-                <Transform x={(W - 220) / 2} y={H / 2 - 30} />
-                <Text text="CLICK" fontSize={20} color="#0a0a0f" align="center" baseline="middle" zIndex={3} />
-              </Entity>
-              <Entity tags={['label']}>
-                <Transform x={(W - 220) / 2} y={H / 2 + 10} />
-                <Text text={`+${fmt(clickValue * prestigeMultRef.current)}`} fontSize={14} color="#0a0a0f" align="center" baseline="middle" zIndex={3} />
-              </Entity>
+          {/* Click button */}
+          <button
+            onClick={handleClick as any}
+            style={{
+              width: 140,
+              height: 140,
+              borderRadius: '50%',
+              border: '3px solid #fdd835',
+              background: 'radial-gradient(circle at 40% 35%, #ffe082, #fdd835 60%, #f9a825)',
+              cursor: 'pointer',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 2,
+              boxShadow: '0 0 30px rgba(253,216,53,0.15), inset 0 -4px 8px rgba(0,0,0,0.15)',
+              transition: 'transform 0.08s, box-shadow 0.08s',
+              fontFamily: '"Courier New", monospace',
+            }}
+            onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.93)')}
+            onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
+            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <span style={{ fontSize: 18, fontWeight: 900, color: '#0a0a0f', letterSpacing: 2 }}>CLICK</span>
+            <span style={{ fontSize: 14, color: '#5d4037' }}>+{fmt(clickValue * prestigeMultRef.current)}</span>
+          </button>
 
-              {/* Currency display */}
-              <Entity tags={['ui']}>
-                <Transform x={(W - 220) / 2} y={60} />
-                <Text text={fmt(currency)} fontSize={36} color="#fdd835" align="center" baseline="middle" zIndex={5} />
-              </Entity>
-              <Entity tags={['ui']}>
-                <Transform x={(W - 220) / 2} y={90} />
-                <Text text={`${fmt(cps)} per second`} fontSize={12} color="#607d8b" align="center" baseline="middle" zIndex={5} />
-              </Entity>
+          {/* Click animations (float up from button) */}
+          {clickAnims.map(a => (
+            <div
+              key={`ca${a.id}`}
+              style={{
+                position: 'absolute',
+                left: a.x,
+                top: a.y,
+                fontSize: 16,
+                fontWeight: 700,
+                color: '#fdd835',
+                fontFamily: '"Courier New", monospace',
+                pointerEvents: 'none',
+                transform: 'translateX(-50%)',
+              }}
+            >
+              {a.text}
+            </div>
+          ))}
 
-              {/* Click animations */}
-              {clickAnims.map(a => (
-                <Entity key={`ca${a.id}`} tags={['clickAnim']}>
-                  <Transform x={a.x} y={a.y} />
-                  <Text text={a.text} fontSize={16} color="#fdd835" align="center" baseline="middle" zIndex={10} />
-                </Entity>
-              ))}
-
-              {/* Prestige info */}
-              <Entity tags={['ui']}>
-                <Transform x={(W - 220) / 2} y={H - 40} />
-                <Text
-                  text={canPrestige ? `Prestige for +${prestigeBonus} levels` : `Prestige at 1M total earned`}
-                  fontSize={11}
-                  color={canPrestige ? '#ab47bc' : '#37474f'}
-                  align="center"
-                  baseline="middle"
-                  zIndex={5}
-                />
-              </Entity>
-            </World>
-          </Game>
+          {/* Prestige info */}
+          <div style={{
+            position: 'absolute',
+            bottom: 20,
+            fontSize: 11,
+            color: canPrestige ? '#ab47bc' : '#37474f',
+            fontFamily: '"Courier New", monospace',
+            letterSpacing: 1,
+          }}>
+            {canPrestige ? `Prestige for +${prestigeBonus} levels` : 'Prestige at 1M total earned'}
+          </div>
         </div>
 
         {/* Shop panel */}
