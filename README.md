@@ -103,9 +103,134 @@ Top-down dungeon explorer demonstrating `useTopDownMovement`, 4-directional comb
 
 ---
 
+### Pong
+> `pong/`
+
+Two-player paddle battle on one keyboard:
+
+- First to 7 wins
+- Ball speeds up on every paddle hit
+- Divider dots and scoreboard HUD
+
+**Controls:** `W`/`S` — left paddle · `↑`/`↓` — right paddle
+
+---
+
+### Snake
+> `snake/`
+
+Classic snake — eat food to grow, avoid your own tail:
+
+- Speed increases over time
+- Score counter
+- Game over on self-collision or wall hit
+
+**Controls:** `WASD` / Arrow keys
+
+---
+
+### Endless Runner
+> `endless-runner/`
+
+Dodge incoming obstacles as the world speeds up:
+
+- Procedural obstacle spawning
+- Distance-based scoring
+- Increasing difficulty over time
+
+**Controls:** `Space` / `↑` — jump
+
+---
+
+### Asteroids
+> `asteroids/`
+
+Rotate, thrust, and shoot through waves of splitting asteroids:
+
+- Asteroids split into smaller pieces when shot
+- Wrap-around screen edges
+- 3 lives
+
+**Controls:** `WASD` / Arrow keys — move/rotate · `Space` — shoot
+
+---
+
+### Puzzle (Sokoban)
+> `puzzle/`
+
+Grid-based box-pushing puzzle game:
+
+- 3 hand-crafted levels of increasing difficulty
+- Push boxes onto target tiles — no pulling allowed
+- Move counter and level tracking
+- R to restart current level
+
+**Controls:** Arrow keys — move · `R` — restart
+
+---
+
+### RPG
+> `rpg/`
+
+Top-down action RPG with melee combat:
+
+- Smooth 4-directional movement
+- Sword attack with cooldown
+- 3 enemy slimes that patrol and deal contact damage
+- 5 HP with invincibility frames on hit
+- Collectible coins
+
+**Controls:** `WASD` / Arrows — move · `Space` — attack
+
+---
+
+### Tower Defense
+> `tower-defense/`
+
+Wave-based tower defense on a grid:
+
+- 5 waves of enemies following a zigzag path
+- 3 tower types: basic (fast), slow (debuff), splash (AoE)
+- Gold economy: 100 starting, +10 per kill
+- 10 lives — lose 1 per enemy reaching the end
+- Click cells to place towers, range preview on hover
+
+**Controls:** Click to select tower type · Click grid cell to place
+
+---
+
+### Roguelike
+> `roguelike/`
+
+Turn-based dungeon crawler with procedural generation:
+
+- Procedurally generated rooms connected by corridors
+- Fog of war with 5-tile visibility radius
+- Bump-to-attack combat (player 10 HP / 3 ATK, enemies 3 HP / 1 ATK)
+- Health potions and stairs to descend deeper
+- Floor counter and kill tracker
+
+**Controls:** `WASD` / Arrow keys — move (turn-based)
+
+---
+
+### Multiplayer
+> `multiplayer/`
+
+Local multiplayer demo showing the `@cubeforge/net` networking pattern:
+
+- Two players on one screen with a shared ball
+- Player positions synced via mock local transport
+- Demonstrates Room, message broadcasting, and sync patterns
+- Comments explain how to swap in real WebSocket transport
+
+**Controls:** `WASD` — player 1 · Arrow keys — player 2
+
+---
+
 ## Running an example
 
-All examples share a root `bun` workspace. The Cubeforge engine source lives in the sibling `cubeforge/` directory — no npm install of the engine needed.
+All examples share a root pnpm workspace. The Cubeforge engine source lives in the sibling `cubeforge/` directory — no npm install of the engine needed.
 
 ```bash
 # Clone both repos as siblings
@@ -114,21 +239,26 @@ git clone https://github.com/1homsi/cubeforge-examples
 
 # Install deps in examples repo
 cd cubeforge-examples
-bun install
+pnpm install
 
 # Run any example
-bun run --cwd platformer dev
-bun run --cwd mario-clone dev
-bun run --cwd breakout dev
-bun run --cwd flappy-bird dev
-bun run --cwd shooter dev
-bun run --cwd top-down dev
+pnpm dev:playground        # browser IDE
+pnpm dev                   # platformer (default)
+pnpm dev:pong
+pnpm dev:snake
+pnpm dev:endless-runner
+pnpm dev:asteroids
+pnpm dev:puzzle
+pnpm dev:rpg
+pnpm dev:tower-defense
+pnpm dev:roguelike
+pnpm dev:multiplayer
 ```
 
 Or go into an example directory directly:
 
 ```bash
-cd breakout && bun dev
+cd breakout && pnpm dev
 ```
 
 ---
@@ -137,27 +267,22 @@ cd breakout && bun dev
 
 ```
 cubeforge-examples/
-  platformer/
-    src/
-      components/    Player, Enemy, Coin, Ground
-      App.tsx        game layout, HUD, overlays
-      gameEvents.ts  callback bridge between game scripts and React
-    vite.config.ts   aliases @cubeforge/* → local engine source
-  mario-clone/
-    src/
-      components/    Player, Goomba, Coin, QuestionBlock, Mushroom, GoalFlag, Ground
-  breakout/
-    src/
-      components/    Paddle, Ball, Brick
-  flappy-bird/
-    src/
-      components/    Bird, PipeManager
-  shooter/
-    src/
-      components/    Player, EnemyManager, StarField
-  top-down/
-    src/
-      components/    Player, Enemy, Key, Wall, Exit
+  platformer/         Scrolling platformer — double jump, enemies, coins
+  mario-clone/        Mario-style level — question blocks, powerups, goombas
+  breakout/           Classic brick breaker — paddle, ball, bricks
+  flappy-bird/        Tap-to-flap — scrolling pipes, high score
+  shooter/            Side-scrolling shoot-em-up — waves, enemy patterns
+  top-down/           Dungeon explorer — sword combat, keys, exit door
+  pong/               Two-player paddle battle
+  snake/              Classic snake — eat, grow, avoid tail
+  endless-runner/     Dodge obstacles, speed increases
+  asteroids/          Rotate, thrust, shoot splitting asteroids
+  puzzle/             Sokoban — push boxes onto targets
+  rpg/                Top-down action RPG — slimes, sword, coins
+  tower-defense/      Wave-based TD — 3 tower types, path enemies
+  roguelike/          Turn-based dungeon — procedural gen, fog of war
+  multiplayer/        Networked sync demo — local transport, shared ball
+  playground/         Browser IDE with Monaco + esbuild-wasm
 ```
 
 ---
@@ -170,13 +295,20 @@ cubeforge-examples/
 | Double jump + coyote time | platformer, mario-clone |
 | Enemy stomp mechanic | platformer, mario-clone |
 | Per-entity ECS component callbacks | platformer (Coin), mario-clone (Coin, QuestionBlock) |
-| Script-driven physics (no RigidBody) | breakout, flappy-bird, shooter |
-| Dynamic entity create/destroy in scripts | flappy-bird (pipes), shooter (bullets, enemies) |
-| `gravity={0}` top-down mode | shooter, top-down |
+| Script-driven physics (no RigidBody) | breakout, flappy-bird, shooter, puzzle, roguelike |
+| Dynamic entity create/destroy in scripts | flappy-bird (pipes), shooter (bullets), tower-defense (enemies, bullets) |
+| `gravity={0}` top-down mode | shooter, top-down, rpg, tower-defense, roguelike, multiplayer |
 | RigidBody with `gravityScale={0}` | top-down (player + enemies + wall collision) |
 | `gameKey` remount pattern for restart | all examples |
 | `gameEvents` callback bridge | all examples |
-| Invincibility frames with sprite flash | platformer, mario-clone, top-down |
+| Invincibility frames with sprite flash | platformer, mario-clone, top-down, rpg |
+| Grid-based movement | puzzle, roguelike |
+| Procedural generation | roguelike (dungeon rooms + corridors) |
+| Fog of war | roguelike |
+| Turn-based game loop | roguelike |
+| Wave/economy system | tower-defense |
+| Click-to-place UI + canvas entities | tower-defense |
+| Network sync pattern (Room, broadcast) | multiplayer |
 
 ---
 
