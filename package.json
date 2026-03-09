@@ -9,7 +9,7 @@
     "dev:snake": "pnpm --filter snake-example dev",
     "dev:endless-runner": "pnpm --filter endless-runner-example dev",
     "dev:asteroids": "pnpm --filter asteroids-example dev",
-    "dev:puzzle": "pnpm --filter puzzle-example dev",
+    "dev:sokoban": "pnpm --filter sokoban-example dev",
     "dev:rpg": "pnpm --filter rpg-example dev",
     "dev:tower-defense": "pnpm --filter tower-defense-example dev",
     "dev:roguelike": "pnpm --filter roguelike-example dev",

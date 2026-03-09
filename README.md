@@ -155,12 +155,13 @@ Rotate, thrust, and shoot through waves of splitting asteroids:
 
 ---
 
-### Puzzle (Sokoban)
-> `puzzle/`
+### Sokoban
+> `sokoban/`
 
-Grid-based box-pushing puzzle game:
+Grid-based box-pushing puzzle game with procedural generation:
 
-- 3 hand-crafted levels of increasing difficulty
+- Infinite procedurally generated levels (reverse-play algorithm — always solvable)
+- Difficulty scales: more boxes, larger rooms, more walls as you progress
 - Push boxes onto target tiles — no pulling allowed
 - Move counter and level tracking
 - R to restart current level
@@ -248,7 +249,7 @@ pnpm dev:pong
 pnpm dev:snake
 pnpm dev:endless-runner
 pnpm dev:asteroids
-pnpm dev:puzzle
+pnpm dev:sokoban
 pnpm dev:rpg
 pnpm dev:tower-defense
 pnpm dev:roguelike
@@ -277,7 +278,7 @@ cubeforge-examples/
   snake/              Classic snake — eat, grow, avoid tail
   endless-runner/     Dodge obstacles, speed increases
   asteroids/          Rotate, thrust, shoot splitting asteroids
-  puzzle/             Sokoban — push boxes onto targets
+  sokoban/            Sokoban — procedural box-pushing puzzles
   rpg/                Top-down action RPG — slimes, sword, coins
   tower-defense/      Wave-based TD — 3 tower types, path enemies
   roguelike/          Turn-based dungeon — procedural gen, fog of war
@@ -295,15 +296,15 @@ cubeforge-examples/
 | Double jump + coyote time | platformer, mario-clone |
 | Enemy stomp mechanic | platformer, mario-clone |
 | Per-entity ECS component callbacks | platformer (Coin), mario-clone (Coin, QuestionBlock) |
-| Script-driven physics (no RigidBody) | breakout, flappy-bird, shooter, puzzle, roguelike |
+| Script-driven physics (no RigidBody) | breakout, flappy-bird, shooter, sokoban, roguelike |
 | Dynamic entity create/destroy in scripts | flappy-bird (pipes), shooter (bullets), tower-defense (enemies, bullets) |
 | `gravity={0}` top-down mode | shooter, top-down, rpg, tower-defense, roguelike, multiplayer |
 | RigidBody with `gravityScale={0}` | top-down (player + enemies + wall collision) |
 | `gameKey` remount pattern for restart | all examples |
 | `gameEvents` callback bridge | all examples |
 | Invincibility frames with sprite flash | platformer, mario-clone, top-down, rpg |
-| Grid-based movement | puzzle, roguelike |
-| Procedural generation | roguelike (dungeon rooms + corridors) |
+| Grid-based movement | sokoban, roguelike |
+| Procedural generation | sokoban (reverse-play levels), roguelike (dungeon rooms + corridors) |
 | Fog of war | roguelike |
 | Turn-based game loop | roguelike |
 | Wave/economy system | tower-defense |

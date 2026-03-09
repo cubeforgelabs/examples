@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Game, World, Camera2D } from '@cubeforge/react'
 import {
-  LEVELS,
+  generateLevel,
   canvasSize,
   SokobanManager,
   GridTiles,
@@ -14,10 +14,6 @@ import {
   nextLevel,
 } from './components/SokobanGame'
 import type { SokobanState } from './components/SokobanGame'
-
-// Use the largest level dimensions for a fixed canvas
-const MAX_W = Math.max(...LEVELS.map(l => l.width))
-const MAX_H = Math.max(...LEVELS.map(l => l.height))
 
 // ─── App ────────────────────────────────────────────────────────────────────
 export function App() {
@@ -51,18 +47,16 @@ export function App() {
   }, [])
 
   const handleNextLevel = useCallback(() => {
-    if (levelIdx < LEVELS.length - 1) {
-      const next = levelIdx + 1
-      setLevelIdx(next)
-      setLevel(next)
-      setComplete(false)
-      setMoves(0)
-      nextLevel()
-      setGameKey(k => k + 1)
-    }
+    const next = levelIdx + 1
+    setLevelIdx(next)
+    setLevel(next)
+    setComplete(false)
+    setMoves(0)
+    nextLevel()
+    setGameKey(k => k + 1)
   }, [levelIdx])
 
-  const level = LEVELS[levelIdx]
+  const level = generateLevel(levelIdx + 1)
   const displayState = snapshot ?? {
     level:    levelIdx,
     cols:     level.width,
@@ -73,8 +67,6 @@ export function App() {
     moves:    0,
     complete: false,
   }
-
-  const numBoxes = level.boxes.length
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
@@ -97,7 +89,6 @@ export function App() {
           LEVEL <span style={{ fontSize: 22, fontWeight: 900, color: '#4fc3f7', letterSpacing: 2 }}>
             {levelIdx + 1}
           </span>
-          <span style={{ fontSize: 11, color: '#37474f' }}> / {LEVELS.length}</span>
         </div>
         <div style={{ textAlign: 'center', fontSize: 11, color: '#546e7a', letterSpacing: 4 }}>
           SOKOBAN
@@ -135,7 +126,7 @@ export function App() {
                 color: '#67c23a',
                 letterSpacing: 3,
               }}>
-                {levelIdx < LEVELS.length - 1 ? 'NICE!' : 'YOU WIN!'}
+                NICE!
               </p>
               <p style={{ fontSize: 13, color: '#90a4ae', margin: '12px 0 4px' }}>
                 Solved in {moves} move{moves !== 1 ? 's' : ''}
@@ -144,11 +135,9 @@ export function App() {
                 <button onClick={handleRestart} style={{ ...btnStyle, background: '#546e7a' }}>
                   Retry
                 </button>
-                {levelIdx < LEVELS.length - 1 && (
-                  <button onClick={handleNextLevel} style={btnStyle}>
-                    Next Level
-                  </button>
-                )}
+                <button onClick={handleNextLevel} style={btnStyle}>
+                  Next Level
+                </button>
               </div>
             </div>
           </div>

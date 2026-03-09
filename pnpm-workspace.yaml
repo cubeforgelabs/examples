@@ -10,7 +10,7 @@ packages:
   - 'snake'
   - 'endless-runner'
   - 'asteroids'
-  - 'puzzle'
+  - 'sokoban'
   - 'rpg'
   - 'tower-defense'
   - 'roguelike'

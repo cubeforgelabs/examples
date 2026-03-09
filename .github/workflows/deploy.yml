@@ -38,7 +38,7 @@ jobs:
       - name: Build examples
         run: |
           mkdir -p site
-          for example in platformer mario-clone breakout flappy-bird shooter top-down pong snake endless-runner asteroids playground puzzle rpg tower-defense roguelike multiplayer 2048 minesweeper lights-out; do
+          for example in platformer mario-clone breakout flappy-bird shooter top-down pong snake endless-runner asteroids playground sokoban rpg tower-defense roguelike multiplayer 2048 minesweeper lights-out; do
             echo "▶ Building $example..."
             cd $example
             pnpm exec vite build --base=/cubeforge-examples/${example}/

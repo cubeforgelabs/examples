@@ -192,6 +192,7 @@ export function App() {
   const [status, setStatus] = useState<GameStatus>('idle')
   const [time, setTime]     = useState(0)
   const [gameKey, setGameKey] = useState(0)
+  const [flagMode, setFlagMode] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Timer
@@ -217,8 +218,18 @@ export function App() {
     if (!pos) return
     const { row, col } = pos
 
-    // Left click — reveal
     if (status === 'lost' || status === 'won') return
+
+    // In flag mode, left click places/removes flags instead of revealing
+    if (flagMode) {
+      setGrid(prev => {
+        const next = prev.map(r => r.map(c => ({ ...c })))
+        if (next[row][col].revealed) return prev
+        next[row][col].flagged = !next[row][col].flagged
+        return next
+      })
+      return
+    }
 
     setGrid(prev => {
       const next = prev.map(r => r.map(c => ({ ...c })))
@@ -247,7 +258,7 @@ export function App() {
 
       return next
     })
-  }, [status, getCellFromEvent])
+  }, [status, flagMode, getCellFromEvent])
 
   const handleContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
@@ -269,6 +280,7 @@ export function App() {
     setGrid(createEmptyGrid())
     setStatus('idle')
     setTime(0)
+    setFlagMode(false)
     setGameKey(k => k + 1)
   }
 
@@ -303,6 +315,38 @@ export function App() {
           {String(time).padStart(3, '0')}
           <span style={{ fontSize: 10, color: '#546e7a', marginLeft: 4 }}>SEC</span>
         </div>
+      </div>
+
+      {/* ── Flag mode toggle ──────────────────────────────────────────────── */}
+      <div style={{
+        width: W,
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '6px 0',
+        background: COL_BORDER,
+      }}>
+        <button
+          onClick={() => setFlagMode(f => !f)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '6px 20px',
+            background: flagMode ? '#2a3a2a' : '#1a2535',
+            border: `1px solid ${flagMode ? '#67c23a' : '#1e2535'}`,
+            borderRadius: 6,
+            color: flagMode ? COL_FLAG : '#546e7a',
+            fontFamily: '"Courier New", monospace',
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: 2,
+            cursor: 'pointer',
+            transition: 'all 0.15s',
+          }}
+        >
+          <span style={{ fontSize: 16 }}>{flagMode ? '\u{1F6A9}' : '\u{1F4A3}'}</span>
+          {flagMode ? 'FLAG MODE' : 'REVEAL MODE'}
+        </button>
       </div>
 
       {/* ── Game canvas + overlay ────────────────────────────────────────────── */}
@@ -394,7 +438,7 @@ export function App() {
         display: 'flex',
         justifyContent: 'space-between',
       }}>
-        <span>Left click &mdash; reveal &nbsp;&middot;&nbsp; Right click &mdash; flag</span>
+        <span>Click &mdash; reveal/flag &nbsp;&middot;&nbsp; Toggle mode above &nbsp;&middot;&nbsp; Right click &mdash; flag</span>
         <span style={{ color: '#263238' }}>Cubeforge Engine</span>
       </div>
     </div>
