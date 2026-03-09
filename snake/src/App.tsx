@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
-import { Game, World, Entity, Transform, Sprite } from '@cubeforge/react'
+import { Game, World, Camera2D, Entity, Transform, Sprite } from '@cubeforge/react'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const COLS      = 20
@@ -149,6 +149,7 @@ export function App() {
       <div style={{ position: 'relative', width: W, height: H }}>
         <Game key={gameKey} width={W} height={H} gravity={0}>
           <World background="#0d1117">
+            <Camera2D x={W / 2} y={H / 2} background="#0d1117" />
 
             {/* Grid lines (subtle) */}
             {Array.from({ length: COLS + 1 }, (_, i) => (
