@@ -166,8 +166,8 @@ importers:
   platformer:
     dependencies:
       cubeforge:
-        specifier: ^0.3.15
-        version: 0.3.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.3.16
+        version: 0.3.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.0
         version: 18.3.1
@@ -809,8 +809,8 @@ packages:
       react: ^18.0.0
       react-dom: ^18.0.0
 
-  cubeforge@0.3.15:
-    resolution: {integrity: sha512-DLnh4sRwOtDqBDGcyRJ8n7CwyKs+m2a2nhnmjieI/Fm/KBuCIRdZwdMFEYxNfLJ2EAN1P0ygg5Ubce5n9hwJFA==}
+  cubeforge@0.3.16:
+    resolution: {integrity: sha512-igAyp4ohyJNmcumN66ZvAPTgtVt00oX59q+3pwYtd6DgnmTXNMWmt+NZY580S0fo5uW0gId8l299AUU0Pb57fQ==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -1377,7 +1377,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  cubeforge@0.3.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  cubeforge@0.3.16(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
