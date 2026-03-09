@@ -24,9 +24,9 @@ export function HeartPickup({ x, y, onCollect }: HeartPickupProps) {
   return (
     <Entity tags={['heart']}>
       <Transform x={x} y={y} />
-      <Sprite src="/heart.png" width={16} height={16} zIndex={6} />
+      <Sprite src="/heart.png" width={20} height={20} zIndex={6} />
       <RigidBody isStatic />
-      <BoxCollider width={16} height={16} isTrigger />
+      <BoxCollider width={20} height={20} isTrigger />
       <Script
         update={(_id: EntityId, world: ECSWorld, _input: unknown, dt: number) => {
           timer.current += dt
