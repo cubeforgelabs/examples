@@ -417,7 +417,7 @@ import { useRef } from 'react'
 import {
   Game, World, Camera2D, Entity, Transform, Sprite,
   RigidBody, BoxCollider, ScreenFlash, Text,
-  useEntity, useCamera, usePlatformerController
+  useEntity, useCamera, usePlatformerController, useInput
 } from 'cubeforge'
 import type { ScreenFlashHandle } from 'cubeforge'
 
@@ -500,7 +500,6 @@ function CameraKeyboard({ camera, flashRef }: {
   flashRef: React.RefObject<ScreenFlashHandle | null>
 }) {
   const id = useEntity()
-  const { useInput } = require('cubeforge')
   const input = useInput()
 
   // Using Script would be cleaner, but hooks demo is more instructive
