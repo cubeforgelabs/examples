@@ -10,3 +10,8 @@ packages:
   - 'snake'
   - 'endless-runner'
   - 'asteroids'
+  - 'puzzle'
+  - 'rpg'
+  - 'tower-defense'
+  - 'roguelike'
+  - 'multiplayer'
