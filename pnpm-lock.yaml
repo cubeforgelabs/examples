@@ -6,7 +6,13 @@ settings:
 
 importers:
 
-  '2048':
+  .:
+    dependencies:
+      '@supabase/supabase-js':
+        specifier: ^2.0.0
+        version: 2.99.1
+
+  games/2048:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -37,9 +43,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  .: {}
-
-  angry-birds:
+  games/angry-birds:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -70,7 +74,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  asteroids:
+  games/asteroids:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -101,7 +105,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  blackjack:
+  games/blackjack:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -132,7 +136,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  breakout:
+  games/breakout:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -163,7 +167,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  checkers:
+  games/checkers:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -194,7 +198,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  connect-4:
+  games/connect-4:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -225,7 +229,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  endless-runner:
+  games/endless-runner:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -256,7 +260,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  flappy-bird:
+  games/flappy-bird:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -287,7 +291,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  game-of-life:
+  games/game-of-life:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -318,7 +322,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  idle:
+  games/idle:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -349,7 +353,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  lights-out:
+  games/lights-out:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -380,7 +384,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  mario-clone:
+  games/mario-clone:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -411,7 +415,7 @@ importers:
         specifier: ^5.4.21
         version: 5.4.21(@types/node@20.19.37)
 
-  match-3:
+  games/match-3:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -442,7 +446,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  memory-card:
+  games/memory-card:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -473,7 +477,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  minesweeper:
+  games/minesweeper:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -504,7 +508,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  multiplayer:
+  games/multiplayer:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -535,7 +539,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  pac-man:
+  games/pac-man:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -566,7 +570,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  platformer:
+  games/platformer:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -597,7 +601,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  playground:
+  games/playground:
     dependencies:
       '@monaco-editor/react':
         specifier: ^4.6.0
@@ -631,7 +635,7 @@ importers:
         specifier: ^5.0.0
         version: 5.4.21(@types/node@20.19.37)
 
-  pong:
+  games/pong:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -662,7 +666,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  rhythm:
+  games/rhythm:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -693,7 +697,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  roguelike:
+  games/roguelike:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -724,7 +728,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  rpg:
+  games/rpg:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -755,7 +759,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  shooter:
+  games/shooter:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -786,7 +790,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  simon:
+  games/simon:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -817,7 +821,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  sliding-puzzle:
+  games/sliding-puzzle:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -848,7 +852,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  snake:
+  games/snake:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -879,7 +883,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  sokoban:
+  games/sokoban:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -910,7 +914,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  solitaire:
+  games/solitaire:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -941,7 +945,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  tetris:
+  games/tetris:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -972,7 +976,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  tic-tac-toe:
+  games/tic-tac-toe:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1003,7 +1007,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  top-down:
+  games/top-down:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1034,7 +1038,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  tower-defense:
+  games/tower-defense:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1065,7 +1069,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  twin-stick:
+  games/twin-stick:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1096,7 +1100,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  vampire-survivors:
+  games/vampire-survivors:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1127,7 +1131,7 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)
 
-  whack-a-mole:
+  games/whack-a-mole:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1548,6 +1552,30 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@supabase/auth-js@2.99.1':
+    resolution: {integrity: sha512-x7lKKTvKjABJt/FYcRSPiTT01Xhm2FF8RhfL8+RHMkmlwmRQ88/lREupIHKwFPW0W6pTCJqkZb7Yhpw/EZ+fNw==}
+    engines: {node: '>=20.0.0'}
+
+  '@supabase/functions-js@2.99.1':
+    resolution: {integrity: sha512-WQE62W5geYImCO4jzFxCk/avnK7JmOdtqu2eiPz3zOaNiIJajNRSAwMMDgEGd2EMs+sUVYj1LfBjfmW3EzHgIA==}
+    engines: {node: '>=20.0.0'}
+
+  '@supabase/postgrest-js@2.99.1':
+    resolution: {integrity: sha512-gtw2ibJrADvfqrpUWXGNlrYUvxttF4WVWfPpTFKOb2IRj7B6YRWMDgcrYqIuD4ZEabK4m6YKQCCGy6clgf1lPA==}
+    engines: {node: '>=20.0.0'}
+
+  '@supabase/realtime-js@2.99.1':
+    resolution: {integrity: sha512-9EDdy/5wOseGFqxW88ShV9JMRhm7f+9JGY5x+LqT8c7R0X1CTLwg5qie8FiBWcXTZ+68yYxVWunI+7W4FhkWOg==}
+    engines: {node: '>=20.0.0'}
+
+  '@supabase/storage-js@2.99.1':
+    resolution: {integrity: sha512-mf7zPfqofI62SOoyQJeNUVxe72E4rQsbWim6lTDPeLu3lHija/cP5utlQADGrjeTgOUN6znx/rWn7SjrETP1dw==}
+    engines: {node: '>=20.0.0'}
+
+  '@supabase/supabase-js@2.99.1':
+    resolution: {integrity: sha512-5MRoYD9ffXq8F6a036dm65YoSHisC3by/d22mauKE99Vrwf792KxYIIr/iqCX7E4hkuugbPZ5EGYHTB7MKy6Vg==}
+    engines: {node: '>=20.0.0'}
+
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
 
@@ -1566,6 +1594,9 @@ packages:
   '@types/node@20.19.37':
     resolution: {integrity: sha512-8kzdPJ3FsNsVIurqBs7oodNnCEVbni9yUEkaHbgptDACOPW04jimGagZ51E6+lXUwJjgnBw+hyko/lkFWCldqw==}
 
+  '@types/phoenix@1.6.7':
+    resolution: {integrity: sha512-oN9ive//QSBkf19rfDv45M7eZPi0eEXylht2OLEXicu5b4KoQ1OzXIw+xDSGWxSxe1JmepRR/ZH283vsu518/Q==}
+
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
 
@@ -1576,6 +1607,9 @@ packages:
 
   '@types/react@18.3.28':
     resolution: {integrity: sha512-z9VXpC7MWrhfWipitjNdgCauoMLRdIILQsAEV+ZesIzBq/oUlxk0m3ApZuMFCXdnS4U7KrI+l3WRUEGQ8K1QKw==}
+
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@vitejs/plugin-react@4.7.0':
     resolution: {integrity: sha512-gUu9hwfWvvEDBBmgtAowQCojwZmJ5mcLn3aufeCsitijs3+f2NsrPtlAWIR6OPiqljl96GVCUbLe0HyqIpVaoA==}
@@ -1653,6 +1687,10 @@ packages:
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
+
+  iceberg-js@0.8.1:
+    resolution: {integrity: sha512-1dhVQZXhcHje7798IVM+xoo/1ZdVfzOMIc8/rgVSijRK38EDqOJoGula9N/8ZI5RD8QTxNQtK/Gozpr+qUqRRA==}
+    engines: {node: '>=20.0.0'}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -1764,6 +1802,9 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
@@ -1807,6 +1848,18 @@ packages:
       sugarss:
         optional: true
       terser:
+        optional: true
+
+  ws@8.19.0:
+    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
         optional: true
 
   yallist@3.1.1:
@@ -2102,6 +2155,44 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.59.0':
     optional: true
 
+  '@supabase/auth-js@2.99.1':
+    dependencies:
+      tslib: 2.8.1
+
+  '@supabase/functions-js@2.99.1':
+    dependencies:
+      tslib: 2.8.1
+
+  '@supabase/postgrest-js@2.99.1':
+    dependencies:
+      tslib: 2.8.1
+
+  '@supabase/realtime-js@2.99.1':
+    dependencies:
+      '@types/phoenix': 1.6.7
+      '@types/ws': 8.18.1
+      tslib: 2.8.1
+      ws: 8.19.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@supabase/storage-js@2.99.1':
+    dependencies:
+      iceberg-js: 0.8.1
+      tslib: 2.8.1
+
+  '@supabase/supabase-js@2.99.1':
+    dependencies:
+      '@supabase/auth-js': 2.99.1
+      '@supabase/functions-js': 2.99.1
+      '@supabase/postgrest-js': 2.99.1
+      '@supabase/realtime-js': 2.99.1
+      '@supabase/storage-js': 2.99.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.29.0
@@ -2129,6 +2220,8 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/phoenix@1.6.7': {}
+
   '@types/prop-types@15.7.15': {}
 
   '@types/react-dom@18.3.7(@types/react@18.3.28)':
@@ -2139,6 +2232,10 @@ snapshots:
     dependencies:
       '@types/prop-types': 15.7.15
       csstype: 3.2.3
+
+  '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 20.19.37
 
   '@vitejs/plugin-react@4.7.0(vite@5.4.21(@types/node@20.19.37))':
     dependencies:
@@ -2219,6 +2316,8 @@ snapshots:
     optional: true
 
   gensync@1.0.0-beta.2: {}
+
+  iceberg-js@0.8.1: {}
 
   js-tokens@4.0.0: {}
 
@@ -2342,6 +2441,8 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
+  tslib@2.8.1: {}
+
   typescript@5.9.3: {}
 
   undici-types@6.21.0: {}
@@ -2360,5 +2461,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.19.37
       fsevents: 2.3.3
+
+  ws@8.19.0: {}
 
   yallist@3.1.1: {}

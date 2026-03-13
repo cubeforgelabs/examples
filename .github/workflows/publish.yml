@@ -46,10 +46,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install root dependencies (publish script)
+        run: pnpm install --ignore-workspace
+
+      - name: Install game dependencies
+        run: pnpm install --filter ${{ matrix.game }}
 
       - name: Publish ${{ matrix.game }}
         env:
