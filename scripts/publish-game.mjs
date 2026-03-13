@@ -74,9 +74,11 @@ for (const filePath of files) {
     wav: 'audio/wav',
   }[ext] ?? 'application/octet-stream'
 
+  // Remove first so S3 metadata (content-type) is always fresh on re-upload
+  await supabase.storage.from('games').remove([storagePath])
   const { error } = await supabase.storage
     .from('games')
-    .upload(storagePath, content, { contentType, upsert: true })
+    .upload(storagePath, content, { contentType })
 
   if (error) { console.error(`  ✗ ${storagePath}: ${error.message}`); process.exit(1) }
   console.log(`  ✓ ${storagePath}`)
