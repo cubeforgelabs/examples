@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cubeforge - Typing Games</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body, #root {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: #f5f7fb;
+        background:
+          radial-gradient(circle at top, rgba(123, 92, 255, 0.24), transparent 32%),
+          radial-gradient(circle at 80% 20%, rgba(45, 212, 191, 0.16), transparent 26%),
+          linear-gradient(180deg, #07111f 0%, #0b1324 54%, #050a14 100%);
+        font-family: "Avenir Next", "SF Pro Text", "Segoe UI", sans-serif;
+      }
+
+      button, input {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

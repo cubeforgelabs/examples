@@ -37,6 +37,10 @@ Each example is a self-contained Vite + React app. They all point to the local `
 | [Memory Card](memory-card/) | Puzzle | Click |
 | [Simon](simon/) | Educational | Click |
 | [Whack-a-Mole](whack-a-mole/) | Educational | Click |
+| [Typing Games](typing-games/) | Educational | Keyboard / Enter |
+| [Math Puzzles](math-puzzles/) | Educational | Keyboard / Click |
+| [Speed Reaction](speed-reaction/) | Educational | Click / Space / Enter |
+| [Quiz Games](quiz-games/) | Educational | Keyboard / Click |
 | [Dungeon Explorer](top-down/) | Top-down | WASD / Space |
 | [RPG](rpg/) | Top-down | WASD / Space |
 | [Roguelike](roguelike/) | Top-down | WASD / Arrows |

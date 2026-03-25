@@ -1,6 +1,6 @@
 # Cubeforge Examples Roadmap
 
-This is the development roadmap for **cubeforge-examples** -- a growing collection of example games built with the [Cubeforge](https://github.com/1homsi/cubeforge) game engine. The repo currently ships **60 playable examples** and is on track to reach **100+ games** spanning every genre a 2D engine can handle.
+This is the development roadmap for **cubeforge-examples** -- a growing collection of example games built with the [Cubeforge](https://github.com/1homsi/cubeforge) game engine. The repo currently ships **64 playable examples** and is on track to reach **100+ games** spanning every genre a 2D engine can handle.
 
 ---
 
@@ -225,8 +225,8 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 
 | Game | Status | Description |
 |------|--------|-------------|
-| Typing Games | :white_circle: | Improve typing speed and accuracy |
-| Math Puzzles | :white_circle: | Solve math problems under pressure |
+| Typing Games | :white_check_mark: | Improve typing speed and accuracy |
+| Math Puzzles | :white_check_mark: | Solve math problems under pressure |
 | Programming Puzzles | :white_circle: | Learn coding through puzzle solving |
 | Language Learning | :white_circle: | Interactive vocabulary practice game |
 | Logic Training | :white_circle: | Sharpen logical reasoning skills |
@@ -235,8 +235,8 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Memory Games | :white_circle: | Test and improve memory recall |
 | Pattern Recognition | :white_circle: | Identify and complete visual patterns |
 | Whack-a-Mole | :white_check_mark: | Click moles before they hide |
-| Speed Reaction | :white_circle: | Fast reflexes reaction time game |
-| Quiz Games | :white_circle: | Trivia and knowledge quiz game |
+| Speed Reaction | :white_check_mark: | Fast reflexes reaction time game |
+| Quiz Games | :white_check_mark: | Trivia and knowledge quiz game |
 | Geography Games | :white_circle: | Learn world geography interactively |
 
 ## Experimental

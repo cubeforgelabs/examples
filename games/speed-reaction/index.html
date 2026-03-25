@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cubeforge - Speed Reaction</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          radial-gradient(circle at top, rgba(255, 196, 82, 0.15), transparent 28%),
+          linear-gradient(180deg, #121826 0%, #090c12 100%);
+        font-family: "Courier New", monospace;
+        color: #f3f4f6;
+      }
+      #root {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 24px;
+      }
+      button, input {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

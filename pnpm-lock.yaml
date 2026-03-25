@@ -818,6 +818,37 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
 
+  games/math-puzzles:
+    dependencies:
+      cubeforge:
+        specifier: ^0.4.7
+        version: 0.4.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.37
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.7(@types/react@18.3.28)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.0
+        version: 4.7.0(vite@5.4.21(@types/node@20.19.37)(lightningcss@1.31.1))
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
+
   games/memory-card:
     dependencies:
       cubeforge:
@@ -1194,6 +1225,37 @@ importers:
         version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
 
   games/puyo-puyo:
+    dependencies:
+      cubeforge:
+        specifier: ^0.4.7
+        version: 0.4.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.37
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.7(@types/react@18.3.28)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.0
+        version: 4.7.0(vite@5.4.21(@types/node@20.19.37)(lightningcss@1.31.1))
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
+
+  games/quiz-games:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
@@ -1627,6 +1689,37 @@ importers:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
 
+  games/speed-reaction:
+    dependencies:
+      cubeforge:
+        specifier: ^0.4.7
+        version: 0.4.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.37
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.7(@types/react@18.3.28)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.0
+        version: 4.7.0(vite@5.4.21(@types/node@20.19.37)(lightningcss@1.31.1))
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
+
   games/tank-shooter:
     dependencies:
       cubeforge:
@@ -1876,6 +1969,37 @@ importers:
         version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
 
   games/twin-stick:
+    dependencies:
+      cubeforge:
+        specifier: ^0.4.7
+        version: 0.4.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.37
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.7(@types/react@18.3.28)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.0
+        version: 4.7.0(vite@5.4.21(@types/node@20.19.37)(lightningcss@1.31.1))
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.37)(lightningcss@1.31.1)
+
+  games/typing-games:
     dependencies:
       cubeforge:
         specifier: ^0.4.7
