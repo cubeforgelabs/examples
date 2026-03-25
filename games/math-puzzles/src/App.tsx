@@ -16,6 +16,7 @@ const SESSION_SECONDS = 75
 const MIN_QUESTION_MS = 3000
 const MAX_QUESTION_MS = 8000
 const TICK_MS = 50
+const APP_FRAME_HEIGHT = 640
 
 const COLORS = {
   bg: '#08111f',
@@ -172,10 +173,10 @@ function KeyButton({
     tone === 'accent' ? 'rgba(125, 211, 252, 0.34)' : tone === 'danger' ? 'rgba(251, 113, 133, 0.34)' : 'rgba(148, 163, 184, 0.16)'
   const background =
     tone === 'accent'
-      ? 'linear-gradient(180deg, rgba(56, 189, 248, 0.24), rgba(15, 23, 42, 0.92))'
+      ? 'rgba(56, 189, 248, 0.22)'
       : tone === 'danger'
-        ? 'linear-gradient(180deg, rgba(251, 113, 133, 0.2), rgba(15, 23, 42, 0.92))'
-        : 'linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(10, 17, 31, 0.94))'
+        ? 'rgba(251, 113, 133, 0.16)'
+        : 'rgba(15, 23, 42, 0.96)'
 
   return (
     <button
@@ -471,9 +472,8 @@ export function App() {
   return (
     <div
       style={{
-        minHeight: '100vh',
+        width: '100%',
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'center',
         padding: 24,
         color: COLORS.text,
@@ -482,8 +482,15 @@ export function App() {
       <main
         style={{
           width: 'min(1080px, 100%)',
+          height: APP_FRAME_HEIGHT,
           display: 'grid',
           gap: 20,
+          padding: 20,
+          borderRadius: 28,
+          background: 'rgba(8, 13, 24, 0.96)',
+          border: '1px solid rgba(148, 163, 184, 0.16)',
+          boxShadow: COLORS.shadow,
+          overflow: 'auto',
         }}
       >
         <section
@@ -505,13 +512,7 @@ export function App() {
           >
             <div
               style={{
-                position: 'absolute',
-                inset: 'auto -40px -45px auto',
-                width: 180,
-                height: 180,
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(125, 211, 252, 0.22), transparent 70%)',
-                filter: 'blur(2px)',
+                display: 'none',
               }}
             />
 
@@ -555,7 +556,7 @@ export function App() {
                   onClick={startGame}
                   style={{
                     border: '1px solid rgba(125, 211, 252, 0.35)',
-                    background: 'linear-gradient(180deg, rgba(56, 189, 248, 0.3), rgba(14, 28, 48, 0.96))',
+                    background: 'rgba(56, 189, 248, 0.22)',
                     color: COLORS.text,
                     borderRadius: 16,
                     padding: '14px 18px',
@@ -617,7 +618,7 @@ export function App() {
                   style={{
                     width: `${Math.max(0, Math.min(100, (sessionLeftMs / (SESSION_SECONDS * 1000)) * 100))}%`,
                     height: '100%',
-                    background: 'linear-gradient(90deg, #38bdf8 0%, #34d399 100%)',
+                    background: COLORS.accentSoft,
                     transition: 'width 80ms linear',
                   }}
                 />
@@ -655,7 +656,7 @@ export function App() {
                 style={{
                   borderRadius: 24,
                   border: '1px solid rgba(125, 211, 252, 0.16)',
-                  background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(5, 11, 24, 0.96))',
+                  background: 'rgba(15, 23, 42, 0.96)',
                   padding: 24,
                 }}
               >
@@ -714,7 +715,7 @@ export function App() {
                       minWidth: 128,
                       borderRadius: 16,
                       border: '1px solid rgba(52, 211, 153, 0.34)',
-                      background: 'linear-gradient(180deg, rgba(52, 211, 153, 0.24), rgba(15, 23, 42, 0.96))',
+                      background: 'rgba(52, 211, 153, 0.18)',
                       color: COLORS.text,
                       fontWeight: 800,
                       cursor: 'pointer',
@@ -759,7 +760,7 @@ export function App() {
                       width: `${questionProgress * 100}%`,
                       height: '100%',
                       borderRadius: 999,
-                      background: `linear-gradient(90deg, ${COLORS.gold} 0%, ${COLORS.good} 100%)`,
+                      background: COLORS.gold,
                       transition: 'width 50ms linear',
                     }}
                   />

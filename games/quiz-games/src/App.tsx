@@ -25,6 +25,7 @@ type Feedback = {
 
 const QUESTION_COUNT = 10
 const STORAGE_KEY = 'quiz-games-best-score'
+const APP_FRAME_HEIGHT = 640
 
 const QUESTION_BANK: Question[] = [
   {
@@ -649,38 +650,28 @@ function Metric({ label, value, accent }: { label: string; value: string; accent
 
 const styles: Record<string, CSSProperties> = {
   shell: {
-    minHeight: '100vh',
-    padding: '32px 20px 40px',
-    position: 'relative',
-    overflow: 'hidden',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
   },
   glowA: {
-    position: 'absolute',
-    inset: 'auto auto 6% -8%',
-    width: 320,
-    height: 320,
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(244, 114, 182, 0.24), transparent 68%)',
-    filter: 'blur(14px)',
-    pointerEvents: 'none',
+    display: 'none',
   },
   glowB: {
-    position: 'absolute',
-    inset: '8% -6% auto auto',
-    width: 360,
-    height: 360,
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(45, 212, 191, 0.2), transparent 68%)',
-    filter: 'blur(10px)',
-    pointerEvents: 'none',
+    display: 'none',
   },
   frame: {
-    position: 'relative',
-    zIndex: 1,
     width: 'min(1120px, 100%)',
-    margin: '0 auto',
-    display: 'grid',
+    height: APP_FRAME_HEIGHT,
+    display: 'flex',
+    flexDirection: 'column',
     gap: 18,
+    padding: 20,
+    borderRadius: 28,
+    background: 'rgba(8, 13, 24, 0.96)',
+    border: '1px solid rgba(148, 163, 184, 0.16)',
+    boxShadow: '0 24px 70px rgba(2, 6, 23, 0.32)',
+    overflow: 'hidden',
   },
   header: {
     display: 'flex',
@@ -758,14 +749,14 @@ const styles: Record<string, CSSProperties> = {
   },
   panel: {
     display: 'grid',
+    flex: 1,
+    minHeight: 0,
+    overflow: 'auto',
     gap: 16,
     padding: '22px',
     borderRadius: 28,
-    background:
-      'linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(10, 16, 30, 0.96))',
+    background: 'rgba(15, 23, 42, 0.94)',
     border: '1px solid rgba(148, 163, 184, 0.18)',
-    boxShadow: '0 30px 70px rgba(2, 6, 23, 0.32)',
-    backdropFilter: 'blur(10px)',
   },
   panelTop: {
     display: 'flex',
@@ -918,9 +909,9 @@ const styles: Record<string, CSSProperties> = {
     fontSize: 15,
     fontWeight: 800,
     color: '#08111f',
-    background: 'linear-gradient(135deg, #f8f1a1, #fbbf24 42%, #fb7185)',
+    background: '#fbbf24',
     cursor: 'pointer',
-    boxShadow: '0 18px 40px rgba(251, 191, 36, 0.24)',
+    boxShadow: '0 18px 40px rgba(251, 191, 36, 0.18)',
   },
   feedbackCard: {
     display: 'grid',
@@ -964,7 +955,7 @@ const styles: Record<string, CSSProperties> = {
     gap: 16,
     padding: 20,
     borderRadius: 22,
-    background: 'linear-gradient(180deg, rgba(99, 102, 241, 0.16), rgba(255, 255, 255, 0.05))',
+    background: 'rgba(99, 102, 241, 0.10)',
     border: '1px solid rgba(148, 163, 184, 0.18)',
   },
   summaryTitle: {

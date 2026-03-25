@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 const TOTAL_ROUNDS = 5
 const MIN_DELAY_MS = 1400
 const MAX_DELAY_MS = 3600
+const APP_FRAME_HEIGHT = 640
 
 type Phase = 'idle' | 'waiting' | 'ready' | 'result' | 'summary' | 'false-start'
 
@@ -235,14 +236,17 @@ const shellStyle: CSSProperties = {
 
 const frameStyle: CSSProperties = {
   width: 'min(720px, 100%)',
+  height: APP_FRAME_HEIGHT,
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   gap: 18,
   padding: 22,
   borderRadius: 24,
-  background: 'rgba(8, 12, 20, 0.9)',
+  background: 'rgba(8, 12, 20, 0.96)',
   border: '1px solid rgba(255,255,255,0.08)',
   boxShadow: '0 28px 80px rgba(0,0,0,0.4)',
+  overflow: 'hidden',
 }
 
 const hudStyle: CSSProperties = {
@@ -265,7 +269,8 @@ const panelStyle: CSSProperties = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: 360,
+  flex: 1,
+  minHeight: 0,
   borderRadius: 24,
   border: '1px solid rgba(255,255,255,0.08)',
   padding: '24px 32px',

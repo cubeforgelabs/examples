@@ -15,6 +15,7 @@ type RoundStats = {
 const ROUND_MS = 60_000
 const QUEUE_SIZE = 7
 const STORAGE_KEY = 'typing-games-best-wpm'
+const APP_FRAME_HEIGHT = 640
 
 const WORDS = [
   'orbit', 'signal', 'vector', 'canvas', 'spark', 'meteor', 'glimmer', 'prompt',
@@ -412,40 +413,28 @@ function Metric({ label, value, accent }: { label: string; value: string; accent
 
 const styles: Record<string, CSSProperties> = {
   shell: {
-    minHeight: '100vh',
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'stretch',
-    padding: '32px 18px',
-    position: 'relative',
-    overflow: 'hidden',
   },
   frame: {
     width: 'min(1080px, 100%)',
-    margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     gap: 18,
-    position: 'relative',
-    zIndex: 1,
+    height: APP_FRAME_HEIGHT,
+    padding: 20,
+    borderRadius: 28,
+    background: 'rgba(8, 13, 24, 0.96)',
+    border: '1px solid rgba(150, 178, 255, 0.12)',
+    boxShadow: '0 24px 80px rgba(2, 8, 22, 0.42)',
+    overflow: 'hidden',
   },
   blobOne: {
-    position: 'absolute',
-    inset: 'auto auto 55% -8%',
-    width: 360,
-    height: 360,
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(123, 92, 255, 0.24), transparent 68%)',
-    filter: 'blur(8px)',
+    display: 'none',
   },
   blobTwo: {
-    position: 'absolute',
-    inset: '10% -6% auto auto',
-    width: 320,
-    height: 320,
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(46, 196, 182, 0.18), transparent 68%)',
-    filter: 'blur(10px)',
+    display: 'none',
   },
   header: {
     display: 'flex',
@@ -532,12 +521,14 @@ const styles: Record<string, CSSProperties> = {
   },
   board: {
     position: 'relative',
+    flex: 1,
+    minHeight: 0,
+    overflow: 'auto',
     padding: 28,
     borderRadius: 28,
-    background: 'linear-gradient(180deg, rgba(10, 16, 32, 0.92), rgba(7, 12, 24, 0.9))',
+    background: 'rgba(10, 16, 32, 0.94)',
     border: '1px solid rgba(155, 184, 255, 0.12)',
-    boxShadow: '0 24px 80px rgba(2, 8, 22, 0.48)',
-    overflow: 'hidden',
+    boxShadow: '0 18px 48px rgba(2, 8, 22, 0.34)',
   },
   boardTopRow: {
     display: 'grid',
@@ -618,7 +609,7 @@ const styles: Record<string, CSSProperties> = {
   progressFill: {
     height: '100%',
     borderRadius: 999,
-    background: 'linear-gradient(90deg, #66f0c8 0%, #72a6ff 54%, #c57dff 100%)',
+    background: '#72a6ff',
     transition: 'width 80ms linear',
   },
   queueRow: {
@@ -682,13 +673,13 @@ const styles: Record<string, CSSProperties> = {
     padding: '0 20px',
     borderRadius: 18,
     border: 'none',
-    background: 'linear-gradient(135deg, #72a6ff 0%, #7b5cff 100%)',
+    background: '#72a6ff',
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 800,
     letterSpacing: '0.02em',
     cursor: 'pointer',
-    boxShadow: '0 16px 32px rgba(89, 109, 255, 0.3)',
+    boxShadow: '0 16px 32px rgba(89, 109, 255, 0.2)',
     transition: 'transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease',
   },
   primaryButtonDisabled: {
@@ -715,7 +706,7 @@ const styles: Record<string, CSSProperties> = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-    background: 'linear-gradient(180deg, rgba(3, 8, 18, 0.28), rgba(3, 8, 18, 0.62))',
+    background: 'rgba(3, 8, 18, 0.62)',
     backdropFilter: 'blur(8px)',
   },
   overlayCard: {

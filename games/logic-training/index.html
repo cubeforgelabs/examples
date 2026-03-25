@@ -3,26 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cubeforge - Typing Games</title>
+    <title>Cubeforge - Logic Training</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
         background: #0d0d0d;
+        min-height: 100vh;
+        color: #eef2ff;
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
-        font-family: "Avenir Next", "SF Pro Text", "Segoe UI", sans-serif;
-        color: #f5f7fb;
       }
+
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
       #root {
         width: 100%;
         display: flex;
         justify-content: center;
         padding: 24px;
       }
-      button, input { font: inherit; }
     </style>
   </head>
   <body>

@@ -5,32 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cubeforge - Quiz Games</title>
     <style>
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body,
-      #root {
-        min-height: 100%;
-      }
-
+      * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
-        margin: 0;
+        background: #0d0d0d;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         min-height: 100vh;
-        color: #f6f7fb;
-        background:
-          radial-gradient(circle at top left, rgba(251, 191, 36, 0.16), transparent 30%),
-          radial-gradient(circle at 85% 15%, rgba(45, 212, 191, 0.18), transparent 24%),
-          radial-gradient(circle at 50% 110%, rgba(99, 102, 241, 0.18), transparent 34%),
-          linear-gradient(180deg, #08111f 0%, #0a1324 48%, #050913 100%);
         font-family: "Avenir Next", "SF Pro Text", "Segoe UI", sans-serif;
+        color: #f6f7fb;
       }
-
-      button,
-      input {
-        font: inherit;
+      #root {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 24px;
       }
+      button, input { font: inherit; }
     </style>
   </head>
   <body>
