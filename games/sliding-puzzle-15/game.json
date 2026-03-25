@@ -1,0 +1,9 @@
+{
+  "slug": "gravity-puzzles",
+  "title": "Gravity Puzzle",
+  "description": "Switch gravity direction to move colored blocks and match patterns.",
+  "tags": [
+    "puzzle",
+    "physics"
+  ]
+}

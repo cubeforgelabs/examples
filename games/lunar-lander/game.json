@@ -1,0 +1,10 @@
+{
+  "slug": "lunar-lander",
+  "title": "Lunar Lander",
+  "description": "Guide your spacecraft to a gentle landing on the moon's surface with limited fuel.",
+  "tags": [
+    "arcade",
+    "physics",
+    "classic"
+  ]
+}

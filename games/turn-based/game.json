@@ -1,0 +1,9 @@
+{
+  "slug": "turn-based-strategy",
+  "title": "Turn-Based Strategy",
+  "description": "Grid-based tactical combat with warriors, archers, and mages.",
+  "tags": [
+    "strategy",
+    "tactics"
+  ]
+}

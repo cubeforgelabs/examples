@@ -1,0 +1,9 @@
+{
+  "slug": "puyo-puyo",
+  "title": "Puyo Puyo",
+  "description": "Drop colored blob pairs and connect 4+ of the same color to pop them.",
+  "tags": [
+    "puzzle",
+    "arcade"
+  ]
+}

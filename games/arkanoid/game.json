@@ -1,0 +1,10 @@
+{
+  "slug": "arkanoid",
+  "title": "Arkanoid",
+  "description": "Smash bricks with a bouncing ball, collect power-ups, and clear every level.",
+  "tags": [
+    "arcade",
+    "breakout",
+    "classic"
+  ]
+}

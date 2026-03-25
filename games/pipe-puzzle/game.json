@@ -1,0 +1,9 @@
+{
+  "slug": "pipe-puzzle",
+  "title": "Pipe Puzzle",
+  "description": "Rotate pipe tiles to connect source to drain before time runs out.",
+  "tags": [
+    "puzzle",
+    "logic"
+  ]
+}

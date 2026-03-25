@@ -1,0 +1,10 @@
+{
+  "slug": "wall-jump",
+  "title": "Wall Jump",
+  "description": "Leap between walls and climb as high as you can without falling.",
+  "tags": [
+    "platformer",
+    "vertical",
+    "arcade"
+  ]
+}

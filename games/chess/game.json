@@ -1,0 +1,10 @@
+{
+  "slug": "chess",
+  "title": "Chess",
+  "description": "Full chess with valid move highlights, all piece rules, and check/checkmate detection.",
+  "tags": [
+    "board",
+    "strategy",
+    "classic"
+  ]
+}

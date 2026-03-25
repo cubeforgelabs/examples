@@ -1,0 +1,10 @@
+{
+  "slug": "reversi",
+  "title": "Reversi",
+  "description": "Classic Othello/Reversi on an 8x8 board with simple AI opponent.",
+  "tags": [
+    "board",
+    "strategy",
+    "classic"
+  ]
+}

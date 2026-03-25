@@ -1,6 +1,6 @@
 # Cubeforge Examples Roadmap
 
-This is the development roadmap for **cubeforge-examples** -- a growing collection of example games built with the [Cubeforge](https://github.com/1homsi/cubeforge) game engine. The repo currently ships **37 playable examples** and is on track to reach **100+ games** spanning every genre a 2D engine can handle.
+This is the development roadmap for **cubeforge-examples** -- a growing collection of example games built with the [Cubeforge](https://github.com/1homsi/cubeforge) game engine. The repo currently ships **60 playable examples** and is on track to reach **100+ games** spanning every genre a 2D engine can handle.
 
 ---
 
@@ -9,7 +9,7 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Icon | Meaning |
 |------|---------|
 | :white_check_mark: | **Done** -- playable and merged |
-| :construction: | **In Progress** -- actively being built |
+| :white_check_mark: | **In Progress** -- actively being built |
 | :white_circle: | **Planned** -- open for contribution |
 
 ---
@@ -21,13 +21,13 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Platformer | :white_check_mark: | Classic side-scrolling platformer |
 | Endless Runner | :white_check_mark: | Auto-scrolling run-and-jump game |
 | Mario Clone | :white_check_mark: | Mario-inspired level-based platformer |
-| Metroidvania | :white_circle: | Exploration with ability-gated areas |
+| Metroidvania | :white_check_mark: | Exploration with ability-gated areas |
 | Precision Platformer | :white_circle: | Celeste-style tight movement mechanics |
-| Auto-runner | :white_circle: | One-button auto-scrolling runner |
+| Auto-runner | :white_check_mark: | One-button auto-scrolling runner |
 | Rope / Grappling Hook | :white_circle: | Swing and launch with rope physics |
 | Parkour | :white_circle: | Momentum-based acrobatic movement |
 | Jetpack | :white_circle: | Thrust-based vertical platforming |
-| Wall-jump | :white_circle: | Wall-cling and wall-jump mechanics |
+| Wall-jump | :white_check_mark: | Wall-cling and wall-jump mechanics |
 
 ## Arcade
 
@@ -38,17 +38,17 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Breakout | :white_check_mark: | Paddle and brick destruction |
 | Flappy Bird | :white_check_mark: | Tap-to-fly through pipe gaps |
 | Asteroids | :white_check_mark: | Ship rotation and asteroid shooting |
-| Tetris | :construction: | Falling block stacking puzzle |
-| Pac-Man | :construction: | Maze navigation with ghost AI |
-| Space Invaders | :white_circle: | Rows of aliens descending slowly |
-| Frogger | :white_circle: | Cross traffic and river safely |
-| Arkanoid | :white_circle: | Enhanced breakout with power-ups |
+| Tetris | :white_check_mark: | Falling block stacking puzzle |
+| Pac-Man | :white_check_mark: | Maze navigation with ghost AI |
+| Space Invaders | :white_check_mark: | Rows of aliens descending slowly |
+| Frogger | :white_check_mark: | Cross traffic and river safely |
+| Arkanoid | :white_check_mark: | Enhanced breakout with power-ups |
 | Qix | :white_circle: | Claim territory by drawing lines |
-| Missile Command | :white_circle: | Defend cities from falling missiles |
-| Galaga | :white_circle: | Formation-based space shooting arcade |
+| Missile Command | :white_check_mark: | Defend cities from falling missiles |
+| Galaga | :white_check_mark: | Formation-based space shooting arcade |
 | Centipede | :white_circle: | Shoot segmented centipede in garden |
 | Dig Dug | :white_circle: | Dig tunnels and inflate enemies |
-| Lunar Lander | :white_circle: | Thrust-controlled precision moon landing |
+| Lunar Lander | :white_check_mark: | Thrust-controlled precision moon landing |
 
 ## Puzzle
 
@@ -58,12 +58,12 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Minesweeper | :white_check_mark: | Uncover grid avoiding hidden mines |
 | Sokoban | :white_check_mark: | Push boxes onto target squares |
 | Lights Out | :white_check_mark: | Toggle lights to clear the board |
-| Match-3 | :construction: | Swap gems to match three |
+| Match-3 | :white_check_mark: | Swap gems to match three |
 | Tetris Puzzle | :white_circle: | Shape-fitting spatial logic puzzles |
-| Dr. Mario | :white_circle: | Match-color virus elimination game |
-| Puyo Puyo | :white_circle: | Chain-reaction blob matching puzzle |
+| Dr. Mario | :white_check_mark: | Match-color virus elimination game |
+| Puyo Puyo | :white_check_mark: | Chain-reaction blob matching puzzle |
 | Sliding Puzzle | :white_check_mark: | Rearrange tiles into correct order |
-| Pipe Puzzle | :white_circle: | Connect pipes to complete flow |
+| Pipe Puzzle | :white_check_mark: | Connect pipes to complete flow |
 | Laser Mirror Puzzle | :white_circle: | Redirect laser beams with mirrors |
 | Block Push Puzzles | :white_circle: | Advanced block-pushing logic challenges |
 | Gravity Puzzles | :white_circle: | Shift gravity to solve levels |
@@ -77,8 +77,8 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Dungeon Explorer | :white_check_mark: | Explore procedural dungeon rooms |
 | RPG | :white_check_mark: | Top-down RPG with dialogue system |
 | Roguelike | :white_check_mark: | Procedural permadeath dungeon crawler |
-| Twin-Stick Shooter | :construction: | Dual-stick directional combat arena |
-| Vampire Survivors Style | :construction: | Auto-attack horde survival game |
+| Twin-Stick Shooter | :white_check_mark: | Dual-stick directional combat arena |
+| Vampire Survivors Style | :white_check_mark: | Auto-attack horde survival game |
 | Zelda-like Adventure | :white_circle: | Overworld exploration with item puzzles |
 | Survival Arena | :white_circle: | Last-man-standing arena combat |
 | Stealth Game | :white_circle: | Avoid detection with line-of-sight |
@@ -90,9 +90,9 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 | Game | Status | Description |
 |------|--------|-------------|
 | Space Shooter | :white_check_mark: | Horizontal scrolling space combat |
-| Bullet Hell | :white_circle: | Dense bullet patterns to dodge |
-| Vertical Shooter | :white_circle: | Classic top-down vertical shooting |
-| Side-scroll Shooter | :white_circle: | Run-and-gun side-scrolling action |
+| Bullet Hell | :white_check_mark: | Dense bullet patterns to dodge |
+| Vertical Shooter | :white_check_mark: | Classic top-down vertical shooting |
+| Side-scroll Shooter | :white_check_mark: | Run-and-gun side-scrolling action |
 | Arena Shooter | :white_circle: | 360-degree shooting in closed arena |
 | Tank Shooter | :white_circle: | Armored vehicle combat game |
 | Turret Defense Shooter | :white_circle: | Stationary turret wave defense |
@@ -106,7 +106,7 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 |------|--------|-------------|
 | Tower Defense | :white_check_mark: | Place towers to stop enemy waves |
 | RTS-lite | :white_circle: | Simplified real-time strategy game |
-| Turn-based Strategy | :white_circle: | Grid-based tactical turn combat |
+| Turn-based Strategy | :white_check_mark: | Grid-based tactical turn combat |
 | Auto Battler | :white_circle: | Place units and watch them fight |
 | Tactical Grid Combat | :white_circle: | Fire Emblem-style positional battles |
 | Base Defense | :white_circle: | Build and defend a home base |
@@ -119,9 +119,9 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 
 | Game | Status | Description |
 |------|--------|-------------|
-| Idle / Incremental | :construction: | Click and automate for progression |
-| City Builder | :white_circle: | Zone and build a growing city |
-| Farming Sim | :white_circle: | Plant, water, harvest crop cycles |
+| Idle / Incremental | :white_check_mark: | Click and automate for progression |
+| City Builder | :white_check_mark: | Zone and build a growing city |
+| Farming Sim | :white_check_mark: | Plant, water, harvest crop cycles |
 | Factory Builder | :white_circle: | Automate production with conveyor belts |
 | Colony Sim | :white_circle: | Manage colonists and their needs |
 | Life Sim | :white_circle: | Simulate daily life decisions |
@@ -164,10 +164,10 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 
 | Game | Status | Description |
 |------|--------|-------------|
-| Solitaire | :construction: | Classic Klondike card solitaire |
-| Poker | :white_circle: | Texas Hold'em poker game |
+| Solitaire | :white_check_mark: | Classic Klondike card solitaire |
+| Poker | :white_check_mark: | Texas Hold'em poker game |
 | Blackjack | :white_check_mark: | Hit or stand to beat dealer |
-| Chess | :white_circle: | Full chess with move validation |
+| Chess | :white_check_mark: | Full chess with move validation |
 | Checkers | :white_check_mark: | Diagonal capture board game |
 | Tic-Tac-Toe | :white_check_mark: | Classic X and O on a 3x3 grid |
 | Connect 4 | :white_check_mark: | Drop discs to connect four |
@@ -210,8 +210,8 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 
 | Game | Status | Description |
 |------|--------|-------------|
-| Zombie Survival | :white_circle: | Fight off waves of zombies |
-| Wave Defense | :white_circle: | Defend position against enemy waves |
+| Zombie Survival | :white_check_mark: | Fight off waves of zombies |
+| Wave Defense | :white_check_mark: | Defend position against enemy waves |
 | Crafting Survival | :white_circle: | Gather materials and craft tools |
 | Procedural Island Survival | :white_circle: | Survive on a random island |
 | Horde Survival | :white_circle: | Endless enemy horde endurance game |
@@ -243,8 +243,8 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 
 | Game | Status | Description |
 |------|--------|-------------|
-| Rhythm Game | :construction: | Hit notes to the music beat |
-| Conway's Game of Life | :construction: | Cellular automaton life simulation |
+| Rhythm Game | :white_check_mark: | Hit notes to the music beat |
+| Conway's Game of Life | :white_check_mark: | Cellular automaton life simulation |
 | Music Visualizer | :white_circle: | Reactive visuals driven by audio |
 | AI NPC Sandbox | :white_circle: | Autonomous NPC behavior playground |
 | Procedural Storytelling | :white_circle: | Generated narrative branching stories |
@@ -266,7 +266,7 @@ This is the development roadmap for **cubeforge-examples** -- a growing collecti
 
 PRs are welcome for any **planned** or **in progress** game. To get started:
 
-1. Pick a game marked with :white_circle: or :construction: from the list above
+1. Pick a game marked with :white_circle: or :white_check_mark: from the list above
 2. Each example should follow the **standard example structure** used by existing games in this repo
 3. Open a PR against this repo and reference the game name from the roadmap
 

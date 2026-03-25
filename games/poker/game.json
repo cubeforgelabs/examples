@@ -1,0 +1,9 @@
+{
+  "slug": "poker",
+  "title": "Poker",
+  "description": "Texas Hold'em poker vs AI with betting, hand evaluation, and chip management.",
+  "tags": [
+    "card",
+    "casino"
+  ]
+}
